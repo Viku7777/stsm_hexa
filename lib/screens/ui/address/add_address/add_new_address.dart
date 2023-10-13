@@ -55,26 +55,26 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             ),
           ),
           20.h.heightBox,
-          adressTextfileWithTitle(housenoController,
+          textfiledWithName(housenoController,
               "House No. / Building Name", "Enter House No."),
           20.h.heightBox,
-          adressTextfileWithTitle(roadAreaColonyController, "Road / Area / Colony",
+          textfiledWithName(roadAreaColonyController, "Road / Area / Colony",
               "Enter your area name"),
           20.h.heightBox,
-          adressTextfileWithTitle(landmarkController, "Landmark / Nearby Place",
+          textfiledWithName(landmarkController, "Landmark / Nearby Place",
               "Famous place / Shop / School / Temple etc."),
           20.h.heightBox,
-          adressTextfileWithTitle(pincodeController, "Pincode", "123456"),
+          textfiledWithName(pincodeController, "Pincode", "123456"),
           20.h.heightBox,
           Row(
             children: [
               Expanded(
                 child:
-                    adressTextfileWithTitle(cityController, "City", "Hisar"),
+                    textfiledWithName(cityController, "City", "Hisar"),
               ),
               10.w.widthBox,
               Expanded(
-                child: adressTextfileWithTitle(
+                child: textfiledWithName(
                     stateController, "State", "Haryana"),
               ),
             ],
@@ -89,17 +89,17 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             ),
           ),
           20.h.heightBox,
-          adressTextfileWithTitle(addressTitleController, "Address Title", ""),
+          textfiledWithName(addressTitleController, "Address Title", ""),
           20.h.heightBox,
           Row(
             children: [
               Expanded(
-                child: adressTextfileWithTitle(
+                child: textfiledWithName(
                     contactnameController, "Contact Name", ""),
               ),
               10.w.widthBox,
               Expanded(
-                child: adressTextfileWithTitle(
+                child: textfiledWithName(
                     contactnocontroller, "Contact Number", "+91"),
               ),
             ],
@@ -128,13 +128,14 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
   }
 }
 
-Widget adressTextfileWithTitle(
+Widget textfiledWithName(
   TextEditingController controller,
   title,
   hint,
+  {bool padding =true}
 ) =>
     Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      padding: EdgeInsets.symmetric(horizontal: padding? 12.w : 0),
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +149,9 @@ Widget adressTextfileWithTitle(
             hintText: hint,
             hintStyle:
                 GetTextTheme.fs16_regular.copyWith(color: Colors.grey.shade500),
-            border: const UnderlineInputBorder(),
+            border: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black)
+            ),
           ),
         ],
       ),

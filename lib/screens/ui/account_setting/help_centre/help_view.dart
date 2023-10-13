@@ -2,7 +2,7 @@ import 'package:cattel_feed/screens/component/appbar_component.dart';
 import 'package:flutter/material.dart';
 
 class HelpView extends StatefulWidget {
-  static String routes = "/help";
+  static String routes = "/account_&_settings/help";
   const HelpView({super.key});
 
   @override

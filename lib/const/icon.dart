@@ -13,9 +13,19 @@ class IconsClass{
   static String priceContainer = "assets/icon/pricetag.png";
   static String summeroffer1 = "assets/ads/summeroffer1.png";
   static String summeroffer2 = "assets/ads/summeroffer2.png";
+  static String referIcon="assets/icon/refer_icon.png";
 
 }
 
 class AppBanner{
   static String shipingBanner="assets/icon/shipingBanner.png";
+}
+
+
+class BottomNavIcons{
+  static String home = "assets/bottom_nav_icons/home.png";
+  static String category= "assets/bottom_nav_icons/Category.png";
+  static String cart = "assets/bottom_nav_icons/cart.png";
+  static String notification = "assets/bottom_nav_icons/notification.png";
+  static String options = "assets/bottom_nav_icons/option.png";
 }

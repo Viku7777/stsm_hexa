@@ -18,12 +18,14 @@ customGridVIew(
   int count,
   double aspectRatio,
   int itemInRow,
+  
   Function(int) child,
+  {bool isScrollAble= false}
 ) =>
     GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: isScrollAble?const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
         itemCount: count,
         gridDelegate: customgridDelegate(itemInRow, aspectRatio),
         itemBuilder: (context, index) => child(index));

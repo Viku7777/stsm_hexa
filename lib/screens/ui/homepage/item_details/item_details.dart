@@ -374,6 +374,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                     ),
                   ),
                 ),
+              
                 10.w.widthBox,
             // buy now button
                 Expanded(

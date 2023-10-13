@@ -44,6 +44,8 @@ dependencies:
   carousel_slider: ^4.2.1
   smooth_page_indicator: ^1.1.0
   page_view_dot_indicator: ^2.3.0
+  image_picker: ^1.0.4
+  csc_picker: ^0.2.7
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +75,7 @@ flutter:
     - assets/animalfeed/
     - assets/animalSuppliments/
     - assets/icon/
+    - assets/bottom_nav_icons/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

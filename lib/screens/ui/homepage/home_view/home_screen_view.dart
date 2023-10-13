@@ -6,12 +6,10 @@ import 'package:cattel_feed/const/icon.dart';
 import 'package:cattel_feed/const/img.dart';
 import 'package:cattel_feed/routes/routes.dart';
 import 'package:cattel_feed/screens/component/custom_text.dart';
-import 'package:cattel_feed/screens/component/gridview.dart';
 import 'package:cattel_feed/screens/component/text_field.dart';
 import 'package:cattel_feed/screens/component/viewallrow.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/screens/ui/categories/component/component.dart';
 import 'package:cattel_feed/screens/ui/homepage/home_view/image_with_gradientborder.dart';
 import 'package:cattel_feed/screens/ui/homepage/home_view/widgets.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +31,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // app bar
+      ////////////////////////////// App Bar  ////////////////////////
       appBar: AppBar(
         elevation: 0,
         leading: Padding(
@@ -62,10 +60,10 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               onPressed: () {}, icon: const Icon(Icons.shopping_cart_outlined))
         ],
       ),
-      // body
+      ///////////////////////////// body Start From here ///////////////////////
       body: ListView(
         children: [
-          // location top banner
+         ////////////////////// // location top banner///////////////
           Container(
             height: 40.h,
             decoration: BoxDecoration(gradient: titleWidgetGradient),
@@ -85,32 +83,17 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             ),
           ),
 
-          // search bar //
+        /////////////////////// / // search bar //////////////
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CustomTextfield(
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              controller: searchController,
-              prefixIcon: Icon(
-                Icons.search,
-                color: AppColors.greylightcolor,
-              ),
-              suffixIcon: const Icon(
-                Icons.sort,
-                color: Colors.black,
-              ),
-              hintText: "Search by Keyword or Product ID",
-              hintStyle: GetTextTheme.fs14_regular
-                  .copyWith(color: AppColors.greylightcolor),
-            ),
+            child: CustomSearchTextTiel(controller: SearchController()),
           ),
 
-          // store view
+        ///////////////////////  // store view////////////////
           stroiesView(),
-          // show offers in carousel_slider,
+          ///////////////// show offers in carousel_slider,//////////
           showCarousel(),
-          // Weekly Top Deals
+         ///////////////// // Weekly Top Deals///////////////////////////
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
@@ -160,6 +143,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
 
           /// banner
           10.h.heightBox,
+          ///////////////////////// Kids Garments & Accessories//////////////////
           bannerWithTitle("Kids Garments & Accessories"),
           10.h.heightBox,
           SizedBox(
@@ -191,7 +175,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
           ),
           10.h.heightBox,
           Image.asset(Ads.adsbanner),
-          //  Budget Store vieew
+          ///////////////////  Budget Store view ///////////////////
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
@@ -264,7 +248,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             ),
           ),
           10.h.heightBox,
-
+           ////////////////// MEN bugets store //////////////////////
           bannerWithTitle("Men’s Budget Store"),
           10.h.heightBox,
 
@@ -288,6 +272,8 @@ class _HomeScreenViewState extends State<HomeScreenView> {
           ),
 
           10.h.heightBox,
+              ////////////////// WOMEN bugets store //////////////////////
+
           bannerWithTitle("Women’s Budget Store"),
           10.h.heightBox,
           Container(
@@ -335,6 +321,9 @@ class _HomeScreenViewState extends State<HomeScreenView> {
           ),
 
           2.h.heightBox,
+
+                     ////////////////// Home & Kitchen //////////////////////
+
           bannerWithTitle("Home & Kitchen"),
           10.h.heightBox,
           customGridVIew(
@@ -355,10 +344,14 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               ],
             ),
           ),
+        
+                    ////////////////// trending items   //////////////////////
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: viewAllRow("Trending", () => null),
           ),
+
 
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -408,6 +401,9 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             ),
           ),
           10.h.heightBox,
+
+              ////////////////// Electronics //////////////////////
+
 
           bannerWithTitle("Electronics"),
           10.heightBox,
@@ -498,6 +494,8 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                 Image.asset(
                   Ads.adsbigbanner,
                 ),
+               //////////// Explore More ///////////////
+             bannerWithTitle("Explore More",color: const Color(0xffFFAE00)),
                 Container(
                   padding: EdgeInsets.only(top: 10.h),
                   decoration: const BoxDecoration(
@@ -545,11 +543,15 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             ),
           ),
           5.h.heightBox,
+                        ////////////////// Carousel //////////////////////
           showCarousel(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: viewAllRow("Shop by brands", () => null),
           ),
+
+         ////////////////// Shop by brands //////////////////////
+
           customGridVIew(6, 9/5, 3, (index) => Container(
             alignment: Alignment.center,
             decoration:  BoxDecoration(

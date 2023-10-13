@@ -1,6 +1,7 @@
 
 
 import 'package:cattel_feed/Helper/nextscreen.dart';
+import 'package:cattel_feed/Helper/title_banner.dart';
 import 'package:cattel_feed/backend/dummyData.dart';
 import 'package:cattel_feed/const/colors.dart';
 import 'package:cattel_feed/model/categorymodel.dart';
@@ -47,20 +48,10 @@ var searchController = TextEditingController();
      
       body: Column(
         children: [
+        
           Padding(
             padding: EdgeInsets.all(12.sp),
-            child:CustomTextfield(controller: SearchController(),
-border:                    OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey.shade400, width: 1.5),
-                      borderRadius: BorderRadius.circular(10.sp)),
-                  suffixIcon: const Icon(Icons.sort, color: Colors.black),
-            hintText: "Search by Keyword or Product ID",
-   prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey.shade400,
-                  ),
-            ),
+            child:CustomSearchTextTiel(controller: SearchController())
           ),
           Container(
             height: 1.h,
@@ -127,7 +118,7 @@ border:                    OutlineInputBorder(
                             return Column(
                               children: [
                                 10.h.heightBox,
-                                titlebanner(category.title),
+                                bannerWithTitle(category.title,isCategoires: true),
                                 5.h.heightBox,
                                 ListView.builder(
                                   shrinkWrap: true,

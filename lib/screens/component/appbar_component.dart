@@ -3,9 +3,10 @@ import 'package:cattel_feed/screens/ui/cart_view/cart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-AppBar customAppbar(title,{bool isActionButtonShow = true})=>  AppBar(
+AppBar customAppbar(title,{bool isActionButtonShow = true,bool elevation = false})=>  AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
+        elevation: elevation?2:0,
+
         title: Text(
          title ,
           style: GetTextTheme.fs16_regular,

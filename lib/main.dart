@@ -1,4 +1,5 @@
 import 'package:cattel_feed/routes/routes.dart';
+import 'package:cattel_feed/screens/ui/bottomNav/bottom_Nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           iconTheme: const IconThemeData(color: Colors.white),
+          scaffoldBackgroundColor: Colors.white,
           appBarTheme:  const AppBarTheme(
       
             actionsIconTheme: IconThemeData(color: Color.fromARGB(255, 17, 15, 15)),
@@ -29,7 +31,8 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.white),
         ),
         routes: routes,
-        initialRoute: RoutesName.homescreenroute,
+        home: const BottomNavView(),
+        //  initialRoute: RoutesName.homescreenroute,
       ),
     );
   }
