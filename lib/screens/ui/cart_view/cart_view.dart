@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CartView extends StatefulWidget {
+   static const String route = "/cart";
   const CartView({super.key});
 
   @override

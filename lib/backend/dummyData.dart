@@ -1,6 +1,6 @@
-
 // ignore: unused_import
-import 'package:flutter/material.dart';
+import 'package:cattel_feed/const/icon.dart';
+
 
 List categoriesDummyData = [
   "All",
@@ -178,4 +178,33 @@ List weeklyItems = [
 
   }
   
+];
+
+
+
+List topAnimalFeed = [
+  {
+    "img": TopDealItems.khal,
+    "name" : "Khal",
+    "discount": 25,
+    "type" : "Min"
+  },
+   {
+    "img": TopDealItems.binola,
+    "name" : "Binola",
+    "discount": 15,
+    "type" : "Upto"
+  },
+   {
+    "img": TopDealItems.anaj,
+    "name" : "Sabut Anaj",
+    "discount": 10,
+    "type" : "Min"
+  },
+   {
+    "img": TopDealItems.oil,
+    "name" : "Oil and Ghee",
+    "discount": 12,
+    "type" : "Upto"
+  },
 ];

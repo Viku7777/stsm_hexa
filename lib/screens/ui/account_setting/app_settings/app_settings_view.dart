@@ -30,9 +30,6 @@ List screens =[
   "icon" :Icons.notifications_none_outlined,
   "route":NotificationSettingView.routes,
   },
-   {"name":"Dark Mode",
-  "icon" :Icons.mode_night_outlined
-  },
    {"name":"Logout",
   "icon" :Icons.login
   }
@@ -49,11 +46,9 @@ List screens =[
                 separatorBuilder: (context, index) =>
                     const Divider(thickness: 1.5),
                 itemBuilder: (context, index) => ListTile(
-                onTap: () =>index<=2?  nextscreen(context, screens[index]["route"]): null,
+                onTap: () => nextscreen(context, screens[index]["route"]),
                   leading: customIconWithGradient(screens[index]["icon"]),
-                  trailing: screens[index]["name"]=="Dark Mode"? Switch(value: false, onChanged: (value) {
-                    Get.changeTheme(ThemeData.light());
-                  },) : const SizedBox(),
+                  
                   title: Text(
                     screens[index]["name"],
                     style: GetTextTheme.fs16_regular,

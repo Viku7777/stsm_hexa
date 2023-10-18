@@ -10,12 +10,17 @@ import 'package:cattel_feed/screens/ui/account_setting/my_favorites/favorites.da
 import 'package:cattel_feed/screens/ui/account_setting/my_orders/my_order_view.dart';
 import 'package:cattel_feed/screens/ui/account_setting/privacy_policy/privacy_policy_view.dart';
 import 'package:cattel_feed/screens/ui/account_setting/refer_earn/refer_earn_view.dart';
+import 'package:cattel_feed/screens/ui/auth/screens/createaccountwithemail.dart';
+import 'package:cattel_feed/screens/ui/auth/screens/createaccounwithphone.dart';
+import 'package:cattel_feed/screens/ui/auth/screens/loginwithEmail.dart';
+import 'package:cattel_feed/screens/ui/auth/screens/loginwithNumber.dart';
+import 'package:cattel_feed/screens/ui/auth/screens/otp_verification.dart';
+import 'package:cattel_feed/screens/ui/bottomNav/bottom_Nav.dart';
 import 'package:cattel_feed/screens/ui/cart_view/cart_view.dart';
 import 'package:cattel_feed/screens/ui/categories/ui/categories_view.dart';
 import 'package:cattel_feed/screens/ui/homepage/home_view/home_screen_view.dart';
 import 'package:cattel_feed/screens/ui/homepage/item_List/item_list_screen.dart';
 import 'package:cattel_feed/screens/ui/homepage/item_details/item_details.dart';
-import 'package:cattel_feed/screens/ui/sort_or_filter/sort/sort_view.dart';
 import 'package:cattel_feed/screens/ui/test.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +41,12 @@ HelpView.routes:(p0) => const HelpView(),
 NotificationSettingView.routes :(p0) => const NotificationSettingView(),
 ChangeLanguageView.routes :(p0) => const ChangeLanguageView(),
 UserProfileSettingView.routes : (p0) => const UserProfileSettingView(),
-
+CreateAccountWithEmail.routes:(p0) => const CreateAccountWithEmail(),
+CreateAccountWithPhone.routes:(p0) =>const CreateAccountWithPhone(),
+LoginWithNumber.routes:(p0) =>const LoginWithNumber(),
+LoginwithEmailScreen.routes :(p0) =>const LoginwithEmailScreen(),
+OtpverificationScreen.routes :(p0) =>const OtpverificationScreen(),
+BottomNavView.routes:(p0) =>const BottomNavView(),
 
 };
 

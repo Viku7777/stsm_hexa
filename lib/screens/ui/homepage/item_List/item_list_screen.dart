@@ -1,9 +1,7 @@
-import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/backend/dummyData.dart';
 import 'package:cattel_feed/const/icon.dart';
 import 'package:cattel_feed/model/productsModel.dart';
-import 'package:cattel_feed/routes/routes.dart';
 import 'package:cattel_feed/screens/component/appbar_component.dart';
 import 'package:cattel_feed/screens/component/custom_text.dart';
 import 'package:cattel_feed/screens/ui/homepage/item_List/item_view_tile.dart';

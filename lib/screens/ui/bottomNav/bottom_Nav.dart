@@ -11,6 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class BottomNavView extends StatefulWidget {
+    static String routes = "/bottomnav";
+
   const BottomNavView({super.key});
 
   @override
@@ -32,6 +34,7 @@ class _BottomNavViewState extends State<BottomNavView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: InkWell(
         onTap: () => setState(() {
@@ -63,6 +66,7 @@ class _BottomNavViewState extends State<BottomNavView> {
               bottomNavItem(BottomNavIcons.options, "Options", 3),
             ],
           )),
+         
           body: screens[currentindex],
     );
   }

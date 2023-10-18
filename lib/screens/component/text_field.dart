@@ -8,7 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomTextfield extends StatelessWidget {
   Icon? prefixIcon;
   Color? filledColor;
-  String? hintText;
+  String? hintText,prefixText;
+  TextInputType? keyboardType;
+  int? maxLength;
+  
   InputBorder? border;
   TextEditingController controller;
   Function(String)? onChanged;
@@ -25,6 +28,8 @@ class CustomTextfield extends StatelessWidget {
     this.suffixIcon,
     this.onChanged,
     this.hintStyle,
+    this.prefixText,
+    this.maxLength,this.keyboardType
   });
 
   @override
@@ -32,6 +37,8 @@ class CustomTextfield extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged,
+      maxLength:maxLength ,
+      keyboardType: keyboardType,
       cursorColor: AppColors.primaryColor,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.only(top: 5.h),
@@ -40,6 +47,8 @@ class CustomTextfield extends StatelessWidget {
           fillColor: filledColor,
           filled: filledColor != null ? true : false,
           focusedBorder: border,
+          enabledBorder: border,
+          prefixText: prefixText,
           hintText: hintText,
           hintStyle: hintStyle ??
               GetTextTheme.fs12_regular

@@ -12,7 +12,6 @@ List categoriesColor = [
 List textColors = [
   const Color(0xff29906D),
   const Color(0xffFE6943),
-  
   const Color(0xff9376E2),
   const Color(0xffFBB400),
 ];
@@ -20,7 +19,7 @@ List textColors = [
 
 // all the colors used in the app are stored in AppColors
 class AppColors {
-  static const Color blackColor = Color(0xff000000);
+  static const Color blackColor = Colors.black  ;
   static const Color whiteColor = Colors.white;
   static const Color greyColor = Colors.grey;
   static  Color primaryColor = Color(0xff54B435);

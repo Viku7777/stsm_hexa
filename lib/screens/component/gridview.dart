@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-SliverGridDelegate customgridDelegate(int count, double aspectRatio) => SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: aspectRatio
+SliverGridDelegate customgridDelegate(int count, double aspectRatio,{double crossAxisSpacing = 7, double mainAxisSpacing=7}) => SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: aspectRatio
          ,       crossAxisCount:count,
-                crossAxisSpacing: 7.h,
-                mainAxisSpacing: 7.w);
+                crossAxisSpacing: crossAxisSpacing.w,
+                mainAxisSpacing: mainAxisSpacing.h,
+
+                );
 
 BoxDecoration roundedBoxdecoration = BoxDecoration(
                     border:
