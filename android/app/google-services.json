@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "103361561282",
+    "firebase_url": "https://save-time-save-money-a36f2-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "save-time-save-money-a36f2",
+    "storage_bucket": "save-time-save-money-a36f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103361561282:android:1c31e85e45bd28d4caf15b",
+        "android_client_info": {
+          "package_name": "com.example.stsm_delivery_boy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrN78ZdLS8wboiQ_S2OO_L_3QlN1m6Ht0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103361561282:android:93e3942fa8497ef0caf15b",
+        "android_client_info": {
+          "package_name": "com.hexabirds.stsm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrN78ZdLS8wboiQ_S2OO_L_3QlN1m6Ht0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
