@@ -2,8 +2,7 @@
 
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/backend/dummyData.dart';
-
+import 'package:cattel_feed/global/global.dart';
 import 'package:cattel_feed/view/component/custom_text.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/widgets.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@ class MYOrderTile extends StatelessWidget {
             Container(
                 height: 80.h,
                 width: 80.w,
-                decoration: decorationWithImage(dummyitems[2]["image"])),
+                decoration: decorationWithImage(dummyImage)),
             5.w.widthBox,
             Expanded(
               child: Column(

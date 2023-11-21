@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/controller/item_details_controller/item_view_controller.dart';
+import 'package:cattel_feed/model/productsModel.dart';
 import 'package:cattel_feed/view/component/appbar_component.dart';
 import 'package:cattel_feed/view/component/custom_text.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_view_tile.dart';
@@ -15,8 +17,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 class ItemlistScreen extends StatefulWidget {
   String title;
+  List<ProductItemModel>? products;
 
-  ItemlistScreen({super.key, required this.title});
+  ItemlistScreen({super.key, required this.title, this.products});
 
   @override
   State<ItemlistScreen> createState() => _ItemlistScreenState();
@@ -33,79 +36,101 @@ class _ItemlistScreenState extends State<ItemlistScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppbar(widget.title),
-      body: Column(
-        children: [
-          // uper divider
-          Divider(
-            thickness: 1.5.w,
-            color: dividerColor,
-          ),
-          5.h.heightBox,
-
-          // sort and filter
-          Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () => showSortItemSheet(false, context),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(IconsClass.sorticon),
-                      10.w.widthBox,
-                      Text(
-                        "Sort",
-                        style: GetTextTheme.fs16_medium,
-                      )
-                    ],
-                  ),
+      body: widget.products!.isEmpty
+          ? Center(
+              child: Text(
+              "Currently not available",
+              style: GetTextTheme.fs14_medium,
+            ))
+          : Column(
+              children: [
+                // uper divider
+                Divider(
+                  thickness: 1.w,
+                  height: 1,
+                  color: AppColors.greythinColor,
                 ),
-              ),
-              Container(
-                height: 25.h,
-                width: 2.w,
-                color: Colors.grey.shade300,
-              ),
-              Expanded(
-                child: InkWell(
-                  onTap: () => showSortItemSheet(true, context),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Filters",
-                        style: GetTextTheme.fs16_medium,
+                // sort and filter
+
+                Row(
+                  children: [
+                    Expanded(
+                        child: ElevatedButton.icon(
+                            onPressed: () {
+                              showSortItemSheet(false, context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent),
+                            icon: Image.asset(
+                              IconsClass.sorticon,
+                              height: 15,
+                              width: 15,
+                            ),
+                            label: Text(
+                              "Sort",
+                              style: GetTextTheme.fs16_medium,
+                            ))),
+                    Container(
+                      height: 15.h,
+                      width: 1.5.w,
+                      color: Colors.grey.shade300,
+                    ),
+                    Expanded(
+                        child: ElevatedButton(
+                      onPressed: () {
+                        showSortItemSheet(true, context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Filters",
+                            style: GetTextTheme.fs16_medium,
+                          ),
+                          10.w.widthBox,
+                          Image.asset(
+                            IconsClass.filtersicon,
+                            height: 15,
+                            width: 15,
+                          ),
+                        ],
                       ),
-                      10.w.widthBox,
-                      Image.asset(IconsClass.filtersicon),
-                    ],
-                  ),
+                    )),
+                  ],
                 ),
-              )
-            ],
-          ),
 
-          5.h.heightBox,
-          // divider
-          Divider(thickness: 1.5.w, color: dividerColor),
-
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
-              itemCount: controller.allitems.length,
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: .7,
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 5.h,
-                  crossAxisSpacing: 5.w),
-              itemBuilder: (context, index) {
-                return ItemViewTiel(items: controller.allitems[index]);
-              },
+                // divider
+                Divider(
+                  thickness: 1.w,
+                  height: 0,
+                  color: AppColors.greythinColor,
+                ),
+                5.h.heightBox,
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    itemCount: widget.products!.length,
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: .7,
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 5.h,
+                        crossAxisSpacing: 5.w),
+                    itemBuilder: (context, index) {
+                      return ItemViewTiel(
+                        product: widget.products![index],
+                      );
+                    },
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 }

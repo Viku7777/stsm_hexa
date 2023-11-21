@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cattel_feed/backend/dummyData.dart';
 import 'package:get/get.dart';
 

@@ -1,14 +1,28 @@
-import 'package:cattel_feed/backend/dummyData.dart';
+// ignore_for_file: file_names
+
 import 'package:cattel_feed/model/addressModel.dart';
-import 'package:cattel_feed/view/screens/address/all_address/all_address.dart';
 import 'package:get/get.dart';
 
 class AddressController extends GetxController {
-  AddressModel currentAddresstitle =
-      AddressModel.fromJson(allAddressDummyData[0]);
+  List<AddressModel> userAllAddresses = [];
+  int selectIndex = 0;
+  updateIndex(int index) {
+    selectIndex = index;
+    update();
+  }
 
-  updateAddress(AddressModel model) {
-    currentAddresstitle = model;
+  updateUserAllAddresses(List<AddressModel> addresses) {
+    userAllAddresses = addresses;
+    update();
+  }
+
+  addNewAddress(AddressModel address) {
+    userAllAddresses.add(address);
+    update();
+  }
+
+  editAddress(int index, AddressModel address) async {
+    userAllAddresses[index] = address;
     update();
   }
 }

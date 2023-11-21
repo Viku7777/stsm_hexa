@@ -1,27 +1,18 @@
 // ignore_for_file: file_names
 
-import 'dart:convert';
-
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/controller/loading_Controller/loading_controller.dart';
 
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/model/user_model.dart';
 import 'package:cattel_feed/view/component/custom_text.dart';
 import 'package:cattel_feed/view/component/showloading.dart';
 import 'package:cattel_feed/view/screens/auth/apis/apis.dart';
 import 'package:cattel_feed/view/screens/auth/screens/createaccountwithemail.dart';
-import 'package:cattel_feed/view/screens/auth/screens/createaccounwithphone.dart';
 import 'package:cattel_feed/view/screens/auth/screens/loginwithEmail.dart';
-import 'package:cattel_feed/view/screens/auth/screens/otp_verification.dart';
 import 'package:cattel_feed/view/screens/auth/widget/auth_screen_tile.dart';
 import 'package:cattel_feed/view/screens/auth/widget/auth_text_field.dart';
-import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
-import 'package:cattel_feed/view/sf/offline_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -43,16 +34,6 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            // String users = await getSFData("loggedInUser");
-            // if (users.contains("null")) {
-            //   print("not found");
-            // } else {
-            //   UserModel userData = UserModel.fromJson(jsonDecode(users));
-            // }
-          },
-        ),
         backgroundColor: AppColors.greythinColor,
         body: Stack(
           children: [

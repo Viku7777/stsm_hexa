@@ -4,20 +4,16 @@ import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/controller/loading_Controller/loading_controller.dart';
 
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/model/user_model.dart';
 import 'package:cattel_feed/view/component/custom_text.dart';
 import 'package:cattel_feed/view/component/showloading.dart';
 import 'package:cattel_feed/view/screens/auth/apis/apis.dart';
 import 'package:cattel_feed/view/screens/auth/screens/createaccountwithemail.dart';
-import 'package:cattel_feed/view/screens/auth/screens/loginwithEmail.dart';
 import 'package:cattel_feed/view/screens/auth/screens/loginwithNumber.dart';
-import 'package:cattel_feed/view/screens/auth/screens/otp_verification.dart';
 import 'package:cattel_feed/view/screens/auth/widget/auth_screen_tile.dart';
 import 'package:cattel_feed/view/screens/auth/widget/auth_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CreateAccountWithPhone extends StatefulWidget {
@@ -91,19 +87,13 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
             customButtonWithGradent("Get Started", () async {
               if (formKey.currentState!.validate()) {
                 controller.updateLoadingState();
+
+                await AuthApis.signupwithPhone(
+                        context, nameController.text, phoneController.text)
+                    .then((value) {
+                  controller.updateLoadingState();
+                });
               }
-              UserModel user = UserModel(
-                  uid: "",
-                  authenticationMethod: "phone",
-                  name: nameController.text,
-                  isCustomer: true,
-                  phone: phoneController.text,
-                  createdAt: DateTime.now().toIso8601String(),
-                  addresses: [],
-                  devicesToken: []);
-              await AuthApis.signupwithPhone(context, user).then((value) {
-                controller.updateLoadingState();
-              });
             }),
             SizedBox(
               height: screenSize.height * .015,

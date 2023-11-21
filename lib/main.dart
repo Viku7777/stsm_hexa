@@ -1,7 +1,8 @@
 import 'package:cattel_feed/controller/addressController/addressController.dart';
 import 'package:cattel_feed/firebase_options.dart';
 import 'package:cattel_feed/routes/routes.dart';
-import 'package:cattel_feed/view/screens/auth/screens/loginwithNumber.dart';
+import 'package:cattel_feed/view/screens/splash_screen/splash_screen.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,12 @@ late Size screenSize;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,6 +31,9 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       splitScreenMode: false,
       builder: (context, child) => GetMaterialApp(
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
         // initialBinding: InitBinding(),
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -33,8 +42,7 @@ class MyApp extends StatelessWidget {
                 iconTheme: IconThemeData(color: Colors.black))),
 
         routes: routes,
-        // home: const BottomNavView(),
-        initialRoute: LoginWithNumber.routes,
+        home: const SplashScreenView(),
       ),
     );
   }
@@ -43,8 +51,6 @@ class MyApp extends StatelessWidget {
 class InitBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(
-      () => AddressController(),
-    );
+    Get.put(AddressController(), tag: "addressController");
   }
 }

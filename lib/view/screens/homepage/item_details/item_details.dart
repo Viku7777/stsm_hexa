@@ -1,18 +1,17 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/backend/dummyData.dart';
+import 'package:cattel_feed/controller/fav_item_controller/fav_item_controller.dart';
+import 'package:cattel_feed/global/global.dart';
 
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/controller/addressController/pincodeController.dart';
 import 'package:cattel_feed/controller/cart_controller.dart/cart_controller.dart';
 import 'package:cattel_feed/controller/item_details_controller/item_view_controller.dart';
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/model/cart_model.dart';
-import 'package:cattel_feed/model/item_model.dart';
 import 'package:cattel_feed/model/productsModel.dart';
 import 'package:cattel_feed/routes/routes.dart';
 import 'package:cattel_feed/view/component/appbar_component.dart';
@@ -21,9 +20,9 @@ import 'package:cattel_feed/view/component/icon_with_gradinet.dart';
 import 'package:cattel_feed/view/component/rating_tile.dart';
 import 'package:cattel_feed/view/component/users_review_tiel.dart';
 import 'package:cattel_feed/view/component/viewallrow.dart';
+import 'package:cattel_feed/view/screens/auth/screens/loginwithNumber.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_list_screen.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_view_tile.dart';
-import 'package:cattel_feed/view/screens/homepage/item_details/available_size_tile.dart';
 import 'package:cattel_feed/view/screens/homepage/item_details/showRatingtile.dart';
 import 'package:cattel_feed/view/screens/homepage/item_details/show_more_option_tile.dart';
 import 'package:cattel_feed/view/screens/homepage/show_rating/reviews_Comments.dart';
@@ -34,37 +33,36 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ItemDetailsView extends StatelessWidget {
-  ItemDetailsView({
-    super.key,
-  });
+  ProductItemModel product;
+  ItemDetailsView({super.key, required this.product});
 
   var searchPincodeController = TextEditingController();
 
   var controller = Get.put(PincodeController());
   var cartcontroller = Get.put(CartController());
+  var favcontroller = Get.put(FavoritesItemController());
 
   EdgeInsetsGeometry contentPaddings = EdgeInsets.symmetric(horizontal: 10.w);
 
-  String storename = "Xyz Store";
   final pgcontroller = PageController(viewportFraction: 1, keepPage: true);
 
   String storeAddress = "#001, city, state - 0011001";
 
   @override
   Widget build(BuildContext context) {
-    var itemdetailsController = Get.put(ItemDetailsController());
-
+    var productController = Get.put(ProductDetailsController());
+    productController.updateProduct(product);
     final pages = List.generate(
-        itemdetailsController.currentitem.images.length,
+        product.image.length,
         (index) => Image.network(
-              itemdetailsController.currentitem.images[index],
+              product.image[index],
               fit: BoxFit.cover,
             ));
     return Scaffold(
       backgroundColor: Colors.white,
 
       // app bar
-      appBar: customAppbar(itemdetailsController.currentitem.productName),
+      appBar: customAppbar(product.title),
 
       // ////////// body start //////////////////
       body: ListView(
@@ -89,7 +87,7 @@ class ItemDetailsView extends StatelessWidget {
                   left: screenSize.width * .4,
                   child: SmoothPageIndicator(
                       controller: pgcontroller, // PageController
-                      count: itemdetailsController.currentitem.images.length,
+                      count: product.image.length,
                       effect: ExpandingDotsEffect(
                           dotHeight: 10,
                           dotWidth: 10,
@@ -103,21 +101,17 @@ class ItemDetailsView extends StatelessWidget {
                 right: 25.w,
                 child: CircleAvatar(
                     backgroundColor: Colors.white,
-                    child:
-                        GetBuilder<ItemListController>(builder: (controller) {
-                      bool isFav = controller.allitems
-                          .firstWhere((element) =>
-                              element.itemid ==
-                              itemdetailsController.currentitem.itemid)
-                          .isFav;
+                    child: GetBuilder<FavoritesItemController>(
+                        builder: (controller) {
                       return IconButton(
                           onPressed: () {
-                            controller.updateFavItem(
-                              itemdetailsController.currentitem.itemid,
-                            );
+                            controller.updatrFavItem(product.id);
                           },
-                          icon: isFav
-                              ? const Icon(Icons.favorite)
+                          icon: controller.allFavItems
+                                  .any((element) => element == product.id)
+                              ? const Icon(
+                                  Icons.favorite,
+                                )
                               : const Icon(Icons.favorite_border),
                           color: AppColors.redColor);
                     })),
@@ -133,16 +127,17 @@ class ItemDetailsView extends StatelessWidget {
               children: [
                 ///////// // product title /////////////////
                 customText(
-                  itemdetailsController.currentitem.itemdetails,
+                  product.discription,
                   GetTextTheme.fs14_regular,
                 ),
                 10.h.heightBox,
                 /////////////// ///// ///  // product name ////////////////
-                customText(itemdetailsController.currentitem.productName,
-                    GetTextTheme.fs14_bold),
+                customText(product.title, GetTextTheme.fs14_bold),
                 // product delivery type
                 customText(
-                  "Free Delivery",
+                  product.deliveryCharge == 0
+                      ? "Free Delivery"
+                      : "Delivery Charge : ${product.deliveryCharge}",
                   GetTextTheme.fs12_regular
                       .copyWith(color: AppColors.greylightcolor),
                 ),
@@ -152,7 +147,7 @@ class ItemDetailsView extends StatelessWidget {
                   children: [
                     // old price
                     customText(
-                      "₹ ${itemdetailsController.currentitem.oldprice.toInt()}",
+                      "₹ ${product.price}",
                       GetTextTheme.fs18_medium.copyWith(
                           decoration: TextDecoration.lineThrough,
                           color: AppColors.greylightcolor),
@@ -160,12 +155,12 @@ class ItemDetailsView extends StatelessWidget {
                     10.w.widthBox,
 
                     // current price
-                    GetBuilder<ItemDetailsController>(
+                    GetBuilder<ProductDetailsController>(
                       builder: (controller) {
+                        int currentPrice = controller.currentprice.round() -
+                            int.parse(product.discountValue);
                         return customText(
-                          controller.currentprice == 0
-                              ? "₹ ${controller.currentitem.currentprice}"
-                              : "₹ ${controller.currentprice}",
+                          "₹ $currentPrice",
                           GetTextTheme.fs18_bold
                               .copyWith(color: AppColors.primaryColor),
                         );
@@ -196,11 +191,11 @@ class ItemDetailsView extends StatelessWidget {
                 SizedBox(
                   height: 100.h,
                   child: ListView.builder(
-                      itemCount: dummyitems.length,
+                      itemCount: 10,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => showNetworkImage(
-                          itemdetailsController.currentitem.images[0])),
+                      itemBuilder: (context, index) =>
+                          showNetworkImage(product.image.first)),
                 ),
                 20.h.heightBox,
                 /////////////////////////// Available size view /////////////
@@ -212,16 +207,13 @@ class ItemDetailsView extends StatelessWidget {
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount:
-                            itemdetailsController.currentitem.size.length,
+                            productController.currentProduct.sizes.length,
                         itemBuilder: (context, index) {
-                          return GetBuilder<ItemDetailsController>(
+                          return GetBuilder<ProductDetailsController>(
                               builder: (controller) {
-                            String currentSize = itemdetailsController
-                                .currentitem.size[index].size;
-                            String selectSize = controller.selectsize.isEmpty
-                                ? controller.currentitem.size.first.size
-                                : controller.selectsize;
-                            bool isSelected = currentSize == selectSize;
+                            String title = controller.selecttitle;
+                            String currentSize = productController
+                                .currentProduct.sizes[index].title;
                             return InkWell(
                               onTap: () {
                                 controller.updateSize(currentSize);
@@ -231,14 +223,14 @@ class ItemDetailsView extends StatelessWidget {
                                 alignment: Alignment.center,
                                 margin: EdgeInsets.only(right: 10.w),
                                 decoration: BoxDecoration(
-                                    color: isSelected
+                                    color: currentSize.contains(title)
                                         ? const Color(0xffFFAE00)
                                         : AppColors.greythinColor,
                                     borderRadius: BorderRadius.circular(30.sp)),
                                 child: Text(
                                   currentSize,
                                   style: GetTextTheme.fs16_regular.copyWith(
-                                      color: isSelected
+                                      color: currentSize.contains(title)
                                           ? Colors.white
                                           : Colors.black),
                                 ),
@@ -255,7 +247,7 @@ class ItemDetailsView extends StatelessWidget {
                 ),
                 10.h.heightBox,
                 Text(
-                  itemdetailsController.currentitem.description,
+                  product.title,
                   style: GetTextTheme.fs14_regular,
                 ),
                 10.h.heightBox,
@@ -284,7 +276,7 @@ class ItemDetailsView extends StatelessWidget {
                   // seller store name
 
                   title: Text(
-                    storename,
+                    product.store,
                     style: GetTextTheme.fs14_bold,
                   ),
                   // seller store address
@@ -304,23 +296,20 @@ class ItemDetailsView extends StatelessWidget {
                 customtitleText("More from seller"),
 
                 ///////////////// Similar  item from another seller  /////////////////
-                // SizedBox(
-                //   height: 198.h,
-                //   child: ListView.builder(
-                //       itemCount: dummyitems.length,
-                //       scrollDirection: Axis.horizontal,
-                //       itemBuilder: (context, index) {
-                //         List<ProductModels> items = dummyitems
-                //             .map((e) => ProductModels.fromJson(e))
-                //             .toList();
-
-                //         return SizedBox(
-                //           width: 120.w,
-                //           child:
-                //               ItemViewTiel(item: items[index], showMore: true),
-                //         );
-                //       }),
-                // ),
+                SizedBox(
+                  height: 198.h,
+                  child: ListView.builder(
+                      itemCount: 10,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: 120.w,
+                          child: ItemViewTiel(
+                              product: FirebaseData.products!.first,
+                              showMore: true),
+                        );
+                      }),
+                ),
               ],
             ),
           ),
@@ -434,37 +423,40 @@ class ItemDetailsView extends StatelessWidget {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      cartcontroller.addItemInCart(
-                          itemdetailsController.currentitem.itemid);
+                      if (loggedInUserInfo != null) {
+                        cartcontroller.addItemInCart(product.id);
 
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: AppColors.greenColor,
-                        behavior: SnackBarBehavior.floating,
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              IconsClass.cartIcon,
-                              height: 60.h,
-                              width: 60.h,
-                            ),
-                            20.w.widthBox,
-                            Expanded(
-                                child: Text("Item Successfully Added to Cart",
-                                    overflow: TextOverflow.fade,
-                                    style: GetTextTheme.fs16_medium
-                                        .copyWith(color: Colors.white)))
-                          ],
-                        ),
-                        action: SnackBarAction(
-                          label: "View Cart",
-                          onPressed: () {
-                            nextscreen(context, RoutesName.cart);
-                          },
-                          textColor: Colors.black,
-                        ),
-                      ));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: AppColors.greenColor,
+                          behavior: SnackBarBehavior.floating,
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                IconsClass.cartIcon,
+                                height: 60.h,
+                                width: 60.h,
+                              ),
+                              20.w.widthBox,
+                              Expanded(
+                                  child: Text("Item Successfully Added to Cart",
+                                      overflow: TextOverflow.fade,
+                                      style: GetTextTheme.fs16_medium
+                                          .copyWith(color: Colors.white)))
+                            ],
+                          ),
+                          action: SnackBarAction(
+                            label: "View Cart",
+                            onPressed: () {
+                              nextscreen(context, RoutesName.cart);
+                            },
+                            textColor: Colors.black,
+                          ),
+                        ));
+                      } else {
+                        nextscreenRemove(context, LoginWithNumber.routes);
+                      }
                     },
                     child: Container(
                       height: 44.h,
@@ -493,7 +485,14 @@ class ItemDetailsView extends StatelessWidget {
                 // buy now button
                 Expanded(
                     child: InkWell(
-                  onTap: () => nextscreen(context, RoutesName.cart),
+                  onTap: () {
+                    if (loggedInUserInfo != null) {
+                      cartcontroller.addItemInCart(product.id);
+                      nextscreen(context, RoutesName.cart);
+                    } else {
+                      nextscreen(context, LoginWithNumber.routes);
+                    }
+                  },
                   child: Container(
                     height: 44.h,
                     decoration: BoxDecoration(
@@ -546,9 +545,9 @@ class ItemDetailsView extends StatelessWidget {
                 mainAxisSpacing: 5.h,
                 crossAxisSpacing: 5.w),
             itemBuilder: (context, index) {
-              List<ProductModels> items =
-                  dummyitems.map((e) => ProductModels.fromJson(e)).toList();
-              return ItemViewTiel(items: dummyitemList[index]);
+              return ItemViewTiel(
+                product: FirebaseData.products!.first,
+              );
             },
           ),
         ],

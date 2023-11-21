@@ -17,6 +17,7 @@ List textColors = [
 
 // all the colors used in the app are stored in AppColors
 class AppColors {
+  static const Color lightBlueColor = Color(0xffEAFDE1);
   static const Color blackColor = Colors.black;
   static const Color orange = Color(0xffFFAE00);
   static const Color whiteColor = Colors.white;
@@ -32,7 +33,10 @@ class AppColors {
   static LinearGradient appGradientColor = const LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
-      colors: [Color(0xff0336FF), Color(0xffE384FF)]);
+      colors: [
+        Color(0xff01BBBD),
+        Color(0xffFFAE00),
+      ]);
   static LinearGradient appShimmerGradientColor = LinearGradient(colors: [
     AppColors.greyColor.withOpacity(0.3),
     AppColors.whiteColor,

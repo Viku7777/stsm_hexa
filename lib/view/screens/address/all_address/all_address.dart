@@ -1,8 +1,6 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/backend/dummyData.dart';
-
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/controller/addressController/addressController.dart';
 import 'package:cattel_feed/view/component/appbar_component.dart';
@@ -10,6 +8,7 @@ import 'package:cattel_feed/view/component/custom_text.dart';
 import 'package:cattel_feed/view/screens/address/add_address/add_new_address.dart';
 import 'package:cattel_feed/view/screens/address/all_address/address_tiel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -24,9 +23,8 @@ class AllAddressView extends StatefulWidget {
 }
 
 class _AllAddressViewState extends State<AllAddressView> {
-  var controller = Get.lazyPut(
-    () => AddressController(),
-  );
+  List<Address> allAddress = [];
+  var controller = Get.put(AddressController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,8 +46,10 @@ class _AllAddressViewState extends State<AllAddressView> {
                         .copyWith(color: AppColors.primaryColor),
                   ))),
           Divider(color: Colors.grey.shade200, thickness: 1.5),
-          allAddressDummyData.isEmpty
-              ? Expanded(
+          GetBuilder<AddressController>(
+            builder: (controller) {
+              if (controller.userAllAddresses.isEmpty) {
+                return Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -64,15 +64,17 @@ class _AllAddressViewState extends State<AllAddressView> {
                       )
                     ],
                   ),
-                )
-              : Expanded(
-                  child: ListView.builder(
-                  itemCount: allAddressDummyData.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => AddressTiel(
-                    index: index,
-                  ),
-                ))
+                );
+              } else {
+                return ListView.builder(
+                    itemCount: controller.userAllAddresses.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => AddressTiel(
+                          index: index,
+                        ));
+              }
+            },
+          )
         ],
       ),
     );

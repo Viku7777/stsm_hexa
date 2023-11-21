@@ -41,7 +41,7 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
         children: [
           authStartScreen([
             SizedBox(
-              height: screenSize.height * .020,
+              height: screenSize.height * .012,
             ),
             customText("Create Account", GetTextTheme.fs22_regular),
             SizedBox(
@@ -96,8 +96,8 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
                   ],
                 )),
             customButtonWithGradent("Get Started", () {
-              controller.updateLoadingState();
               if (formKey.currentState!.validate()) {
+                controller.updateLoadingState();
                 AuthApis.signupwithEmail(emailcontroller.text,
                         passwordcontroller.text, nameController.text, context)
                     .then((value) => controller.updateLoadingState());

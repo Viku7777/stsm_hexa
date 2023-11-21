@@ -4,9 +4,9 @@ import 'dart:convert';
 
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/show_snackbar.dart';
+import 'package:cattel_feed/global/global.dart';
 import 'package:cattel_feed/model/user_model.dart';
 import 'package:cattel_feed/view/screens/auth/screens/createaccounwithphone.dart';
-import 'package:cattel_feed/view/screens/auth/screens/loginwithEmail.dart';
 import 'package:cattel_feed/view/screens/auth/screens/otp_verification.dart';
 import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
 import 'package:cattel_feed/view/sf/offline_storage.dart';
@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 FirebaseAuth fAuth = FirebaseAuth.instance;
 CollectionReference fcustomer =
     FirebaseFirestore.instance.collection("customers");
+UserModel? createUser;
 
 class AuthApis {
   static Future<void> loginwithEmail(
@@ -29,6 +30,9 @@ class AuthApis {
       UserModel user =
           UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
       await setSFData("loggedInUser", jsonEncode(user.toJson()));
+      await setSFData("userAllAddresses", jsonEncode(user.addresses));
+
+      loggedInUserInfo = user;
       nextscreenRemove(context, BottomNavView.routes);
     } on FirebaseAuthException catch (e) {
       showSnackbar(context, e.message.toString());
@@ -36,12 +40,20 @@ class AuthApis {
   }
 
   static Future<void> signupwithPhone(
-      BuildContext context, UserModel user) async {
+      BuildContext context, String name, String phone) async {
+    createUser = UserModel(
+        uid: "",
+        authenticationMethod: "phone",
+        name: name,
+        isCustomer: true,
+        phone: phone,
+        createdAt: DateTime.now().toIso8601String(),
+        addresses: [],
+        devicesToken: []);
     QuerySnapshot snapshot =
-        await fcustomer.where("phone", isEqualTo: user.phone).get();
+        await fcustomer.where("phone", isEqualTo: phone).get();
     if (snapshot.docs.isEmpty) {
-      await setSFData("loggedInUser", jsonEncode(user.toJson()));
-      sendOtp(user.phone, context, islogin: false);
+      sendOtp(phone, context, islogin: false);
     } else {
       showSnackbar(context, "Your are already logged in with us");
     }
@@ -76,6 +88,7 @@ class AuthApis {
 
   static Future<void> sendOtp(String mobile, BuildContext context,
       {bool islogin = false}) async {
+    // ignore: avoid_print
     print("------------ send otp--------------");
     await fAuth.verifyPhoneNumber(
       phoneNumber: "+91$mobile",
@@ -88,7 +101,7 @@ class AuthApis {
         nextscreenwithargu(context, OtpverificationScreen.routes, {
           "verificationId": verificationId,
           "isLogin": islogin,
-          "mobileNumber": mobile
+          "mobileNumber": mobile,
         });
       },
       codeAutoRetrievalTimeout: (verificationId) {},
@@ -98,6 +111,7 @@ class AuthApis {
   static Future<void> verifyOtp(
       String otp, String verificationID, BuildContext context,
       {bool isLoggedIn = false}) async {
+    // ignore: avoid_print
     print("------------ verify--------------");
 
     try {
@@ -114,9 +128,12 @@ class AuthApis {
         UserModel user =
             UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
         await setSFData("loggedInUser", jsonEncode(user.toJson()));
+        await setSFData("userAllAddresses", jsonEncode(user.addresses));
+        loggedInUserInfo = user;
         nextscreenRemove(context, BottomNavView.routes);
       } else {
-        createProfiles(context, uid);
+        createUser!.uid = uid;
+        createProfiles(context, uid, createUser!);
         // sign up with phone
       }
 
@@ -146,22 +163,22 @@ class AuthApis {
             addresses: [],
             devicesToken: []);
         await setSFData("loggedInUser", jsonEncode(user.toJson()));
-        await createProfiles(context, credential.user!.uid);
+        await createProfiles(context, credential.user!.uid, user);
       } else {
         showSnackbar(context, "Your are already logged in with us");
       }
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+      showSnackbar(context, e.message.toString());
     }
   }
 
-  static Future<void> createProfiles(BuildContext context, String uid) async {
-    String user = await getSFData("loggedInUser");
-    UserModel userData = UserModel.fromJson(jsonDecode(user));
-    userData.uid = uid;
+  static Future<void> createProfiles(
+      BuildContext context, String uid, UserModel userdata) async {
     try {
-      await fcustomer.doc(uid).set(userData.toJson()).then((value) async {
-        await setSFData("loggedInUser", jsonEncode(userData.toJson()));
+      await fcustomer.doc(uid).set(userdata.toJson()).then((value) async {
+        await setSFData("loggedInUser", jsonEncode(userdata.toJson()));
+        // String? data = await getSFData("loggedInUser");
+        loggedInUserInfo = userdata;
         nextscreenRemove(context, BottomNavView.routes);
       });
     } catch (e) {

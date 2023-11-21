@@ -19,9 +19,6 @@ import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
 import 'package:cattel_feed/view/screens/cart_view/cart_view.dart';
 import 'package:cattel_feed/view/screens/cart_view/empty_cart.dart';
 import 'package:cattel_feed/view/screens/categories/ui/categories_view.dart';
-import 'package:cattel_feed/view/screens/homepage/home_view/home_screen_view.dart';
-import 'package:cattel_feed/view/screens/homepage/item_List/item_list_screen.dart';
-import 'package:cattel_feed/view/screens/homepage/item_details/item_details.dart';
 import 'package:cattel_feed/view/screens/homepage/show_rating/reviews_Comments.dart';
 import 'package:cattel_feed/view/screens/notification_screens/empty_notification.dart';
 import 'package:cattel_feed/view/screens/test.dart';
@@ -29,9 +26,8 @@ import 'package:flutter/material.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   "/test": (p0) => const StartUI(),
-  RoutesName.homescreenroute: (p0) => const HomeScreenView(),
+  // RoutesName.homescreenroute: (p0) => const HomeScreenView(),
   RoutesName.categoiresview: (p0) => const CategoriesView(),
-  RoutesName.itemdetails: (p0) => ItemDetailsView(),
   RoutesName.cart: (p0) => const CartView(),
   AccountHomeView.routes: (p0) => const AccountHomeView(),
   FavoritesItemView.routes: (p0) => const FavoritesItemView(),
@@ -47,7 +43,7 @@ Map<String, Widget Function(BuildContext)> routes = {
   CreateAccountWithPhone.routes: (p0) => const CreateAccountWithPhone(),
   LoginWithNumber.routes: (p0) => const LoginWithNumber(),
   LoginwithEmailScreen.routes: (p0) => const LoginwithEmailScreen(),
-  OtpverificationScreen.routes: (p0) => OtpverificationScreen(),
+  OtpverificationScreen.routes: (p0) => const OtpverificationScreen(),
   BottomNavView.routes: (p0) => const BottomNavView(),
   AllAddressView.routes: (p0) => const AllAddressView(),
   AddNewAddressView.routes: (p0) => AddNewAddressView(),

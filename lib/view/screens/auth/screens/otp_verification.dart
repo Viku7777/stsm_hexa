@@ -40,9 +40,6 @@ class _OtpverificationScreenState extends State<OtpverificationScreen> {
     }
 
     return Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () async {
-          // controller.updateLoadingState();
-        }),
         backgroundColor: AppColors.greythinColor,
         body: Stack(
           children: [

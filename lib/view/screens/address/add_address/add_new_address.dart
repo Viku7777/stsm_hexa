@@ -1,19 +1,25 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'dart:convert';
 
 import 'package:cattel_feed/Helper/colors.dart';
+import 'package:cattel_feed/Helper/icon.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
+import 'package:cattel_feed/Helper/show_snackbar.dart';
 import 'package:cattel_feed/Helper/showdialog.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/backend/dummyData.dart';
+import 'package:cattel_feed/controller/addressController/addressController.dart';
 import 'package:cattel_feed/model/addressModel.dart';
 import 'package:cattel_feed/view/component/appbar_component.dart';
 import 'package:cattel_feed/view/component/custom_text.dart';
 import 'package:cattel_feed/view/component/icon_with_gradinet.dart';
-import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
+import 'package:cattel_feed/view/screens/address/apis.dart';
+import 'package:cattel_feed/view/sf/offline_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddNewAddressView extends StatefulWidget {
@@ -40,6 +46,10 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
   var addressTitleController = TextEditingController();
   var contactnameController = TextEditingController();
   var contactnocontroller = TextEditingController();
+  String latitude = "";
+  String longitude = "";
+  var addressController = Get.put(AddressController());
+
   @override
   void initState() {
     if (widget.isEdit) {
@@ -59,6 +69,8 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
     addressTitleController.text = data.addresstitle;
     contactnameController.text = data.name;
     contactnocontroller.text = data.number;
+    latitude = data.lat ?? "";
+    longitude = data.lng ?? "";
   }
 
   @override
@@ -71,22 +83,35 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
         child: ListView(
           children: [
             Container(
+              height: 40.h,
               color: Colors.grey.shade300,
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Address", style: GetTextTheme.fs16_bold),
-                  ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent),
-                      onPressed: () {},
-                      icon: customIconWithGradient(Icons.location_on_outlined),
-                      label: customText(
-                          "Use my current location",
-                          GetTextTheme.fs16_regular
-                              .copyWith(color: AppColors.primaryColor))),
+                  InkWell(
+                    onTap: () async {
+                      PermissionStatus status =
+                          await AddressApis.requestPermission(
+                              Permission.location);
+                      if (status.isDenied || status.isPermanentlyDenied) {
+                        showSnackbar(
+                            context, "Please allow location permission");
+                      } else {
+                        fatchLocation();
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        customIconWithGradient(Icons.location_on_outlined),
+                        customText(
+                            "Use my current location",
+                            GetTextTheme.fs16_regular
+                                .copyWith(color: AppColors.primaryColor))
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -229,25 +254,37 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             50.h.heightBox,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: customButtonWithGradent("Save Address", () {
+              child: customButtonWithGradent("Save Address", () async {
                 if (formKey.currentState!.validate()) {
                   var address = AddressModel(
-                      housenoController.text,
-                      roadAreaColonyController.text,
-                      landmarkController.text,
-                      cityController.text,
-                      stateController.text,
-                      addressTitleController.text,
-                      contactnameController.text,
-                      contactnocontroller.text,
-                      int.parse(pincodeController.text));
+                    housenoController.text,
+                    roadAreaColonyController.text,
+                    landmarkController.text,
+                    cityController.text,
+                    stateController.text,
+                    addressTitleController.text,
+                    contactnameController.text,
+                    contactnocontroller.text,
+                    int.parse(pincodeController.text),
+                  );
+                  address.lat = latitude;
+                  address.lng = longitude;
                   if (widget.isEdit) {
-                    allAddressDummyData[widget.index] = address.toJson();
+                    addressController.editAddress(widget.index, address);
                   } else {
-                    allAddressDummyData.add(address.toJson());
+                    addressController.addNewAddress(address);
                   }
+                  await setSFData("userAllAddresses",
+                      jsonEncode(addressController.userAllAddresses));
+                  if (widget.isEdit) {
+                    AddressApis.editAddress(addressController.userAllAddresses);
+                  } else {
+                    AddressApis.uploadUserLocationonFirebase(address);
+                  }
+
                   showDialog(
                       context: context,
+                      barrierDismissible: false,
                       builder: (context) => showSuccessDialog(
                               "Address  Saved",
                               "A new address is successfully added to your address collection.",
@@ -258,8 +295,8 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
                                         minimumSize: Size.fromHeight(35.h),
                                         backgroundColor: AppColors.greenColor),
                                     onPressed: () {
-                                      nextscreenRemove(
-                                          context, BottomNavView.routes);
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
                                     },
                                     child: Text("Done",
                                         style: GetTextTheme.fs16_regular
@@ -275,12 +312,59 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
       ),
     );
   }
+
+  fatchLocation() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(IconsClass.locationFatchIcon,
+                  height: 200.h, width: 200.w),
+              5.h.heightBox,
+              customtextWithGradentColor(
+                  "Fetching location", GetTextTheme.fs28_bold),
+              5.h.heightBox,
+              Text(
+                "Please wait while we are getting your \ncurrent location.",
+                textAlign: TextAlign.center,
+                style: GetTextTheme.fs14_regular,
+              ),
+              10.h.heightBox,
+              CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    Coordinates currentlatlng = await AddressApis.userCurrentLatLng();
+    Address address = await AddressApis.latlngConvertIntoAddress(
+        Coordinates(currentlatlng.latitude, currentlatlng.longitude));
+    housenoController.text = address.featureName ?? "";
+    roadAreaColonyController.text = address.subLocality ?? "";
+    landmarkController.text = address.thoroughfare ?? "";
+    pincodeController.text = address.postalCode ?? "";
+    cityController.text = address.locality ?? "";
+    stateController.text = address.adminArea ?? '';
+    latitude = address.coordinates.latitude.toString();
+    longitude = address.coordinates.longitude.toString();
+
+    Navigator.pop(context);
+    setState(() {});
+  }
 }
 
 Widget textfiledWithName(TextEditingController controller, title, hint,
         {bool padding = true,
         String? Function(String?)? validator,
-        TextInputType? keyboardType}) =>
+        TextInputType? keyboardType,
+        Widget? suffix}) =>
     Container(
       padding: EdgeInsets.symmetric(horizontal: padding ? 12.w : 0),
       color: Colors.white,
@@ -297,6 +381,8 @@ Widget textfiledWithName(TextEditingController controller, title, hint,
             keyboardType: keyboardType,
             cursorColor: AppColors.primaryColor,
             decoration: InputDecoration(
+              suffixIcon: suffix,
+              suffixIconColor: Colors.black,
               contentPadding: EdgeInsets.only(top: 5.h),
               focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),

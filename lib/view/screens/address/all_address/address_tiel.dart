@@ -23,43 +23,47 @@ class AddressTiel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AddressModel address = AddressModel.fromJson(allAddressDummyData[index]);
-
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
-      padding: const EdgeInsets.all(10),
-      color: Colors.green.withOpacity(.1),
-      child: GetBuilder<AddressController>(
-        builder: (controller) => Column(
-          children: [
-            Row(
-              children: [
-                customText(address.addresstitle, GetTextTheme.fs16_bold),
-                10.widthBox,
-                InkWell(
-                    onTap: () => Get.to(() => AddNewAddressView(
-                          isEdit: true,
-                          data: jsonEncode(address),
-                          index: index,
-                        )),
-                    child: customIconWithGradient(Icons.edit_outlined)),
-                const Spacer(),
-                Radio(
-                  activeColor: AppColors.primaryColor,
-                  value: address.addresstitle,
-                  groupValue: controller.currentAddresstitle.addresstitle,
-                  onChanged: (value) {
-                    controller.updateAddress(address);
-                  },
-                ),
-              ],
-            ),
-            customText(
-                "Lorem ipsum dolor sit amet consectetur. Ornare pulvinar a porta egestas eu. Turpis integer ultricies lorem euismod malesuada in quis vitae nunc. Ut integer proin.",
-                GetTextTheme.fs14_regular)
-          ],
-        ),
-      ),
+    var controller = Get.put(AddressController());
+    return InkWell(
+      onTap: () {
+        Get.to(AddNewAddressView(
+          isEdit: true,
+          data: jsonEncode(controller.userAllAddresses[index]),
+          index: index,
+        ));
+      },
+      child: GetBuilder<AddressController>(builder: (controller) {
+        AddressModel address = controller.userAllAddresses[index];
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+          padding: const EdgeInsets.all(10),
+          color: Colors.green.withOpacity(.1),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  customText(address.addresstitle, GetTextTheme.fs16_bold),
+                  10.widthBox,
+                  customIconWithGradient(Icons.edit_outlined),
+                  const Spacer(),
+                  Radio(
+                    activeColor: AppColors.primaryColor,
+                    value: index,
+                    groupValue: controller.selectIndex,
+                    onChanged: (value) {
+                      controller.updateIndex(index);
+                    },
+                  ),
+                ],
+              ),
+              customText(
+                  "${address.houseno} ${address.colony}, ${address.landmark}, ${address.city}, ${address.state} ",
+                  GetTextTheme.fs14_regular)
+            ],
+          ),
+        );
+      }),
     );
   }
 }

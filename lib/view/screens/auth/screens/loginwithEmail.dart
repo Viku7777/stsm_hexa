@@ -1,4 +1,4 @@
-import 'dart:math';
+// ignore_for_file: file_names
 
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
@@ -17,7 +17,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class LoginwithEmailScreen extends StatefulWidget {

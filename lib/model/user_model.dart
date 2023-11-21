@@ -1,5 +1,3 @@
-import 'package:cattel_feed/model/addressModel.dart';
-
 class UserModel {
   String uid;
   String authenticationMethod;
@@ -18,7 +16,7 @@ class UserModel {
   String createdAt;
   String updatedAt;
   List<String> devicesToken;
-  List<AddressModel> addresses;
+  List<dynamic> addresses;
   UserModel({
     required this.uid,
     required this.authenticationMethod,
@@ -58,7 +56,7 @@ class UserModel {
         createdAt = json['created_at'],
         updatedAt = json['updated_at'],
         devicesToken = [],
-        addresses = [];
+        addresses = json["addresses"] ?? [];
 
   Map<String, dynamic> toJson() {
     // ignore: no_leading_underscores_for_local_identifiers
@@ -80,7 +78,7 @@ class UserModel {
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
     _data['devices_token'] = devicesToken;
-    _data['addresses'] = addresses.map((e) => e.toJson()).toList();
+    _data['addresses'] = addresses;
     return _data;
   }
 }

@@ -21,6 +21,8 @@ class IconsClass {
 
 class AppBanner {
   static String shipingBanner = "assets/icon/shipingBanner.png";
+  static const String discount1 = "assets/Discounts/1.png";
+  static const String discount2 = "assets/Discounts/2.png";
 }
 
 class BottomNavIcons {
@@ -37,4 +39,32 @@ class TopDealItems {
   static String binola = "assets/animalfeed/binola.png";
   static String khal = "assets/animalfeed/khal.png";
   static String chana = "assets/animalfeed/chana.png";
+}
+
+class AppIcons {
+  // delivery Ion
+  static const String codIcon = 'assets/icon/cod.png';
+  static const String freeDeliveryIcon = 'assets/icon/free_delivery.png';
+  static const String lowestPriceIcon = 'assets/icon/lowest_price.png';
+  static const String personIcon = 'assets/icon/person.png';
+
+  // Budget Store Icon
+  static const String icon1 = "assets/icon/1.png";
+}
+
+class AppImages {
+  // discount images assets/Discounts/1.png
+  static const String discount1 = "assets/Discounts/1.png";
+  static const String discount2 = "assets/Discounts/1.png";
+  // Banner Images
+  static const String banner1 = "assets/Banners/1.png";
+  static const String banner2 = "assets/Banners/2.png";
+
+  static const String defaultProfileImage =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
+}
+
+class AppNetWorkImages {
+  static const String guard =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJN3IfNWU2A4pOXqDBa_19ZmVNt8dzWTULNFTlF4LHCA&usqp=CAU&ec=48600113";
 }

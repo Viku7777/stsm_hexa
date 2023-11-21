@@ -1,6 +1,5 @@
-import 'package:cattel_feed/backend/dummyData.dart';
-import 'package:cattel_feed/controller/item_details_controller/item_view_controller.dart';
-import 'package:cattel_feed/model/item_model.dart';
+import 'package:cattel_feed/controller/fav_item_controller/fav_item_controller.dart';
+import 'package:cattel_feed/global/global.dart';
 import 'package:cattel_feed/model/productsModel.dart';
 import 'package:cattel_feed/view/component/appbar_component.dart';
 import 'package:cattel_feed/view/screens/account_setting/my_favorites/empty_wishlist.dart';
@@ -16,19 +15,20 @@ class FavoritesItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(ItemListController());
+    // var controller = Get.put(FavoritesItemController());
     return Scaffold(
       appBar: customAppbar("My Favorites / Wishlist"),
-      body: GetBuilder<ItemListController>(builder: (controller) {
-        List<ItemModel> itemlist = controller.allitems
-            .where((element) => element.isFav == true)
-            .toList();
-        if (itemlist.isEmpty) {
+      body: GetBuilder<FavoritesItemController>(builder: (controller) {
+        if (controller.allFavItems.isEmpty) {
           return const EmptyWishlistVIew();
         } else {
-          return customGridVIew(itemlist.length, .75, 2, (index) {
+          List<ProductItemModel> products = FirebaseData.products!
+              .where((e) =>
+                  controller.allFavItems.any((element) => element == e.id))
+              .toList();
+          return customGridVIew(products.length, .75, 2, (index) {
             return ItemViewTiel(
-              items: itemlist[index],
+              product: products[index],
             );
           }, isScrollAble: true);
         }

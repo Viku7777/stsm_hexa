@@ -2,8 +2,11 @@ import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/showdialog.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/controller/addressController/addressController.dart';
 
 import 'package:cattel_feed/controller/cart_controller.dart/cart_controller.dart';
+import 'package:cattel_feed/model/addressModel.dart';
+import 'package:cattel_feed/model/cart_model.dart';
 import 'package:cattel_feed/view/component/custom_text.dart';
 import 'package:cattel_feed/view/component/icon_with_gradinet.dart';
 import 'package:cattel_feed/view/screens/address/all_address/all_address.dart';
@@ -26,8 +29,9 @@ class CartView extends StatefulWidget {
 class _CartViewState extends State<CartView> {
   @override
   // ignore: override_on_non_overriding_member
-  String? gender; //no radio button will be selected on initial
+  String paymentMode = "online"; //no radio button will be selected on initial
   var controller = Get.put(CartController());
+  // var addresscontroller = Get.put(AddressController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +47,8 @@ class _CartViewState extends State<CartView> {
                 children: [
                   5.h.heightBox,
                   GetBuilder<CartController>(builder: (controller) {
-                    List cartItems = controller.cartItems;
+                    List<CartModel> cartItems = controller.cartItems;
+
                     return ListView.separated(
                       separatorBuilder: (context, index) => 3.h.heightBox,
                       shrinkWrap: true,
@@ -54,52 +59,95 @@ class _CartViewState extends State<CartView> {
                     );
                   }),
                   10.h.heightBox,
-                  Container(
-                    color: Colors.white,
-                    height: 90.h,
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  GetBuilder<AddressController>(builder: (controller) {
+                    if (controller.userAllAddresses.isEmpty) {
+                      return Container(
+                        color: Colors.white,
+                        height: 90.h,
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        child: Column(
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                customIconWithGradient(
-                                    Icons.location_on_outlined),
-                                10.w.widthBox,
-                                customText(
-                                    "Delivery Address", GetTextTheme.fs12_bold),
+                                Row(
+                                  children: [
+                                    customIconWithGradient(
+                                        Icons.location_on_outlined),
+                                    10.w.widthBox,
+                                    customText("Delivery Address",
+                                        GetTextTheme.fs12_bold),
+                                  ],
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    nextscreen(context, AllAddressView.routes);
+                                  },
+                                  child: customtextWithGradentColor(
+                                      "Add", GetTextTheme.fs16_regular),
+                                )
                               ],
                             ),
-                            InkWell(
-                              onTap: () {
-                                nextscreen(context, AllAddressView.routes);
-                              },
-                              child: customtextWithGradentColor(
-                                  "Change", GetTextTheme.fs16_regular),
+                            Expanded(
+                              child: Center(
+                                child: customText("Add New Address",
+                                    GetTextTheme.fs14_medium),
+                              ),
                             )
                           ],
                         ),
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text: "Home : ",
-                            style: GetTextTheme.fs14_bold,
-                          ),
-                          TextSpan(
-                            text: "1234567890",
-                            style: GetTextTheme.fs14_regular,
-                          ),
-                        ])),
-                        customText(
-                            "Lorem ipsum dolor sit amet consectetur. Magna non facilisis felis massa fringilla.",
-                            GetTextTheme.fs12_regular)
-                      ],
-                    ),
-                  ),
+                      );
+                    } else {
+                      AddressModel address =
+                          controller.userAllAddresses[controller.selectIndex];
+                      return Container(
+                        color: Colors.white,
+                        height: 90.h,
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    customIconWithGradient(
+                                        Icons.location_on_outlined),
+                                    10.w.widthBox,
+                                    customText("Delivery Address",
+                                        GetTextTheme.fs12_bold),
+                                  ],
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    nextscreen(context, AllAddressView.routes);
+                                  },
+                                  child: customtextWithGradentColor(
+                                      "Change", GetTextTheme.fs16_regular),
+                                )
+                              ],
+                            ),
+                            RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                text: "${address.addresstitle} : ",
+                                style: GetTextTheme.fs14_bold,
+                              ),
+                              TextSpan(
+                                text: address.number,
+                                style: GetTextTheme.fs14_regular,
+                              ),
+                            ])),
+                            customText(
+                                "${address.houseno} ${address.colony}, ${address.landmark}, ${address.city}, ${address.state} ",
+                                GetTextTheme.fs12_regular)
+                          ],
+                        ),
+                      );
+                    }
+                  }),
                   10.h.heightBox,
                   Container(
                     color: Colors.white,
@@ -122,10 +170,10 @@ class _CartViewState extends State<CartView> {
                                   style: GetTextTheme.fs14_regular,
                                 ),
                                 value: "online",
-                                groupValue: gender,
+                                groupValue: paymentMode,
                                 onChanged: (value) {
                                   setState(() {
-                                    gender = value.toString();
+                                    paymentMode = value.toString();
                                   });
                                 },
                               ),
@@ -141,10 +189,10 @@ class _CartViewState extends State<CartView> {
                                   style: GetTextTheme.fs14_regular,
                                 ),
                                 value: "cod",
-                                groupValue: gender,
+                                groupValue: paymentMode,
                                 onChanged: (value) {
                                   setState(() {
-                                    gender = value.toString();
+                                    paymentMode = value.toString();
                                   });
                                 },
                               ),

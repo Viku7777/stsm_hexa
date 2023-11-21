@@ -1,4 +1,5 @@
 import 'package:cattel_feed/model/item_model.dart';
+import 'package:cattel_feed/model/productsModel.dart';
 import 'package:get/get.dart';
 
 class ItemListController extends GetxController {
@@ -33,6 +34,27 @@ class ItemDetailsController extends GetxController {
     selectsize = size;
     currentprice =
         currentitem.size.firstWhere((element) => element.size == size).price;
+    update();
+  }
+}
+
+class ProductDetailsController extends GetxController {
+  late ProductItemModel currentProduct;
+  updateProduct(ProductItemModel product) {
+    currentprice = product.sizes.first.amount.toDouble();
+    selecttitle = product.sizes.first.title;
+    currentProduct = product;
+    update();
+  }
+
+  double currentprice = 0;
+  String selecttitle = "";
+  updateSize(title) {
+    selecttitle = title;
+    currentprice = currentProduct.sizes
+        .firstWhere((element) => element.title == title)
+        .amount
+        .toDouble();
     update();
   }
 }

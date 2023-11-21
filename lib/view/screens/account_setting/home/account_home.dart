@@ -1,7 +1,7 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-
+import 'package:cattel_feed/global/global.dart';
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/view/component/appbar_component.dart';
 import 'package:cattel_feed/view/component/custom_text.dart';
@@ -70,37 +70,38 @@ class _AccountHomeViewState extends State<AccountHomeView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              color: AppColors.greythinColor,
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 35.sp,
-                    child: ClipRRect(
-                      child: Image.asset(IconsClass.personIcon),
+            if (loggedInUserInfo == null)
+              Container(
+                padding: const EdgeInsets.all(20),
+                color: AppColors.greythinColor,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 35.sp,
+                      child: ClipRRect(
+                        child: Image.asset(IconsClass.personIcon),
+                      ),
                     ),
-                  ),
-                  10.w.widthBox,
-                  InkWell(
-                    onTap: () =>
-                        nextscreenRemove(context, LoginWithNumber.routes),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        customtextWithGradentColor(
-                            "Sign In / Sign Up", GetTextTheme.fs16_bold),
-                        5.h.heightBox,
-                        customText(
-                            "Sign in to view and update your profile and preferences",
-                            GetTextTheme.fs10_regular)
-                      ],
-                    ),
-                  )
-                ],
+                    10.w.widthBox,
+                    InkWell(
+                      onTap: () =>
+                          nextscreenRemove(context, LoginWithNumber.routes),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          customtextWithGradentColor(
+                              "Sign In / Sign Up", GetTextTheme.fs16_bold),
+                          5.h.heightBox,
+                          customText(
+                              "Sign in to view and update your profile and preferences",
+                              GetTextTheme.fs10_regular)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
             const Divider(thickness: 1.5),
             ListView.separated(
               shrinkWrap: true,
@@ -109,7 +110,9 @@ class _AccountHomeViewState extends State<AccountHomeView> {
               separatorBuilder: (context, index) =>
                   const Divider(thickness: 1.5),
               itemBuilder: (context, index) => ListTile(
-                onTap: () => nextscreen(context, screens[index]["route"]),
+                onTap: () => loggedInUserInfo == null
+                    ? nextscreenRemove(context, LoginWithNumber.routes)
+                    : nextscreen(context, screens[index]["route"]),
                 leading: customIconWithGradient(screens[index]["icon"]),
                 title: Text(
                   screens[index]["name"],
