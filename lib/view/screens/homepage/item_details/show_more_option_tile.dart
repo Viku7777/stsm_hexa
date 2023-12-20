@@ -8,8 +8,8 @@ Widget showNetworkImage(String image,
       width: width.w,
       margin: EdgeInsets.only(right: 10.h),
       decoration: BoxDecoration(
-          color: Colors.red,
+          border: Border.all(color: Colors.grey.shade200),
           borderRadius: BorderRadius.circular(10.sp),
           image:
-              DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
+              DecorationImage(image: NetworkImage(image), fit: BoxFit.contain)),
     );

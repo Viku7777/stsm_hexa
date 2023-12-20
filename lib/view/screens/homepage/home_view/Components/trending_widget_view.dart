@@ -19,7 +19,7 @@ class TrendingWidgetView extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.55.sp,
+          childAspectRatio: 0.65.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {
@@ -32,7 +32,7 @@ class TrendingWidgetView extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(1.1),
-                height: 190.h,
+                height: Get.height * .25,
                 width: Get.width * 0.45,
                 decoration: BoxDecoration(
                     borderRadius:

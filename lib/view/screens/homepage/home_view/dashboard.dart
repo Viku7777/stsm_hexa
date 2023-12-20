@@ -1,13 +1,13 @@
+import 'dart:convert';
+
 import 'package:cattel_feed/Helper/base_getters.dart';
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/icon.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/controller/addressController/addressController.dart';
-import 'package:cattel_feed/controller/categories_controller.dart/categories_controller.dart';
 import 'package:cattel_feed/model/categorymodel.dart';
 import 'package:cattel_feed/model/sub_category.dart';
-import 'package:cattel_feed/view/component/text_field.dart';
+import 'package:cattel_feed/resource/component/text_field.dart';
 import 'package:cattel_feed/view/screens/account_setting/my_favorites/favorites.dart';
 import 'package:cattel_feed/view/screens/address/add_address/add_new_address.dart';
 import 'package:cattel_feed/view/screens/address/all_address/all_address.dart';
@@ -30,6 +30,8 @@ import 'package:cattel_feed/view/screens/homepage/home_view/Components/weekly_de
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/women_budget_view.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/discount_view.dart';
 import 'package:cattel_feed/view/screens/notification_screens/empty_notification.dart';
+import 'package:cattel_feed/view_model/controller/address_controller.dart';
+import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,12 +46,14 @@ class DashboardScreenView extends StatefulWidget {
 
 class _DashboardScreenViewState extends State<DashboardScreenView> {
   final TextEditingController searchProductController = TextEditingController();
-  List<CategoiresModel> categories = [];
-  List<SubCategoriesModel> subcategories = [];
-  var categoirescontroller = Get.put(AddressController());
+  List<OldCategoiresModel> categories = [];
+  List<OldSubCategoriesModel> subcategories = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Get.to(() => const AllAddressView());
+      }),
       backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
         elevation: 0,
@@ -57,13 +61,15 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
         leadingWidth: 0,
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: EdgeInsets.only(top: 5.h),
+          padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
           child: Row(
             children: [
               Container(
                   height: 50.h,
                   width: 50.w,
-                  margin: EdgeInsets.only(right: 12.w),
+                  margin: EdgeInsets.only(
+                    right: 12.w,
+                  ),
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: AppColors.greyColor),
                   child: Image.asset(IconsClass.personIcon)),
@@ -86,7 +92,7 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
         actions: [
           IconButton(
             onPressed: () {
-              nextscreen(context, FavoritesItemView.routes);
+              Get.toNamed(FavoritesItemView.routes);
             },
             icon: const Icon(Icons.favorite, color: AppColors.blackColor),
           ),
@@ -111,9 +117,9 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             AppServices.addHeight(5),
 
             // This Widget show Location Title on dashboard
-            GetBuilder<AddressController>(
+            GetBuilder<UserAddressController>(
               builder: (controller) {
-                if (controller.userAllAddresses.isEmpty) {
+                if (controller.addresses.isEmpty) {
                   return InkWell(
                       onTap: () =>
                           nextscreen(context, AddNewAddressView.routes),
@@ -144,9 +150,9 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             AppServices.addHeight(10),
 
             // This widget show Highlights category top of the dashboard
-            GetBuilder<CategoriesController>(
+            GetBuilder<AppData>(
               builder: (controller) {
-                return controller.allCategories.isEmpty
+                return controller.categories.isEmpty
                     ? const SizedBox()
                     : const DashboardCategoryView();
               },
@@ -226,6 +232,8 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
               children: [
                 Positioned(
                   bottom: 0,
+                  right: 0,
+                  left: 0,
                   child: Container(
                     height: 400.h,
                     width: Get.width,

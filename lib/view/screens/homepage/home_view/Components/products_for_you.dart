@@ -5,6 +5,7 @@ import 'package:cattel_feed/model/all_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class ProductsForYouView extends StatelessWidget {
   const ProductsForYouView({super.key});
@@ -15,10 +16,10 @@ class ProductsForYouView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: productModel.length,
+      itemCount: ProductModelss.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: .50.sp,
+          childAspectRatio: .60.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {
@@ -30,7 +31,7 @@ class ProductsForYouView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 190.h,
+                height: Get.height * .25,
                 width: 190.w,
                 decoration: BoxDecoration(
                   borderRadius:
@@ -40,7 +41,7 @@ class ProductsForYouView extends StatelessWidget {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(10.r)),
                   child: Image.network(
-                    productModel[index].image,
+                    ProductModelss[index].image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -52,7 +53,7 @@ class ProductsForYouView extends StatelessWidget {
                   children: [
                     AppServices.addHeight(10),
                     Text(
-                      productModel[index].productName,
+                      ProductModelss[index].productName,
                       style: GetTextTheme.fs12_regular,
                     ),
                     Text(

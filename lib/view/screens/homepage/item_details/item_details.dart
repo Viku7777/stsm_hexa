@@ -4,28 +4,28 @@ import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/backend/dummyData.dart';
-import 'package:cattel_feed/controller/fav_item_controller/fav_item_controller.dart';
-import 'package:cattel_feed/global/global.dart';
-
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/controller/addressController/pincodeController.dart';
-import 'package:cattel_feed/controller/cart_controller.dart/cart_controller.dart';
-import 'package:cattel_feed/controller/item_details_controller/item_view_controller.dart';
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/model/productsModel.dart';
-import 'package:cattel_feed/routes/routes.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
-import 'package:cattel_feed/view/component/icon_with_gradinet.dart';
-import 'package:cattel_feed/view/component/rating_tile.dart';
-import 'package:cattel_feed/view/component/users_review_tiel.dart';
-import 'package:cattel_feed/view/component/viewallrow.dart';
-import 'package:cattel_feed/view/screens/auth/screens/loginwithNumber.dart';
+import 'package:cattel_feed/model/cart_model.dart';
+import 'package:cattel_feed/model/cart_model/cart_product_model.dart';
+import 'package:cattel_feed/model/product_model/product_model.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/favorites_item_tiel.dart';
+import 'package:cattel_feed/resource/component/icon_with_gradinet.dart';
+import 'package:cattel_feed/resource/component/rating_tile.dart';
+import 'package:cattel_feed/resource/component/users_review_tiel.dart';
+import 'package:cattel_feed/resource/component/viewallrow.dart';
+import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_list_screen.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_view_tile.dart';
 import 'package:cattel_feed/view/screens/homepage/item_details/showRatingtile.dart';
 import 'package:cattel_feed/view/screens/homepage/item_details/show_more_option_tile.dart';
 import 'package:cattel_feed/view/screens/homepage/show_rating/reviews_Comments.dart';
+import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
+import 'package:cattel_feed/view_model/controller/cart_model.dart';
+import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -33,15 +33,13 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ItemDetailsView extends StatelessWidget {
-  ProductItemModel product;
+  ProductModel product;
   ItemDetailsView({super.key, required this.product});
 
   var searchPincodeController = TextEditingController();
 
   var controller = Get.put(PincodeController());
   var cartcontroller = Get.put(CartController());
-  var favcontroller = Get.put(FavoritesItemController());
-
   EdgeInsetsGeometry contentPaddings = EdgeInsets.symmetric(horizontal: 10.w);
 
   final pgcontroller = PageController(viewportFraction: 1, keepPage: true);
@@ -50,19 +48,20 @@ class ItemDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var productController = Get.put(ProductDetailsController());
-    productController.updateProduct(product);
+    // var productController = Get.put(ProductDetailsController());
+    // productController.updateProduct(product);
     final pages = List.generate(
-        product.image.length,
+        product.productImages!.length,
         (index) => Image.network(
-              product.image[index],
-              fit: BoxFit.cover,
+              product.productImages![index],
+              fit: BoxFit.contain,
             ));
+
     return Scaffold(
       backgroundColor: Colors.white,
 
       // app bar
-      appBar: customAppbar(product.title),
+      appBar: customAppbar(product.name),
 
       // ////////// body start //////////////////
       body: ListView(
@@ -75,7 +74,7 @@ class ItemDetailsView extends StatelessWidget {
                 height: 400.h,
                 child: PageView.builder(
                   controller: pgcontroller,
-                  // itemCount: pages.length,
+                  itemCount: pages.length,
                   itemBuilder: (_, index) {
                     return pages[index % pages.length];
                   },
@@ -87,35 +86,19 @@ class ItemDetailsView extends StatelessWidget {
                   left: screenSize.width * .4,
                   child: SmoothPageIndicator(
                       controller: pgcontroller, // PageController
-                      count: product.image.length,
+                      count: product.productImages!.length,
                       effect: ExpandingDotsEffect(
                           dotHeight: 10,
                           dotWidth: 10,
                           radius: 20.sp,
-                          dotColor: Colors.grey.shade400,
+                          dotColor: Colors.grey,
                           activeDotColor:
-                              Colors.white), // your preferred effect
+                              Colors.grey.shade300), // your preferred effect
                       onDotClicked: (index) {})),
               Positioned(
-                top: 25.h,
-                right: 25.w,
-                child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: GetBuilder<FavoritesItemController>(
-                        builder: (controller) {
-                      return IconButton(
-                          onPressed: () {
-                            controller.updatrFavItem(product.id);
-                          },
-                          icon: controller.allFavItems
-                                  .any((element) => element == product.id)
-                              ? const Icon(
-                                  Icons.favorite,
-                                )
-                              : const Icon(Icons.favorite_border),
-                          color: AppColors.redColor);
-                    })),
-              )
+                  top: 25.h,
+                  right: 25.w,
+                  child: FavoriteItemTiel(itemId: product.id.toString()))
             ],
           ),
           Padding(
@@ -127,17 +110,18 @@ class ItemDetailsView extends StatelessWidget {
               children: [
                 ///////// // product title /////////////////
                 customText(
-                  product.discription,
+                  product.longDescription.toString(),
                   GetTextTheme.fs14_regular,
                 ),
                 10.h.heightBox,
                 /////////////// ///// ///  // product name ////////////////
-                customText(product.title, GetTextTheme.fs14_bold),
+                customText(product.name.toString(), GetTextTheme.fs14_bold),
                 // product delivery type
                 customText(
-                  product.deliveryCharge == 0
-                      ? "Free Delivery"
-                      : "Delivery Charge : ${product.deliveryCharge}",
+                  "Free Delivery",
+                  // product.deliveryCharge == 0
+                  //     ? "Free Delivery"
+                  //     : "Delivery Charge : ${product.deliveryCharge}",
                   GetTextTheme.fs12_regular
                       .copyWith(color: AppColors.greylightcolor),
                 ),
@@ -146,21 +130,23 @@ class ItemDetailsView extends StatelessWidget {
                 Row(
                   children: [
                     // old price
-                    customText(
-                      "₹ ${product.price}",
-                      GetTextTheme.fs18_medium.copyWith(
-                          decoration: TextDecoration.lineThrough,
-                          color: AppColors.greylightcolor),
+                    GetBuilder<ItemDetailsViewController>(
+                      builder: (controller) {
+                        return customText(
+                          "₹ ${controller.currentVarients.originalPrice.toString()}",
+                          GetTextTheme.fs18_medium.copyWith(
+                              decoration: TextDecoration.lineThrough,
+                              color: AppColors.greylightcolor),
+                        );
+                      },
                     ),
                     10.w.widthBox,
 
-                    // current price
-                    GetBuilder<ProductDetailsController>(
+                    //  current price
+                    GetBuilder<ItemDetailsViewController>(
                       builder: (controller) {
-                        int currentPrice = controller.currentprice.round() -
-                            int.parse(product.discountValue);
                         return customText(
-                          "₹ $currentPrice",
+                          "₹ ${Utils.findPrice(controller.currentVarients.originalPrice.toString(), controller.currentVarients.discount.toString(), controller.currentVarients.discountType.toString())}",
                           GetTextTheme.fs18_bold
                               .copyWith(color: AppColors.primaryColor),
                         );
@@ -195,49 +181,71 @@ class ItemDetailsView extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) =>
-                          showNetworkImage(product.image.first)),
+                          showNetworkImage(product.productImages!.first)),
                 ),
                 20.h.heightBox,
                 /////////////////////////// Available size view /////////////
-                customtitleText("Available Sizes"),
-                10.h.heightBox,
 
-                SizedBox(
-                    height: 30.h,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount:
-                            productController.currentProduct.sizes.length,
-                        itemBuilder: (context, index) {
-                          return GetBuilder<ProductDetailsController>(
-                              builder: (controller) {
-                            String title = controller.selecttitle;
-                            String currentSize = productController
-                                .currentProduct.sizes[index].title;
-                            return InkWell(
-                              onTap: () {
-                                controller.updateSize(currentSize);
-                              },
-                              child: Container(
-                                width: 60.w,
-                                alignment: Alignment.center,
-                                margin: EdgeInsets.only(right: 10.w),
-                                decoration: BoxDecoration(
-                                    color: currentSize.contains(title)
-                                        ? const Color(0xffFFAE00)
-                                        : AppColors.greythinColor,
-                                    borderRadius: BorderRadius.circular(30.sp)),
-                                child: Text(
-                                  currentSize,
-                                  style: GetTextTheme.fs16_regular.copyWith(
-                                      color: currentSize.contains(title)
-                                          ? Colors.white
-                                          : Colors.black),
-                                ),
-                              ),
-                            );
-                          });
-                        })),
+                product.isMultipleVariant as bool
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          customtitleText("Available Sizes"),
+                          10.h.heightBox,
+                          SizedBox(
+                              height: 30.h,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: product.varients!.length,
+                                  itemBuilder: (context, index) {
+                                    return GetBuilder<
+                                            ItemDetailsViewController>(
+                                        builder: (controller) {
+                                      String title = controller
+                                          .currentVarients.name
+                                          .toString();
+                                      //  String currentSize = productController
+                                      //     .currentProduct.sizes[index].title;
+                                      return InkWell(
+                                        onTap: () {
+                                          var controller = Get.find<
+                                              ItemDetailsViewController>();
+                                          controller.updateVarient(
+                                              product.varients![index]);
+                                        },
+                                        child: Container(
+                                          width: 60.w,
+                                          alignment: Alignment.center,
+                                          margin: EdgeInsets.only(right: 10.w),
+                                          decoration: BoxDecoration(
+                                              color: product
+                                                      .varients![index].name
+                                                      .toString()
+                                                      .contains(title)
+                                                  ? const Color(0xffFFAE00)
+                                                  : AppColors.greythinColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(30.sp)),
+                                          child: Text(
+                                            product.varients![index].name
+                                                .toString(),
+                                            style: GetTextTheme.fs16_regular
+                                                .copyWith(
+                                                    color: product
+                                                            .varients![index]
+                                                            .name
+                                                            .toString()
+                                                            .contains(title)
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                          ),
+                                        ),
+                                      );
+                                    });
+                                  })),
+                        ],
+                      )
+                    : const SizedBox(),
 
                 20.h.heightBox,
                 //////////////// Product Discription ////////////////
@@ -247,7 +255,7 @@ class ItemDetailsView extends StatelessWidget {
                 ),
                 10.h.heightBox,
                 Text(
-                  product.title,
+                  product.name.toString(),
                   style: GetTextTheme.fs14_regular,
                 ),
                 10.h.heightBox,
@@ -276,7 +284,7 @@ class ItemDetailsView extends StatelessWidget {
                   // seller store name
 
                   title: Text(
-                    product.store,
+                    "Store name not found",
                     style: GetTextTheme.fs14_bold,
                   ),
                   // seller store address
@@ -302,11 +310,11 @@ class ItemDetailsView extends StatelessWidget {
                       itemCount: 10,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
+                        var controller = Get.find<AppData>();
                         return SizedBox(
                           width: 120.w,
                           child: ItemViewTiel(
-                              product: FirebaseData.products!.first,
-                              showMore: true),
+                              product: controller.products[1], showMore: true),
                         );
                       }),
                 ),
@@ -423,40 +431,55 @@ class ItemDetailsView extends StatelessWidget {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      if (loggedInUserInfo != null) {
-                        cartcontroller.addItemInCart(product.id);
+                      var controller = Get.find<CartController>();
+                      CartProductModel cart = CartProductModel(
+                          createdAt: DateTime.now().toIso8601String(),
+                          items: [
+                            Items(
+                              title: product.name,
+                              image: product.productImages!.first,
+                              itemId: product.id,
+                              price: Utils.convertStringIntoInt(product
+                                  .varients!.first.originalPrice
+                                  .toString()),
+                              qnty: 1,
+                            )
+                          ]);
+                      controller.addItem(context, cart);
+                      // if (loggedInUserInfo != null) {
+                      //   cartcontroller.addItemInCart(product.id);
 
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: AppColors.greenColor,
-                          behavior: SnackBarBehavior.floating,
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                IconsClass.cartIcon,
-                                height: 60.h,
-                                width: 60.h,
-                              ),
-                              20.w.widthBox,
-                              Expanded(
-                                  child: Text("Item Successfully Added to Cart",
-                                      overflow: TextOverflow.fade,
-                                      style: GetTextTheme.fs16_medium
-                                          .copyWith(color: Colors.white)))
-                            ],
-                          ),
-                          action: SnackBarAction(
-                            label: "View Cart",
-                            onPressed: () {
-                              nextscreen(context, RoutesName.cart);
-                            },
-                            textColor: Colors.black,
-                          ),
-                        ));
-                      } else {
-                        nextscreenRemove(context, LoginWithNumber.routes);
-                      }
+                      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //     backgroundColor: AppColors.greenColor,
+                      //     behavior: SnackBarBehavior.floating,
+                      //     content: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.start,
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Image.asset(
+                      //           IconsClass.cartIcon,
+                      //           height: 60.h,
+                      //           width: 60.h,
+                      //         ),
+                      //         20.w.widthBox,
+                      //         Expanded(
+                      //             child: Text("Item Successfully Added to Cart",
+                      //                 overflow: TextOverflow.fade,
+                      //                 style: GetTextTheme.fs16_medium
+                      //                     .copyWith(color: Colors.white)))
+                      //       ],
+                      //     ),
+                      //     action: SnackBarAction(
+                      //       label: "View Cart",
+                      //       onPressed: () {
+                      //         nextscreen(context, RoutesName.cart);
+                      //       },
+                      //       textColor: Colors.black,
+                      //     ),
+                      //   ));
+                      // } else {
+                      //   nextscreenRemove(context, LoginWithNumber.routes);
+                      // }
                     },
                     child: Container(
                       height: 44.h,
@@ -486,12 +509,12 @@ class ItemDetailsView extends StatelessWidget {
                 Expanded(
                     child: InkWell(
                   onTap: () {
-                    if (loggedInUserInfo != null) {
-                      cartcontroller.addItemInCart(product.id);
-                      nextscreen(context, RoutesName.cart);
-                    } else {
-                      nextscreen(context, LoginWithNumber.routes);
-                    }
+                    // if (loggedInUserInfo != null) {
+                    //   cartcontroller.addItemInCart(product.id);
+                    //   nextscreen(context, RoutesName.cart);
+                    // } else {
+                    //   nextscreen(context, LoginWithNumber.routes);
+                    // }
                   },
                   child: Container(
                     height: 44.h,
@@ -526,7 +549,13 @@ class ItemDetailsView extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: viewAllRow(
               "Similar Products",
-              () => Get.to(() => ItemlistScreen(title: "T-Shirt")),
+              () {
+                var controller = Get.find<AppData>();
+                Get.to(() => ItemlistScreen(
+                      title: "Similar Products",
+                      products: controller.products,
+                    ));
+              },
               icon: Icon(
                 Icons.arrow_circle_right,
                 color: AppColors.primaryColor,
@@ -546,7 +575,7 @@ class ItemDetailsView extends StatelessWidget {
                 crossAxisSpacing: 5.w),
             itemBuilder: (context, index) {
               return ItemViewTiel(
-                product: FirebaseData.products!.first,
+                product: product,
               );
             },
           ),

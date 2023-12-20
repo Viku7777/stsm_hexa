@@ -15,6 +15,7 @@ class TitleComponent {
       width: Get.width,
       alignment: Alignment.center,
       decoration: const BoxDecoration(
+        color: Colors.red,
         gradient: LinearGradient(
           colors: [
             Color(0xff01BBBD),
@@ -99,7 +100,7 @@ class TitleComponent {
   static Widget taglineGradient(String title) {
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       height: 45.h,
       width: Get.width,
       decoration: BoxDecoration(gradient: AppColors.appGradientColor),

@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:cattel_feed/backend/dummyData.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/users_review_tiel.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/users_review_tiel.dart';
 import 'package:cattel_feed/view/screens/homepage/item_details/showRatingtile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

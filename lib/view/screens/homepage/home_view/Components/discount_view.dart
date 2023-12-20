@@ -16,24 +16,6 @@ class DiscountView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Heavy Discounts",
-            style: GetTextTheme.fs14_bold,
-          ),
-          RichText(
-            text: TextSpan(
-              text: "Discount will end in:  ",
-              style: GetTextTheme.fs14_regular,
-              children: [
-                TextSpan(
-                  text: "01h : 21m : 02s",
-                  style: GetTextTheme.fs12_bold
-                      .copyWith(color: AppColors.redColor),
-                ),
-              ],
-            ),
-          ),
-          15.h.heightBox,
           Wrap(
             direction: Axis.horizontal,
             children: [

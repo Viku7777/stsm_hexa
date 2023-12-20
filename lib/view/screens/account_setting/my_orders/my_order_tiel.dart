@@ -2,8 +2,8 @@
 
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/global/global.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
+import 'package:cattel_feed/view/screens/account_setting/app_settings/edit_profile/image_picker.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,8 +1,4 @@
 import 'dart:io';
-
-import 'package:cattel_feed/global/global.dart';
-import 'package:cattel_feed/model/user_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 FirebaseStorage fStorage = FirebaseStorage.instance;
@@ -19,12 +15,5 @@ class FirebaseApis {
     } catch (e) {
       throw Exception(e.toString());
     }
-  }
-
-  static Future<void> updateuserDetails(UserModel data) async {
-    return FirebaseFirestore.instance
-        .collection("customers")
-        .doc(loggedInUserInfo!.uid)
-        .update(data.toJson());
   }
 }

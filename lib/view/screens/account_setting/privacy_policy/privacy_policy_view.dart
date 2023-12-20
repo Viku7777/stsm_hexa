@@ -1,8 +1,8 @@
-import 'package:cattel_feed/view/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyPolicyView extends StatelessWidget {
-  static String routes = "'account_&_settings/privacy_policy";
+  static String routes = "/account_&_settings/privacy_policy";
 
   const PrivacyPolicyView({super.key});
 

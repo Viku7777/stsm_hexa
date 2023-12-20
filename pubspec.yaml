@@ -67,6 +67,7 @@ dependencies:
   flutter_geocoder: ^0.2.2-nullsafety
   permission_handler: ^11.0.1
   device_preview: ^1.1.0
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:

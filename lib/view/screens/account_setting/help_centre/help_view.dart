@@ -1,4 +1,4 @@
-import 'package:cattel_feed/view/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:flutter/material.dart';
 
 class HelpView extends StatefulWidget {

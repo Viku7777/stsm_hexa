@@ -2,28 +2,9 @@
 
 import 'package:flutter/material.dart';
 
-class SubCateModel {
-  String title, id, image;
-  List categoiresID;
-  SubCateModel(this.title, this.id, this.categoiresID, this.image);
-
-  Map tojson() => {
-        "SubCat_title": title,
-        "SubCat_id": id,
-        "Cat_id": categoiresID,
-        "image": image,
-      };
-
-  SubCateModel.FromJson(Map<String, dynamic> json)
-      : title = json["SubCat_title"],
-        id = json["SubCat_id"],
-        categoiresID = json["Cat_id"],
-        image = json["image"];
-}
-
-class SubCategoriesModel {
+class OldSubCategoriesModel {
   String title, id, image, categoiresID;
-  SubCategoriesModel(this.title, this.id, this.categoiresID, this.image);
+  OldSubCategoriesModel(this.title, this.id, this.categoiresID, this.image);
 
   Map tojson() => {
         "title": title,
@@ -32,8 +13,39 @@ class SubCategoriesModel {
         "image": image,
       };
 
-  SubCategoriesModel.FromJson(Map<String, dynamic> json, this.id)
+  OldSubCategoriesModel.FromJson(Map<String, dynamic> json, this.id)
       : title = json["title"] ?? "",
         categoiresID = json["cat_ID"] ?? "",
         image = json["image"] ?? "";
+}
+
+class SubCategoriesModel {
+  SubCategoriesModel({
+    required this.image,
+    required this.catID,
+    required this.title,
+    required this.status,
+    required this.id,
+  });
+  late final String image;
+  late final String catID;
+  late final String title;
+  late final String status;
+  late final String id;
+
+  SubCategoriesModel.fromJson(Map<String, dynamic> json, this.id) {
+    image = json['image'];
+    catID = json['cat_ID'];
+    title = json['title'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['image'] = image;
+    data['cat_ID'] = catID;
+    data['title'] = title;
+    data['status'] = status;
+    return data;
+  }
 }

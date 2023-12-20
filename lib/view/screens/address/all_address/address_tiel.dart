@@ -4,13 +4,11 @@ import 'dart:convert';
 
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/backend/dummyData.dart';
-
-import 'package:cattel_feed/controller/addressController/addressController.dart';
-import 'package:cattel_feed/model/addressModel.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
-import 'package:cattel_feed/view/component/icon_with_gradinet.dart';
+import 'package:cattel_feed/model/address_model/addressModel.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/icon_with_gradinet.dart';
 import 'package:cattel_feed/view/screens/address/add_address/add_new_address.dart';
+import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,18 +21,17 @@ class AddressTiel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(AddressController());
-    return InkWell(
-      onTap: () {
-        Get.to(AddNewAddressView(
-          isEdit: true,
-          data: jsonEncode(controller.userAllAddresses[index]),
-          index: index,
-        ));
-      },
-      child: GetBuilder<AddressController>(builder: (controller) {
-        AddressModel address = controller.userAllAddresses[index];
-        return Container(
+    return GetBuilder<UserAddressController>(builder: (controller) {
+      AddressModel address = controller.addresses[index];
+      return InkWell(
+        onTap: () {
+          Get.to(AddNewAddressView(
+            isEdit: true,
+            index: index,
+            address: controller.addresses[index],
+          ));
+        },
+        child: Container(
           margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
           padding: const EdgeInsets.all(10),
           color: Colors.green.withOpacity(.1),
@@ -62,8 +59,8 @@ class AddressTiel extends StatelessWidget {
                   GetTextTheme.fs14_regular)
             ],
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 }

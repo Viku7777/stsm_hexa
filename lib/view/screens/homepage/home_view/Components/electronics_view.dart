@@ -16,9 +16,9 @@ class ElectronicsStoreView extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: electronicStore.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: .9,
+          childAspectRatio: .9.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {
@@ -31,8 +31,8 @@ class ElectronicsStoreView extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(1.1),
-                height: 120.h,
-                width: Get.width * 0.45,
+                height: Get.height * .18,
+                width: double.maxFinite,
                 decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius:

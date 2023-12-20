@@ -1,10 +1,12 @@
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
+import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class EmptyCartView extends StatefulWidget {
@@ -29,7 +31,10 @@ class _EmptyCartViewState extends State<EmptyCartView> {
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: customButtonWithGradent(
               "Start Shopping",
-              () => nextscreenRemove(context, BottomNavView.routes),
+              () {
+                var controller = Get.find<AppData>();
+                controller.updateScreenIndex(0);
+              },
             ),
           )
         ],

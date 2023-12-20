@@ -3,10 +3,9 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/helper/icon.dart';
-import 'package:cattel_feed/controller/item_details_controller/item_view_controller.dart';
-import 'package:cattel_feed/model/productsModel.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
+import 'package:cattel_feed/model/product_model/product_model.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_view_tile.dart';
 import 'package:cattel_feed/view/screens/sort_or_filter/filter/filter_view.dart';
 import 'package:cattel_feed/view/screens/sort_or_filter/sort/sort_view.dart';
@@ -17,9 +16,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 class ItemlistScreen extends StatefulWidget {
   String title;
-  List<ProductItemModel>? products;
+  List<ProductModel> products;
 
-  ItemlistScreen({super.key, required this.title, this.products});
+  ItemlistScreen({super.key, required this.title, required this.products});
 
   @override
   State<ItemlistScreen> createState() => _ItemlistScreenState();
@@ -27,16 +26,13 @@ class ItemlistScreen extends StatefulWidget {
 
 class _ItemlistScreenState extends State<ItemlistScreen> {
   Color dividerColor = Colors.grey.shade200;
-  var controller = Get.put(
-    ItemListController(),
-  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppbar(widget.title),
-      body: widget.products!.isEmpty
+      body: widget.products.isEmpty
           ? Center(
               child: Text(
               "Currently not available",
@@ -115,7 +111,7 @@ class _ItemlistScreenState extends State<ItemlistScreen> {
                 Expanded(
                   child: GridView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    itemCount: widget.products!.length,
+                    itemCount: widget.products.length,
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: .7,
@@ -124,7 +120,7 @@ class _ItemlistScreenState extends State<ItemlistScreen> {
                         crossAxisSpacing: 5.w),
                     itemBuilder: (context, index) {
                       return ItemViewTiel(
-                        product: widget.products![index],
+                        product: widget.products[index],
                       );
                     },
                   ),

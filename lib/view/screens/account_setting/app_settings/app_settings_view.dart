@@ -3,13 +3,13 @@
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/model/stateModel.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/icon_with_gradinet.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/icon_with_gradinet.dart';
 import 'package:cattel_feed/view/screens/account_setting/app_settings/edit_profile/user_profile_setting.dart';
 import 'package:cattel_feed/view/screens/account_setting/app_settings/language/language_setting_view.dart';
 import 'package:cattel_feed/view/screens/account_setting/app_settings/notification_settings/notification_settings_view.dart';
-import 'package:cattel_feed/view/screens/auth/screens/loginwithNumber.dart';
-import 'package:cattel_feed/view/sf/offline_storage.dart';
+import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
+import 'package:cattel_feed/resource/sf/offline_storage.dart';
 import 'package:country_state_city/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +56,7 @@ class _AppSettingViewState extends State<AppSettingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: customAppbar("App Settings"),
       body: ListView.separated(
         shrinkWrap: true,
@@ -66,7 +67,7 @@ class _AppSettingViewState extends State<AppSettingView> {
           onTap: () async {
             if (screens[index]["name"] == "Logout") {
               FirebaseAuth.instance.signOut();
-              await setSFData("loggedInUser", '');
+              SFStorage.setSFData(SFStorage.savedUser, "");
               nextscreenRemove(context, LoginWithNumber.routes);
               await setSFData("userAllAddresses", "");
             } else {

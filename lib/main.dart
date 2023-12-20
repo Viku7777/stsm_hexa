@@ -1,7 +1,13 @@
-import 'package:cattel_feed/controller/addressController/addressController.dart';
 import 'package:cattel_feed/firebase_options.dart';
-import 'package:cattel_feed/routes/routes.dart';
-import 'package:cattel_feed/view/screens/splash_screen/splash_screen.dart';
+import 'package:cattel_feed/resource/const/routes.dart';
+import 'package:cattel_feed/view_model/controller/address_controller.dart';
+import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
+import 'package:cattel_feed/view_model/controller/auth_controller.dart';
+import 'package:cattel_feed/view_model/controller/cart_model.dart';
+import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
+import 'package:cattel_feed/view_model/controller/item_favorite.dart';
+import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
+import 'package:cattel_feed/view_model/controller/splash_controller.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +40,13 @@ class MyApp extends StatelessWidget {
         useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
-        // initialBinding: InitBinding(),
+        getPages: getPagesRoutes,
+        initialBinding: InitBinding(),
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light().copyWith(
             appBarTheme: const AppBarTheme(
                 iconTheme: IconThemeData(color: Colors.black))),
-
-        routes: routes,
-        home: const SplashScreenView(),
       ),
     );
   }
@@ -51,6 +55,13 @@ class MyApp extends StatelessWidget {
 class InitBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(AddressController(), tag: "addressController");
+    Get.lazyPut(() => AuthController());
+    Get.put(AppData());
+    Get.put(LoggedInUserController());
+    Get.put(ItemDetailsViewController());
+    Get.put(FavoriteItemController());
+    Get.put(SplashController());
+    Get.put(CartController());
+    Get.put(UserAddressController());
   }
 }

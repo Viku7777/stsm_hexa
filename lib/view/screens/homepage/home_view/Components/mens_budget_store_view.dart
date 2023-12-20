@@ -5,6 +5,7 @@ import 'package:cattel_feed/model/all_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class MensBudgetStoreView extends StatelessWidget {
   const MensBudgetStoreView({super.key});
@@ -18,7 +19,7 @@ class MensBudgetStoreView extends StatelessWidget {
       itemCount: mensBudgetModel.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          childAspectRatio: 0.50.sp,
+          childAspectRatio: 0.70.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {
@@ -26,8 +27,8 @@ class MensBudgetStoreView extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(1.1),
-              height: 140.h,
-              width: 130.w,
+              height: Get.height * .15,
+              width: Get.width * .35,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                   gradient: AppColors.appGradientColor),

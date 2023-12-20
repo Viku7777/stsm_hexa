@@ -5,6 +5,7 @@ import 'package:cattel_feed/model/all_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class HomeAndKitchenView extends StatelessWidget {
   const HomeAndKitchenView({super.key});
@@ -18,7 +19,7 @@ class HomeAndKitchenView extends StatelessWidget {
       itemCount: mensBudgetModel.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          childAspectRatio: 0.50.sp,
+          childAspectRatio: 0.55.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {
@@ -26,7 +27,7 @@ class HomeAndKitchenView extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(1.1),
-              height: 135.h,
+              height: Get.height * .20,
               width: 130.w,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),

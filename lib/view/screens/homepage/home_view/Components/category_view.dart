@@ -1,7 +1,6 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/global/global.dart';
-import 'package:cattel_feed/view/screens/categories/ui/sub_categories_list.dart';
+import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,20 +11,22 @@ class DashboardCategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<AppData>();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: SizedBox(
         height: 90.h,
+        width: Get.width,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          itemCount: FirebaseData.categoires!.length,
+          itemCount: controller.categories.length,
           separatorBuilder: (context, index) => 5.w.widthBox,
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                Get.to(SubCategoriesItemView(
-                    category: FirebaseData.categoires![index]));
+                // Get.to(SubCategoriesItemView(
+                //     category: FirebaseData.categoires![index]));
               },
               child: Column(
                 children: [
@@ -39,10 +40,10 @@ class DashboardCategoryView extends StatelessWidget {
                           shape: BoxShape.circle,
                           gradient: titleWidgetGradient),
                       child: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: NetworkImage(
-                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTewT9Vy_oXNqPfsYtGUEMvKYpPSWssE07c3w&usqp=CAU"),
+                                    controller.categories[index].image),
                                 fit: BoxFit.cover),
                             shape: BoxShape.circle),
                       ),
@@ -50,7 +51,7 @@ class DashboardCategoryView extends StatelessWidget {
                   ),
                   2.h.heightBox,
                   Text(
-                    FirebaseData.categoires![index].title,
+                    controller.categories[index].title,
                     textAlign: TextAlign.center,
                     style: GetTextTheme.fs14_regular,
                   ),

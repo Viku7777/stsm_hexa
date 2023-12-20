@@ -1,6 +1,4 @@
-import 'package:cattel_feed/global/global.dart';
-import 'package:cattel_feed/model/addressModel.dart';
-import 'package:cattel_feed/view/screens/auth/apis/apis.dart';
+import 'package:cattel_feed/model/address_model/addressModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -28,18 +26,5 @@ class AddressApis {
       Permission permissiontype) async {
     PermissionStatus status = await permissiontype.request();
     return status;
-  }
-
-  static Future<void> uploadUserLocationonFirebase(AddressModel address) async {
-    await fcustomer.doc(loggedInUserInfo!.uid).update({
-      "addresses": FieldValue.arrayUnion([address.toJson()])
-    });
-  }
-
-  static Future<void> editAddress(List<AddressModel> addresses) async {
-    List data = addresses.map((e) => e.toJson()).toList();
-    await fcustomer.doc(loggedInUserInfo!.uid).update({
-      "addresses": data,
-    });
   }
 }

@@ -10,11 +10,11 @@ import 'package:cattel_feed/view/screens/account_setting/privacy_policy/privacy_
 import 'package:cattel_feed/view/screens/account_setting/refer_earn/refer_earn_view.dart';
 import 'package:cattel_feed/view/screens/address/add_address/add_new_address.dart';
 import 'package:cattel_feed/view/screens/address/all_address/all_address.dart';
-import 'package:cattel_feed/view/screens/auth/screens/createaccountwithemail.dart';
-import 'package:cattel_feed/view/screens/auth/screens/createaccounwithphone.dart';
-import 'package:cattel_feed/view/screens/auth/screens/loginwithEmail.dart';
-import 'package:cattel_feed/view/screens/auth/screens/loginwithNumber.dart';
-import 'package:cattel_feed/view/screens/auth/screens/otp_verification.dart';
+import 'package:cattel_feed/view/auth/screens/createaccountwithemail.dart';
+import 'package:cattel_feed/view/auth/screens/createaccounwithphone.dart';
+import 'package:cattel_feed/view/auth/screens/loginwithEmail.dart';
+import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
+import 'package:cattel_feed/view/auth/screens/otp_verification.dart';
 import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
 import 'package:cattel_feed/view/screens/cart_view/cart_view.dart';
 import 'package:cattel_feed/view/screens/cart_view/empty_cart.dart';

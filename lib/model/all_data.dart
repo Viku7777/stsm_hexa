@@ -201,7 +201,7 @@ List<ShopBrandsModel> showBrandData = [
 
 // This data show all Products for user
 
-List<ProductsModel> productModel = [
+List<ProductsModel> ProductModelss = [
   ProductsModel(
       "1",
       "https://handcmediastorage.blob.core.windows.net/productimages/NY/NYDFF016-E12-177644-500px-650px.jpg",

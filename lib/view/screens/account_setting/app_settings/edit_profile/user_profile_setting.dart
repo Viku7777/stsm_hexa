@@ -4,16 +4,17 @@ import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/show_snackbar.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/backend/apis.dart';
-import 'package:cattel_feed/controller/loading_Controller/loading_controller.dart';
-import 'package:cattel_feed/global/global.dart';
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/model/stateModel.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
-import 'package:cattel_feed/view/component/showloading.dart';
+import 'package:cattel_feed/model/user_model.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/showloading.dart';
 import 'package:cattel_feed/view/screens/account_setting/app_settings/edit_profile/image_picker.dart';
 import 'package:cattel_feed/view/screens/address/add_address/add_new_address.dart';
-import 'package:cattel_feed/view/sf/offline_storage.dart';
+import 'package:cattel_feed/resource/sf/offline_storage.dart';
+import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_state_city/models/city.dart';
 import 'package:country_state_city/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
   City? cityValue;
   String selectgender = "Male";
   String image = "";
+  bool loading = false;
 
   List<String> gender = [
     "Male",
@@ -72,7 +74,6 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(LoadingController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppbar("User Profile"),
@@ -237,41 +238,51 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
                   padding: false),
               25.h.heightBox,
               customButtonWithGradent("Edit Profile", () async {
-                controller.updateLoadingState();
+                setState(() {
+                  loading = true;
+                });
+                var controller = Get.find<LoggedInUserController>();
+                UserModel user = controller.userModel!;
+
                 if (profilePicture != null) {
                   image = await FirebaseApis.uploadImageOnFirebase(
-                      profilePicture!, "customers/${loggedInUserInfo!.uid}");
+                      profilePicture!, "customers/profile/${user.uid}");
                 }
-                loggedInUserInfo!.name = name.text;
-                loggedInUserInfo!.phone = number.text;
-                loggedInUserInfo!.email = email.text;
-                loggedInUserInfo!.bio = bio.text;
-                loggedInUserInfo!.image = image;
-                loggedInUserInfo!.gender = selectgender;
-                await FirebaseApis.updateuserDetails(loggedInUserInfo!);
-                await setSFData(
-                    "loggedInUser", jsonEncode(loggedInUserInfo!.toJson()));
-
-                controller.updateLoadingState();
-              })
+                user.name = name.text;
+                user.phone = number.text;
+                user.email = email.text;
+                user.bio = bio.text;
+                user.image = image;
+                user.gender = selectgender;
+                await FirebaseFirestore.instance
+                    .collection("customers")
+                    .doc(user.uid)
+                    .update(user.toJson());
+                await SFStorage.setSFData(
+                    SFStorage.savedUser, jsonEncode(user.toJson()));
+                setState(() {
+                  loading = false;
+                });
+              }),
+              25.h.heightBox,
             ],
           ),
-          const ShowLoading()
+          loading ? const ShowLoading() : const SizedBox()
         ],
       ),
     );
   }
 
   setData() async {
-    name.text = loggedInUserInfo!.name;
-    number.text = loggedInUserInfo!.phone;
-    email.text = loggedInUserInfo!.email;
-    bio.text = loggedInUserInfo!.bio;
-    image = loggedInUserInfo!.image;
+    var controller = Get.find<LoggedInUserController>();
+    name.text = controller.userModel!.name;
+    number.text = controller.userModel!.phone;
+    email.text = controller.userModel!.email;
+    bio.text = controller.userModel!.bio;
+    image = controller.userModel!.image;
 
-    selectgender = loggedInUserInfo!.gender.isEmptyOrNull
+    selectgender = controller.userModel!.gender.isEmptyOrNull
         ? "Male"
-        : loggedInUserInfo!.gender;
-    dropCitys.clear();
+        : controller.userModel!.gender;
   }
 }

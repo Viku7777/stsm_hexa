@@ -1,7 +1,7 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 
-import 'package:cattel_feed/view/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/view/screens/account_setting/my_orders/my_order_tiel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

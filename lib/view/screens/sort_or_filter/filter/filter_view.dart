@@ -1,7 +1,7 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 
-import 'package:cattel_feed/view/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:velocity_x/velocity_x.dart';

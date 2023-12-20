@@ -3,23 +3,22 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/controller/sub_categories_controller/sub_categories.dart';
-import 'package:cattel_feed/global/global.dart';
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/main.dart';
 import 'package:cattel_feed/model/categorymodel.dart';
-import 'package:cattel_feed/model/productsModel.dart';
+import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/model/sub_category.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/view/screens/account_setting/app_settings/edit_profile/image_picker.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/widgets.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_list_screen.dart';
-import 'package:cattel_feed/view/screens/homepage/item_List/item_view_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class SubCategoriesItemView extends StatefulWidget {
-  CategoiresModel category;
+  OldCategoiresModel category;
   static String route = "/sub_categories";
   SubCategoriesItemView({
     super.key,
@@ -39,9 +38,11 @@ class _SubCategoriesItemViewState extends State<SubCategoriesItemView> {
 
   @override
   Widget build(BuildContext context) {
-    List<SubCategoriesModel> subCategories = FirebaseData.subcategoires!
-        .where((element) => element.categoiresID == widget.category.id)
-        .toList();
+    List<OldSubCategoriesModel> subCategories = [];
+    //  FirebaseData.subcategoires!
+    //     .where((element) => element.categoiresID == widget.category.id)
+    //     .toList();
+
     if (subCategories.isNotEmpty) {
       selectsubCat = 0;
     }
@@ -171,11 +172,13 @@ class _SubCategoriesItemViewState extends State<SubCategoriesItemView> {
 
                 Expanded(
                   child: Builder(builder: (context) {
-                    List<ProductItemModel> products = FirebaseData.products!
-                        .where((e) =>
-                            e.catID == widget.category.id &&
-                            e.subCatID == subCategories[selectsubCat!].id)
-                        .toList();
+                    // List<ProductItemModel> products =
+                    // FirebaseData.products!
+                    //     .where((e) =>
+                    //         e.catID == widget.category.id &&
+                    //         e.subCatID == subCategories[selectsubCat!].id)
+                    //     .toList();
+                    List<ProductModel> products = [];
                     return products.isEmpty
                         ? Center(
                             child: Text("Currently not available",
@@ -192,9 +195,10 @@ class _SubCategoriesItemViewState extends State<SubCategoriesItemView> {
                                     mainAxisSpacing: 5.h,
                                     crossAxisSpacing: 5.w),
                             itemBuilder: (context, index) {
-                              return ItemViewTiel(
-                                product: products[index],
-                              );
+                              return const SizedBox();
+                              // return ItemViewTiel(
+                              //   product: products[index],
+                              // );
                             },
                           );
                   }),

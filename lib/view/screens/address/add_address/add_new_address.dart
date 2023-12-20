@@ -4,17 +4,15 @@ import 'dart:convert';
 
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/icon.dart';
-import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/show_snackbar.dart';
-import 'package:cattel_feed/Helper/showdialog.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/controller/addressController/addressController.dart';
-import 'package:cattel_feed/model/addressModel.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
-import 'package:cattel_feed/view/component/icon_with_gradinet.dart';
+import 'package:cattel_feed/model/address_model/addressModel.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/icon_with_gradinet.dart';
+import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:cattel_feed/view/screens/address/apis.dart';
-import 'package:cattel_feed/view/sf/offline_storage.dart';
+import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,11 +23,11 @@ import 'package:velocity_x/velocity_x.dart';
 class AddNewAddressView extends StatefulWidget {
   static String routes = "/add_address";
   bool isEdit;
-  String data;
+  AddressModel? address;
   int index;
 
   AddNewAddressView(
-      {super.key, this.isEdit = false, this.data = "", this.index = 0});
+      {super.key, this.isEdit = false, this.address, this.index = 0});
 
   @override
   State<AddNewAddressView> createState() => _AddNewAddressViewState();
@@ -48,7 +46,6 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
   var contactnocontroller = TextEditingController();
   String latitude = "";
   String longitude = "";
-  var addressController = Get.put(AddressController());
 
   @override
   void initState() {
@@ -59,7 +56,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
   }
 
   initData() {
-    AddressModel data = AddressModel.fromJson(jsonDecode(widget.data));
+    AddressModel data = widget.address!;
     housenoController.text = data.houseno;
     roadAreaColonyController.text = data.colony;
     landmarkController.text = data.landmark;
@@ -269,40 +266,13 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
                   );
                   address.lat = latitude;
                   address.lng = longitude;
+                  var controller = Get.find<UserAddressController>();
                   if (widget.isEdit) {
-                    addressController.editAddress(widget.index, address);
+                    Utils.flushBarErrorMessage(
+                        "functionality pending", context);
                   } else {
-                    addressController.addNewAddress(address);
+                    controller.addnewAddress(address, context);
                   }
-                  await setSFData("userAllAddresses",
-                      jsonEncode(addressController.userAllAddresses));
-                  if (widget.isEdit) {
-                    AddressApis.editAddress(addressController.userAllAddresses);
-                  } else {
-                    AddressApis.uploadUserLocationonFirebase(address);
-                  }
-
-                  showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => showSuccessDialog(
-                              "Address  Saved",
-                              "A new address is successfully added to your address collection.",
-                              [
-                                10.heightBox,
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        minimumSize: Size.fromHeight(35.h),
-                                        backgroundColor: AppColors.greenColor),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text("Done",
-                                        style: GetTextTheme.fs16_regular
-                                            .copyWith(color: Colors.white))),
-                                10.heightBox,
-                              ]));
                 }
               }),
             ),

@@ -1,14 +1,13 @@
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/title_banner.dart';
-import 'package:cattel_feed/controller/item_details_controller/item_view_controller.dart';
-import 'package:cattel_feed/global/global.dart';
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/model/productsModel.dart';
+import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/model/sub_category.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/text_field.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/text_field.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_list_screen.dart';
+import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -25,10 +24,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   List itemsList = [];
   var searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
-  var controller = Get.put(
-    ItemListController(),
-  );
-
+  var data = Get.find<AppData>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +51,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                       decoration: BoxDecoration(gradient: titleWidgetGradient),
                     ),
                     shrinkWrap: true,
-                    itemCount: FirebaseData.subcategoires!.length,
+                    itemCount: data.categories.length,
                     itemBuilder: (context, index) => InkWell(
                       child: Container(
                         height: screenSize.height * .13,
@@ -67,12 +63,12 @@ class _CategoriesViewState extends State<CategoriesView> {
                           children: [
                             CircleAvatar(
                               radius: 30.sp,
-                              backgroundImage: const NetworkImage(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTewT9Vy_oXNqPfsYtGUEMvKYpPSWssE07c3w&usqp=CAU'),
+                              backgroundImage:
+                                  NetworkImage(data.categories[index].image),
                             ),
                             2.h.heightBox,
                             Text(
-                              FirebaseData.subcategoires![index].title,
+                              data.categories[index].title,
                               overflow: TextOverflow.ellipsis,
                               style: GetTextTheme.fs12_medium
                                   .copyWith(fontSize: 11.sp),
@@ -86,19 +82,17 @@ class _CategoriesViewState extends State<CategoriesView> {
                 Expanded(
                     child: ListView.builder(
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        itemCount: FirebaseData.categoires!.length,
+                        itemCount: data.categories.length,
                         shrinkWrap: true,
                         itemBuilder: (context, i) {
-                          List<SubCategoriesModel> subcat = FirebaseData
-                              .subcategoires!
+                          List<SubCategoriesModel> subcat = data.subCategories
                               .where((element) =>
-                                  element.categoiresID ==
-                                  FirebaseData.categoires![i].id)
+                                  element.catID == data.categories[i].id)
                               .toList();
                           return Column(
                             children: [
                               10.h.heightBox,
-                              bannerWithTitle(FirebaseData.categoires![i].title,
+                              bannerWithTitle(data.categories[i].title,
                                   isCategoires: true),
                               5.h.heightBox,
                               subcat.isEmpty
@@ -118,22 +112,18 @@ class _CategoriesViewState extends State<CategoriesView> {
                                       itemBuilder: (context, index) {
                                         return InkWell(
                                           onTap: () {
-                                            List<ProductItemModel> products =
-                                                FirebaseData.products!
-                                                    .where(
-                                                      (element) =>
-                                                          element.catID ==
-                                                              FirebaseData
-                                                                  .categoires![
-                                                                      i]
-                                                                  .id &&
-                                                          FirebaseData
-                                                                  .subcategoires![
-                                                                      index]
-                                                                  .id ==
-                                                              subcat[index].id,
-                                                    )
-                                                    .toList();
+                                            String subcatid = subcat[index].id;
+                                            String cat = data.categories[i].id;
+                                            List<ProductModel> products = data
+                                                .products
+                                                .where((element) =>
+                                                    element.categories!
+                                                            .parentId ==
+                                                        cat &&
+                                                    element.categories!.id ==
+                                                        subcatid)
+                                                .toList();
+
                                             Get.to(() => ItemlistScreen(
                                                   title: subcat[index].title,
                                                   products: products,
@@ -143,12 +133,13 @@ class _CategoriesViewState extends State<CategoriesView> {
                                             children: [
                                               CircleAvatar(
                                                 radius: 35.sp,
-                                                backgroundImage: const NetworkImage(
-                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTewT9Vy_oXNqPfsYtGUEMvKYpPSWssE07c3w&usqp=CAU"),
+                                                backgroundImage: NetworkImage(
+                                                    subcat[index].image),
                                               ),
                                               2.h.heightBox,
                                               Text(
                                                 subcat[index].title,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: GetTextTheme.fs12_medium
                                                     .copyWith(fontSize: 11.sp),
                                               )
@@ -157,119 +148,6 @@ class _CategoriesViewState extends State<CategoriesView> {
                                         );
                                       },
                                     ),
-
-                              // Column(children: subcat.generate((index) {
-                              //   List<ProductItemModel> products = FirebaseData
-                              //       .products!
-                              //       .where((element) =>
-                              //           element.catID ==
-                              //               FirebaseData.categoires![i].id &&
-                              //           element.subCatID ==
-                              //               FirebaseData
-                              //                   .subcategoires![index].id)
-                              //       .toList();
-                              //   return Column(
-                              //     children: [
-                              //       10.h.heightBox,
-                              //       dividerWithName(
-                              //         subcat[index].title,
-                              //       ),
-                              //       GridView.builder(
-                              //         itemCount: products.length,
-                              //         shrinkWrap: true,
-                              //         physics:
-                              //             const NeverScrollableScrollPhysics(),
-                              //         gridDelegate:
-                              //             const SliverGridDelegateWithFixedCrossAxisCount(
-                              //                 crossAxisCount: 3,
-                              //                 mainAxisSpacing: 8),
-                              //         itemBuilder: (context, index) {
-                              //           return InkWell(
-                              //             onTap: () {},
-                              //             child: Column(
-                              //               children: [
-                              //                 CircleAvatar(
-                              //                   radius: 35.sp,
-                              //                   backgroundImage: NetworkImage(
-                              //                       products[index]
-                              //                           .image
-                              //                           .first),
-                              //                 ),
-                              //                 2.h.heightBox,
-                              //                 Text(
-                              //                   products[index].title,
-                              //                   style: GetTextTheme.fs12_medium
-                              //                       .copyWith(fontSize: 11.sp),
-                              //                 )
-                              //               ],
-                              //             ),
-                              //           );
-                              //         },
-                              //       ),
-
-                              //       5.h.heightBox,
-                              //     ],
-                              //   );
-                              // }))
-
-                              // ...subcat.generate((index) {
-                              //   List<ProductModel> productslist =
-                              //       dummyProductList
-                              //           .where((element) =>
-                              //               element.subcategoriesID ==
-                              //                   subcat[index].id &&
-                              //               element.categoiresID ==
-                              //                   dummyCategoires[i].id)
-                              //           .toList();
-                              //   return Column(
-                              //     children: [
-                              //       10.h.heightBox,
-                              //       dividerWithName(
-                              //         subcat[index].title,
-                              //       ),
-                              //       5.h.heightBox,
-
-                              //       GridView.builder(
-                              //           itemCount: productslist.length,
-                              //           shrinkWrap: true,
-                              //           physics:
-                              //               const NeverScrollableScrollPhysics(),
-                              //           gridDelegate:
-                              //               const SliverGridDelegateWithFixedCrossAxisCount(
-                              //                   crossAxisCount: 3,
-                              //                   mainAxisSpacing: 8),
-                              //           itemBuilder: (context, index) {
-                              //             return InkWell(
-                              //               onTap: () {
-                              //                 List<ItemModel> sortItems =
-                              //                     dummyitemList
-                              //                         .where((element) =>
-                              //                             productslist[index]
-                              //                                 .itemid
-                              //                                 .any((e) => e
-                              //                                     .contains(element
-                              //                                         .itemid)))
-                              //                         .toList();
-                              //                 controller
-                              //                     .updateItemList(sortItems);
-                              //                 Get.to(() => ItemlistScreen(
-                              //                       title: productslist[index]
-                              //                           .name,
-                              //                     ));
-                              //               },
-                              //               child:
-                              //
-                              // Column(
-                              //                 children: [
-
-                              //                   )
-                              //                 ],
-                              //               ),
-                              //             );
-                              //           })
-                              //     ],
-                              //   );
-                              // })
                             ],
                           );
                         })),

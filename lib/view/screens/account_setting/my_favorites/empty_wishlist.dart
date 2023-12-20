@@ -2,7 +2,7 @@ import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

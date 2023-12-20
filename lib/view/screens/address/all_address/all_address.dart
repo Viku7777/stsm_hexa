@@ -2,11 +2,11 @@ import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/nextscreen.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:cattel_feed/helper/icon.dart';
-import 'package:cattel_feed/controller/addressController/addressController.dart';
-import 'package:cattel_feed/view/component/appbar_component.dart';
-import 'package:cattel_feed/view/component/custom_text.dart';
+import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/view/screens/address/add_address/add_new_address.dart';
 import 'package:cattel_feed/view/screens/address/all_address/address_tiel.dart';
+import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +24,6 @@ class AllAddressView extends StatefulWidget {
 
 class _AllAddressViewState extends State<AllAddressView> {
   List<Address> allAddress = [];
-  var controller = Get.put(AddressController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +45,9 @@ class _AllAddressViewState extends State<AllAddressView> {
                         .copyWith(color: AppColors.primaryColor),
                   ))),
           Divider(color: Colors.grey.shade200, thickness: 1.5),
-          GetBuilder<AddressController>(
+          GetBuilder<UserAddressController>(
             builder: (controller) {
-              if (controller.userAllAddresses.isEmpty) {
+              if (controller.addresses.isEmpty) {
                 return Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +66,7 @@ class _AllAddressViewState extends State<AllAddressView> {
                 );
               } else {
                 return ListView.builder(
-                    itemCount: controller.userAllAddresses.length,
+                    itemCount: controller.addresses.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) => AddressTiel(
                           index: index,
