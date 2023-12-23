@@ -140,7 +140,7 @@ List<OtherAccessoriesModel> otherAccessories = [
   OtherAccessoriesModel("1", "Mobile Covers",
       "https://5.imimg.com/data5/SELLER/Default/2023/1/TO/NL/SO/34019207/whatsapp-image-2023-01-31-at-12-43-18-pm-1-.jpeg"),
   OtherAccessoriesModel("2", "Earphones",
-      "https://r.saregama.com/resources/images//gadget/earphones/earphones-share-img-600_315.jpg"),
+      "https://img.beatxp.com/prod/product/304/Untitled-1%20copy.webp"),
   OtherAccessoriesModel("3", "Mobile chargers",
       "https://www.ubuy.co.in/productimg/?image=aHR0cHM6Ly9pbWFnZXMtY2RuLnVidXkuY28uaW4vNjM0ZGYzZWJiNThlYTY3MjMyMjJkYzY2LWFuZHJvaWQtY2hhcmdlci0yLXBhY2stMi0xYS1kdWFsLXBvcnQuanBn.jpg"),
   OtherAccessoriesModel("4", "Smart Watches",

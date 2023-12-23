@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cattel_feed/model/user_model.dart';
+import 'package:cattel_feed/repository/banner_repository/banner_repository.dart';
 import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/sf/offline_storage.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
@@ -26,6 +27,9 @@ class SplashController extends GetxController {
 
   Future<void> getData(BuildContext context) async {
     var controller = Get.find<AppData>();
+    BannerRepository banner = BannerRepository();
+    banner.getAllBanners(context);
+
     var favcontroller = Get.find<FavoriteItemController>();
 
     updateloading();
@@ -36,6 +40,7 @@ class SplashController extends GetxController {
         controller.updateSubCategories(sub);
         await apis.getProducts().then((product) async {
           controller.updateProducts(product);
+
           String? data = await SFStorage.getSFData(SFStorage.savedUser);
 
           if (data.isEmptyOrNull) {

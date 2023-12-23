@@ -6,6 +6,7 @@ import 'package:cattel_feed/model/sub_category.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/resource/component/text_field.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/view/screens/categories/component/component.dart';
 import 'package:cattel_feed/view/screens/homepage/item_List/item_list_screen.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:flutter/material.dart';
@@ -46,42 +47,23 @@ class _CategoriesViewState extends State<CategoriesView> {
                 SizedBox(
                   width: 80.w,
                   child: ListView.separated(
-                    separatorBuilder: (context, index) => Container(
-                      height: 1.h,
-                      decoration: BoxDecoration(gradient: titleWidgetGradient),
-                    ),
-                    shrinkWrap: true,
-                    itemCount: data.categories.length,
-                    itemBuilder: (context, index) => InkWell(
-                      child: Container(
-                        height: screenSize.height * .13,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: Color(0xffE9E0E0)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 30.sp,
-                              backgroundImage:
-                                  NetworkImage(data.categories[index].image),
-                            ),
-                            2.h.heightBox,
-                            Text(
-                              data.categories[index].title,
-                              overflow: TextOverflow.ellipsis,
-                              style: GetTextTheme.fs12_medium
-                                  .copyWith(fontSize: 11.sp),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                      separatorBuilder: (context, index) => Container(
+                            height: 1.h,
+                            decoration:
+                                BoxDecoration(gradient: titleWidgetGradient),
+                          ),
+                      shrinkWrap: true,
+                      itemCount: data.categories.length,
+                      itemBuilder: (context, index) => Container(
+                            padding: EdgeInsets.all(5.sp),
+                            height: 90.h,
+                            child: storyView(data.categories[index].image,
+                                data.categories[index].title, () {}),
+                          )),
                 ),
                 Expanded(
                     child: ListView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
                         itemCount: data.categories.length,
                         shrinkWrap: true,
                         itemBuilder: (context, i) {
@@ -110,42 +92,25 @@ class _CategoriesViewState extends State<CategoriesView> {
                                               crossAxisCount: 3,
                                               mainAxisSpacing: 8),
                                       itemBuilder: (context, index) {
-                                        return InkWell(
-                                          onTap: () {
-                                            String subcatid = subcat[index].id;
-                                            String cat = data.categories[i].id;
-                                            List<ProductModel> products = data
-                                                .products
-                                                .where((element) =>
-                                                    element.categories!
-                                                            .parentId ==
-                                                        cat &&
-                                                    element.categories!.id ==
-                                                        subcatid)
-                                                .toList();
+                                        return storyView(subcat[index].image,
+                                            subcat[index].title, () {
+                                          String subcatid = subcat[index].id;
+                                          String cat = data.categories[i].id;
+                                          List<ProductModel> products = data
+                                              .products
+                                              .where((element) =>
+                                                  element.categories!
+                                                          .parentId ==
+                                                      cat &&
+                                                  element.categories!.id ==
+                                                      subcatid)
+                                              .toList();
 
-                                            Get.to(() => ItemlistScreen(
-                                                  title: subcat[index].title,
-                                                  products: products,
-                                                ));
-                                          },
-                                          child: Column(
-                                            children: [
-                                              CircleAvatar(
-                                                radius: 35.sp,
-                                                backgroundImage: NetworkImage(
-                                                    subcat[index].image),
-                                              ),
-                                              2.h.heightBox,
-                                              Text(
-                                                subcat[index].title,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: GetTextTheme.fs12_medium
-                                                    .copyWith(fontSize: 11.sp),
-                                              )
-                                            ],
-                                          ),
-                                        );
+                                          Get.to(() => ItemlistScreen(
+                                                title: subcat[index].title,
+                                                products: products,
+                                              ));
+                                        });
                                       },
                                     ),
                             ],

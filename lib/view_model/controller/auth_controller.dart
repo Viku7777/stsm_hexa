@@ -11,7 +11,6 @@ import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:cattel_feed/view/auth/screens/createaccounwithphone.dart';
 import 'package:cattel_feed/view/auth/screens/otp_verification.dart';
 import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
-import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +33,8 @@ class AuthController extends GetxController {
         Get.offAll(const BottomNavView());
         updateLoadingstatus();
       }).onError((error, stackTrace) {
-        throw Exception(error);
+        updateLoadingstatus();
+        Utils.flushBarErrorMessage(error.toString(), context);
       });
     }).onError((error, stackTrace) {
       updateLoadingstatus();
@@ -76,7 +76,8 @@ class AuthController extends GetxController {
 
           updateLoadingstatus();
         }).onError((error, stackTrace) {
-          throw Exception(error);
+          updateLoadingstatus();
+          Utils.flushBarErrorMessage(error.toString(), context);
         });
       }).onError((error, stackTrace) {
         updateLoadingstatus();
@@ -121,16 +122,18 @@ class AuthController extends GetxController {
           Get.offAll(const BottomNavView());
           updateLoadingstatus();
         }).onError((error, stackTrace) {
-          throw Exception(error);
+          updateLoadingstatus();
+          Utils.flushBarErrorMessage(error.toString(), context);
         });
       } else {
         FirebaseRepository.getUserProfile(credential).then((value) async {
-          await SFStorage.setSFData(
-              SFStorage.savedUser, jsonEncode(value!.toJson()));
+          // await SFStorage.setSFData(
+          //     SFStorage.savedUser, jsonEncode(value!.toJson()));
           Get.offAll(const BottomNavView());
           updateLoadingstatus();
         }).onError((error, stackTrace) {
-          throw Exception(error);
+          updateLoadingstatus();
+          Utils.flushBarErrorMessage(error.toString(), context);
         });
       }
     }).onError((error, stackTrace) {

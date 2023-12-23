@@ -19,7 +19,7 @@ class MensBudgetStoreView extends StatelessWidget {
       itemCount: mensBudgetModel.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          childAspectRatio: 0.70.sp,
+          childAspectRatio: 0.60.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {

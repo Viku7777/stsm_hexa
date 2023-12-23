@@ -18,7 +18,7 @@ class ElectronicsStoreView extends StatelessWidget {
       itemCount: electronicStore.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: .9.sp,
+          childAspectRatio: .8.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {

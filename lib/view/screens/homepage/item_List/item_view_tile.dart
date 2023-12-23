@@ -71,31 +71,23 @@ class ItemViewTiel extends StatelessWidget {
                   ),
                   Text(
                     "Free Delivery",
-                    // product.deliveryCharge == 0
-                    //     ? "Free Delivery"
-                    //     : product.deliveryCharge.toString(),
-
                     style: GetTextTheme.fs10_regular
                         .copyWith(color: const Color(0xffB5B5B5)),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "₹ ${product.varients!.first.originalPrice.toString()}",
-                        style: GetTextTheme.fs18_medium.copyWith(
-                          decoration: TextDecoration.lineThrough,
-                          color: const Color(0xffB5B5B5),
-                          fontSize: showMore ? 13.sp : 16.sp,
-                        ),
-                      ),
-                      10.w.widthBox,
-                      Text(
-                        "₹ ${Utils.findPrice(product.varients!.first.originalPrice.toString(), product.varients!.first.discount.toString(), product.varients!.first.discountType.toString())}",
-                        style: GetTextTheme.fs18_bold.copyWith(
-                            color: AppColors.primaryColor,
-                            fontSize: showMore ? 13.sp : 16.sp),
-                      ),
-                    ],
+                  Text(
+                    "₹ ${product.varients!.first.originalPrice.toString()}",
+                    style: GetTextTheme.fs18_medium.copyWith(
+                      decoration: TextDecoration.lineThrough,
+                      color: const Color(0xffB5B5B5),
+                      fontSize: showMore ? 10.sp : 13.sp,
+                    ),
+                  ),
+                  10.w.widthBox,
+                  Text(
+                    "₹ ${Utils.findPrice(product.varients!.first.originalPrice.toString(), product.varients!.first.discount.toString(), product.varients!.first.discountType.toString())}",
+                    style: GetTextTheme.fs18_bold.copyWith(
+                        color: AppColors.primaryColor,
+                        fontSize: showMore ? 13.sp : 16.sp),
                   ),
                   Row(
                     children: [

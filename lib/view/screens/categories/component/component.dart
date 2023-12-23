@@ -1,3 +1,4 @@
+import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,3 +65,43 @@ customGridView(int count) => GridView.builder(
         );
       },
     );
+
+Widget storyView(String image, title, VoidCallback onclick) {
+  return InkWell(
+    onTap: onclick,
+    child: SizedBox(
+      width: 70.w,
+      child: Column(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Container(
+              height: 50.h,
+              width: 70.w,
+              padding: const EdgeInsets.all(2),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, gradient: titleWidgetGradient),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.lightGreen,
+                    image: DecorationImage(
+                        image: NetworkImage(image), fit: BoxFit.cover),
+                    shape: BoxShape.circle),
+              ),
+            ),
+          ),
+          1.h.heightBox,
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: GetTextTheme.fs14_regular,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          2.h.heightBox,
+        ],
+      ),
+    ),
+  );
+}

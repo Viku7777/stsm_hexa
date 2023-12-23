@@ -50,7 +50,7 @@ class _AppSettingViewState extends State<AppSettingView> {
   getData() async {
     dropStates.clear();
     var states = await getStatesOfCountry('IN');
-    dropStates = states.map((e) => StateModel.fromJson(e.toJson())).toList();
+    dropStates = states;
   }
 
   @override

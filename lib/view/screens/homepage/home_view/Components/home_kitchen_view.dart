@@ -19,7 +19,7 @@ class HomeAndKitchenView extends StatelessWidget {
       itemCount: mensBudgetModel.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          childAspectRatio: 0.55.sp,
+          childAspectRatio: 0.50.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {

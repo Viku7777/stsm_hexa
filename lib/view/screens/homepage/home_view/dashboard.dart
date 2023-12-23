@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cattel_feed/Helper/base_getters.dart';
 import 'package:cattel_feed/Helper/colors.dart';
 import 'package:cattel_feed/Helper/icon.dart';
@@ -10,11 +8,11 @@ import 'package:cattel_feed/model/sub_category.dart';
 import 'package:cattel_feed/resource/component/text_field.dart';
 import 'package:cattel_feed/view/screens/account_setting/my_favorites/favorites.dart';
 import 'package:cattel_feed/view/screens/address/add_address/add_new_address.dart';
-import 'package:cattel_feed/view/screens/address/all_address/all_address.dart';
 import 'package:cattel_feed/view/screens/cart_view/cart_view.dart';
+import 'package:cattel_feed/view/screens/categories/component/component.dart';
+import 'package:cattel_feed/view/screens/categories/ui/sub_categories_list.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/budget_store_view.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/caraousel_slider.dart';
-import 'package:cattel_feed/view/screens/homepage/home_view/Components/category_view.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/delivery_banner.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/electronics_view.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/explore_more.dart';
@@ -28,14 +26,16 @@ import 'package:cattel_feed/view/screens/homepage/home_view/Components/title_bar
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/trending_widget_view.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/weekly_deals_view.dart';
 import 'package:cattel_feed/view/screens/homepage/home_view/Components/women_budget_view.dart';
-import 'package:cattel_feed/view/screens/homepage/home_view/Components/discount_view.dart';
 import 'package:cattel_feed/view/screens/notification_screens/empty_notification.dart';
 import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
+import 'package:cattel_feed/view_model/controller/banner_controller.dart';
+import 'package:cattel_feed/view_model/controller/sub_categories_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class DashboardScreenView extends StatefulWidget {
   const DashboardScreenView({super.key});
@@ -48,13 +48,10 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
   final TextEditingController searchProductController = TextEditingController();
   List<OldCategoiresModel> categories = [];
   List<OldSubCategoriesModel> subcategories = [];
+  BannerController banners = BannerController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Get.to(() => const AllAddressView());
-      }),
-      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.whiteColor,
@@ -150,22 +147,55 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             AppServices.addHeight(10),
 
             // This widget show Highlights category top of the dashboard
-            GetBuilder<AppData>(
-              builder: (controller) {
-                return controller.categories.isEmpty
-                    ? const SizedBox()
-                    : const DashboardCategoryView();
-              },
-            ),
+            GetBuilder<AppData>(builder: (controller) {
+              return controller.categories.isEmpty
+                  ? const SizedBox()
+                  : SizedBox(
+                      height: 90.h,
+                      width: Get.width,
+                      child: ListView.separated(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: controller.categories.length,
+                        separatorBuilder: (context, index) => 5.w.widthBox,
+                        itemBuilder: (context, index) {
+                          return storyView(controller.categories[index].image,
+                              controller.categories[index].title, () {
+                            var subcontroller =
+                                Get.find<SubCategoriesController>();
+                            subcontroller.updateSubCategoriesList(
+                                controller.categories[index].id);
+
+                            Get.to(SubCategoriesItemView(
+                              currentCategories: controller.categories[index],
+                            ));
+                          });
+                        },
+                      ),
+                    );
+            }),
             AppServices.addHeight(5),
 
             // Discount View
             // This Widget show discounts view on the dashboard
-            const DiscountView(),
+            // const DiscountView(),
+            // Image.network(
+            //   banners.largeBanner.first,
+            //   height: 400,
+            //   width: 500,
+            // ),
+            BannerController.largeBanner.isNotEmpty
+                ? Image.network(
+                    BannerController.largeBanner.first,
+                  )
+                : const SizedBox(),
             AppServices.addHeight(15),
 
             // Ads Banner
-            showcarouselslider(),
+            BannerController.salesOffers.isNotEmpty
+                ? showcarouselslider(BannerController.salesOffers)
+                : const SizedBox(),
             AppServices.addHeight(20),
 
             // Weekly Top Deals
@@ -180,15 +210,17 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             const KidsGarmentsView(),
             AppServices.addHeight(20),
 
-            // Banner
-            Image.asset(AppImages.banner2),
+            // pati Banner
+            BannerController.smallPattBanner.isNotEmpty
+                ? Image.network(BannerController.smallPattBanner.first)
+                : const SizedBox(),
             AppServices.addHeight(5),
 
             // Delivery Banner
             const DeliveryBannerView(),
             AppServices.addHeight(20),
 
-            // Budget Store
+            // Budget Storer
             const BudgetStoreView(),
             AppServices.addHeight(20),
             TitleComponent.taglineGradient("Men’s Budget Store"),
@@ -203,6 +235,8 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             // Womens Budget Store
             const WomenBudgetStoreView(),
             AppServices.addHeight(20),
+
+            // 2nd pati banner
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.sp),
               child: Image.asset(AppImages.banner1),
@@ -215,8 +249,13 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             const HomeAndKitchenView(),
             AppServices.addHeight(20),
 
-            // Banner
-            Image.asset(AppImages.banner2),
+            // 2nd pati banner
+            BannerController.smallPattBanner.length >= 2
+                ? Image.network(
+                    BannerController.smallPattBanner[1],
+                  )
+                : const SizedBox(),
+
             AppServices.addHeight(20),
 
             // Trending
@@ -262,10 +301,21 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             AppServices.addHeight(20),
 
             // Banner View
-            Image.asset(AppImages.banner2),
+            // 2nd pati banner
+            BannerController.smallPattBanner.length > 2
+                ? Image.network(
+                    BannerController.smallPattBanner[2],
+                  )
+                : const SizedBox(),
+
             AppServices.addHeight(20),
-            Image.network(
-                "https://img.freepik.com/free-vector/mega-sale-purple-abstract-background-professional-multipurpose-design-banner_1340-17419.jpg?w=2000"),
+            // 2nd pati banner
+            BannerController.largeBanner.length >= 2
+                ? Image.network(
+                    BannerController.largeBanner.first,
+                  )
+                : const SizedBox(),
+
             AppServices.addHeight(5),
 
             // Explore More
@@ -277,7 +327,9 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             // Banner
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.sp),
-              child: Image.asset(AppImages.banner1),
+              child: BannerController.animalSupliments.isNotEmpty
+                  ? showcarouselslider(BannerController.animalSupliments)
+                  : const SizedBox(),
             ),
             AppServices.addHeight(20),
 

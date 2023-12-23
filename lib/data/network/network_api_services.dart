@@ -80,6 +80,17 @@ class NetworkApiServices extends BaseApiServices {
     }
   }
 
+  Future<QuerySnapshot> getCollectionData(CollectionReference reference) async {
+    try {
+      var data = await reference.get();
+      return data;
+    } on FirebaseException catch (e) {
+      throw Exception(e.message);
+    } on SocketException {
+      throw InternetException();
+    }
+  }
+
   Future<dynamic> updatefieldData(DocumentReference reference,
       String filedValue, List<dynamic> elements) async {
     try {

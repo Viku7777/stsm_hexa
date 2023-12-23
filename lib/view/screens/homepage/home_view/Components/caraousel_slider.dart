@@ -4,14 +4,11 @@ import 'package:cattel_feed/Helper/img.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget showcarouselslider() {
+Widget showcarouselslider(List<String> images) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 10.w),
     child: CarouselSlider(
-        items: [
-          Image.asset(AppImages.banner1),
-          Image.asset(Ads.adssmallbanner),
-        ],
+        items: images.map((e) => Image.network(e)).toList(),
         options: CarouselOptions(
           height: 150.h,
           aspectRatio: 13 / 12,

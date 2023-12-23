@@ -42,10 +42,14 @@ class Utils {
       return convertStringIntoInt(originalPrice) -
           convertStringIntoInt(discount).toDouble();
     } else {
-      return (convertStringIntoInt(originalPrice) -
-              (convertStringIntoInt(originalPrice) /
-                  convertStringIntoInt(discount)))
-          .toStringAsFixed(2);
+      if (discount == "0") {
+        return originalPrice;
+      } else {
+        return (convertStringIntoInt(originalPrice) -
+                (convertStringIntoInt(originalPrice) /
+                    convertStringIntoInt(discount)))
+            .toStringAsFixed(2);
+      }
     }
   }
 }
