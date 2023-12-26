@@ -31,7 +31,6 @@ class BannerController {
             for (var e in element.data!.first.imagelinks!) {
               largeBanner.add(e.imgUrl.toString());
             }
-            print("large length is ${largeBanner.length}");
           } else {
             for (var e in element.data!.first.imagelinks!) {
               categoiresBanner.add(e);

@@ -1,7 +1,5 @@
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/controller/loading_Controller/loading_controller.dart';
-
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/main.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
@@ -97,7 +95,7 @@ class _OtpverificationScreenState extends State<OtpverificationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Didn’t receive any code?",
+                    "Didn't receive any code?",
                     style: GetTextTheme.fs14_regular,
                   ),
                   InkWell(

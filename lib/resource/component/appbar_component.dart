@@ -1,6 +1,6 @@
-import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/view/screens/cart_view/cart_view.dart';
-import 'package:cattel_feed/view/screens/notification_screens/empty_notification.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
+import 'package:cattel_feed/view/cart_view/cart_view.dart';
+import 'package:cattel_feed/view/notification_screens/empty_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 

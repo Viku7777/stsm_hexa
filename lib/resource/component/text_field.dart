@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +11,8 @@ class CustomTextfield extends StatelessWidget {
   String? hintText, prefixText;
   TextInputType? keyboardType;
   int? maxLength;
-
+  bool readOnly;
+  void Function()? onTap;
   InputBorder? border;
   TextEditingController controller;
   Function(String)? onChanged;
@@ -19,21 +20,22 @@ class CustomTextfield extends StatelessWidget {
   TextStyle? hintStyle;
   String? Function(String?)? validator;
 
-  CustomTextfield({
-    super.key,
-    this.prefixIcon,
-    this.filledColor,
-    required this.controller,
-    this.hintText,
-    this.border,
-    this.suffixIcon,
-    this.onChanged,
-    this.hintStyle,
-    this.prefixText,
-    this.maxLength,
-    this.keyboardType,
-    this.validator,
-  });
+  CustomTextfield(
+      {super.key,
+      this.prefixIcon,
+      this.filledColor,
+      required this.controller,
+      this.hintText,
+      this.border,
+      this.suffixIcon,
+      this.onChanged,
+      this.hintStyle,
+      this.prefixText,
+      this.maxLength,
+      this.keyboardType,
+      this.onTap,
+      this.validator,
+      this.readOnly = false});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,8 @@ class CustomTextfield extends StatelessWidget {
       onChanged: onChanged,
       validator: validator,
       maxLength: maxLength,
+      readOnly: readOnly,
+      onTap: onTap,
       keyboardType: keyboardType,
       cursorColor: AppColors.primaryColor,
       decoration: InputDecoration(

@@ -1,5 +1,5 @@
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 
 import 'package:cattel_feed/resource/component/text_field.dart';
 import 'package:flutter/material.dart';

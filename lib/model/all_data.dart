@@ -1,5 +1,5 @@
 // this data show category list or images on Dashboard
-import 'package:cattel_feed/Helper/icon.dart';
+import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/model/model.dart';
 
 List<CategoryModel> listofCateogory = [
@@ -201,7 +201,7 @@ List<ShopBrandsModel> showBrandData = [
 
 // This data show all Products for user
 
-List<ProductsModel> ProductModelss = [
+List<ProductsModel> productModelss = [
   ProductsModel(
       "1",
       "https://handcmediastorage.blob.core.windows.net/productimages/NY/NYDFF016-E12-177644-500px-650px.jpg",

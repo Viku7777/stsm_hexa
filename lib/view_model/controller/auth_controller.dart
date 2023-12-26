@@ -3,14 +3,14 @@
 import 'dart:convert';
 
 import 'package:cattel_feed/data/network/network_api_services.dart';
-import 'package:cattel_feed/model/user_model.dart';
+import 'package:cattel_feed/model/user_model/user_model.dart';
 import 'package:cattel_feed/repository/auth_repository/auth_repository.dart';
 import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/sf/offline_storage.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:cattel_feed/view/auth/screens/createaccounwithphone.dart';
 import 'package:cattel_feed/view/auth/screens/otp_verification.dart';
-import 'package:cattel_feed/view/screens/bottomNav/bottom_Nav.dart';
+import 'package:cattel_feed/view/bottomNav/bottom_Nav.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

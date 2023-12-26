@@ -1,6 +1,6 @@
-import 'package:cattel_feed/model/categorymodel.dart';
+import 'package:cattel_feed/model/categories_Model/categorymodel.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
-import 'package:cattel_feed/model/sub_category.dart';
+import 'package:cattel_feed/model/categories_Model/sub_category.dart';
 import 'package:get/get.dart';
 
 class AppData extends GetxController {

@@ -1,9 +1,8 @@
 // ignore_for_file: file_names
 
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/repository/auth_repository/auth_repository.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/view/auth/screens/createaccountwithemail.dart';
 import 'package:cattel_feed/view/auth/screens/loginwithEmail.dart';

@@ -1,4 +1,4 @@
-import 'package:cattel_feed/model/sub_category.dart';
+import 'package:cattel_feed/model/categories_Model/sub_category.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:get/get.dart';
 

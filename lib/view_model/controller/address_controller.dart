@@ -1,6 +1,6 @@
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/showdialog.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/showdialog.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/model/address_model/addressModel.dart';
 import 'package:cattel_feed/repository/address_reposotory/address_repository.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';

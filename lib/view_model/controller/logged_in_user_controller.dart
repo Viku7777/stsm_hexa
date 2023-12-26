@@ -1,4 +1,4 @@
-import 'package:cattel_feed/model/user_model.dart';
+import 'package:cattel_feed/model/user_model/user_model.dart';
 import 'package:get/get.dart';
 
 class LoggedInUserController extends GetxController {

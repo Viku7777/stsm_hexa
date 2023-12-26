@@ -1,4 +1,4 @@
-import 'package:cattel_feed/Helper/colors.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/firebase_options.dart';
 import 'package:cattel_feed/resource/const/routes.dart';
 import 'package:cattel_feed/view_model/controller/address_controller.dart';
@@ -8,6 +8,7 @@ import 'package:cattel_feed/view_model/controller/cart_model.dart';
 import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
 import 'package:cattel_feed/view_model/controller/item_favorite.dart';
 import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
+import 'package:cattel_feed/view_model/controller/order_controller.dart';
 import 'package:cattel_feed/view_model/controller/splash_controller.dart';
 import 'package:cattel_feed/view_model/controller/sub_categories_controller.dart';
 import 'package:device_preview/device_preview.dart';
@@ -65,6 +66,7 @@ class InitBinding extends Bindings {
     Get.put(FavoriteItemController());
     Get.put(SplashController());
     Get.put(CartController());
+    Get.put(OrderController());
     Get.put(SubCategoriesController());
     Get.put(UserAddressController());
   }

@@ -1,8 +1,6 @@
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/nextscreen.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/controller/loading_Controller/loading_controller.dart';
-
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/nextscreen.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/main.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/view/auth/screens/createaccounwithphone.dart';
@@ -30,8 +28,6 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
   var nameController = TextEditingController();
   var passwordcontroller = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  var controller = Get.put(LoadingController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

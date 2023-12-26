@@ -1,5 +1,5 @@
 
-import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,8 +1,8 @@
 import 'package:cattel_feed/data/network/network_api_services.dart';
-import 'package:cattel_feed/model/categorymodel.dart';
+import 'package:cattel_feed/model/categories_Model/categorymodel.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
-import 'package:cattel_feed/model/sub_category.dart';
-import 'package:cattel_feed/model/user_model.dart';
+import 'package:cattel_feed/model/categories_Model/sub_category.dart';
+import 'package:cattel_feed/model/user_model/user_model.dart';
 import 'package:cattel_feed/resource/const/reference.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -23,15 +23,14 @@ class FirebaseRepository {
     String uid,
   ) async {
     try {
-      var data =
-          await apis.getfirestore(CollectionRef.customersReference.doc(uid));
+      var data = await apis.getData(CollectionRef.customersReference.doc(uid));
 
       if (data.exists) {
         return UserModel.fromJson(data.data() as Map<String, dynamic>);
       } else {
         throw Exception("not found");
       }
-    } catch (e) {
+    } on FirebaseException catch (e) {
       throw Exception(e.toString());
     }
   }

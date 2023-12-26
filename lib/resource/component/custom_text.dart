@@ -1,5 +1,5 @@
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/resource/component/icon_with_gradinet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +8,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 Widget customText(String text, TextStyle style, {int maxline = 10000}) => Text(
       text,
+      overflow: TextOverflow.ellipsis,
       style: style,
       maxLines: maxline,
     );

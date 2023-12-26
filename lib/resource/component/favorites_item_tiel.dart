@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:cattel_feed/Helper/colors.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/view_model/controller/item_favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

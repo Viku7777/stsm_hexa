@@ -24,6 +24,27 @@ class Utils {
         )..show(context));
   }
 
+  static flushBarSuccess(String message, BuildContext context) async {
+    showFlushbar(
+        context: context,
+        flushbar: Flushbar(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          message: message,
+          padding: const EdgeInsets.all(15),
+          duration: const Duration(seconds: 3),
+          forwardAnimationCurve: Curves.decelerate,
+          reverseAnimationCurve: Curves.easeInOut,
+          backgroundColor: Colors.green,
+          positionOffset: 20,
+          flushbarPosition: FlushbarPosition.TOP,
+          icon: const Icon(
+            Icons.check_circle,
+            size: 28,
+            color: Colors.white,
+          ),
+        )..show(context));
+  }
+
   static requestFocus(FocusNode currentFocus, nextfocus, BuildContext context) {
     // currentFocus.unfocus();
     Focus.of(context).requestFocus(nextfocus);
@@ -51,5 +72,9 @@ class Utils {
             .toStringAsFixed(2);
       }
     }
+  }
+
+  static imageError() {
+    return const Icon(Icons.error);
   }
 }

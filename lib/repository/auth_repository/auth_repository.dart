@@ -1,5 +1,5 @@
 import 'package:cattel_feed/data/network/network_api_services.dart';
-import 'package:cattel_feed/model/user_model.dart';
+import 'package:cattel_feed/model/user_model/user_model.dart';
 import 'package:cattel_feed/resource/const/reference.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

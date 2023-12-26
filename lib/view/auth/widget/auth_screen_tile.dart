@@ -1,5 +1,5 @@
-import 'package:cattel_feed/helper/icon.dart';
 import 'package:cattel_feed/main.dart';
+import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';

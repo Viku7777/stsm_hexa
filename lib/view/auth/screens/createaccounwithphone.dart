@@ -1,11 +1,8 @@
-import 'package:cattel_feed/Helper/colors.dart';
-import 'package:cattel_feed/Helper/nextscreen.dart';
-import 'package:cattel_feed/Helper/textstyle.dart';
-import 'package:cattel_feed/controller/loading_Controller/loading_controller.dart';
-
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/nextscreen.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/main.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
-import 'package:cattel_feed/resource/component/showloading.dart';
 import 'package:cattel_feed/view/auth/screens/createaccountwithemail.dart';
 import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
 import 'package:cattel_feed/view/auth/screens/otp_verification.dart';
@@ -29,7 +26,6 @@ class CreateAccountWithPhone extends StatefulWidget {
 class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
   var nameController = TextEditingController();
   var phoneController = TextEditingController();
-  var controller = Get.put(LoadingController());
   var formKey = GlobalKey<FormState>();
 
   @override

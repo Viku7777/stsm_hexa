@@ -130,7 +130,6 @@ class NetworkApiServices extends BaseApiServices {
 
   @override
   Future getfirestore(reference) {
-    // TODO: implement getfirestore
     throw UnimplementedError();
   }
 }
