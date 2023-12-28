@@ -1,7 +1,9 @@
 // ignore_for_file: file_names
 
+import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
+import 'package:cattel_feed/services/notification_services.dart';
 import 'package:cattel_feed/view/account_setting/home/account_home.dart';
 import 'package:cattel_feed/view/cart_view/cart_view.dart';
 import 'package:cattel_feed/view/categories/ui/categories_view.dart';
@@ -25,7 +27,7 @@ class BottomNavView extends StatefulWidget {
 class _BottomNavViewState extends State<BottomNavView> {
   @override
   void initState() {
-    // getData();
+    getData();
     super.initState();
   }
 
@@ -103,45 +105,11 @@ class _BottomNavViewState extends State<BottomNavView> {
     );
   }
 
-  // getData() async {
-  //   var loadingController = Get.put(LoadingController());
-  //   loadingController.updateLoadingState();
-  //   var controller = Get.put(AddressController());
-  //   var favcontroller = Get.put(FavoritesItemController());
-  //   var categoirescontroller = Get.put(CategoriesController());
-
-  //   String? data0 = await getSFData("userAllAddresses");
-  //   String? fav = await getSFData("logginUserFavItem");
-  //   if (data0.isNotEmptyAndNotNull) {
-  //     List data1 = jsonDecode(data0!);
-  //     List<AddressModel> alladdress =
-  //         data1.map((e) => AddressModel.fromJson(e)).toList();
-  //     controller.updateUserAllAddresses(alladdress);
-  //   }
-  //   if (fav.isNotEmptyAndNotNull) {
-  //     List data = jsonDecode(fav!);
-  //     favcontroller.updateList(data);
-  //   }
-
-  //   var firebase = FirebaseFirestore.instance;
-  //   var categories = await firebase.collection("categories").get();
-  //   var subcategories =
-  //       await FirebaseFirestore.instance.collection("sub_categories").get();
-
-  //   // var products =
-  //   //     await FirebaseFirestore.instance.collection("products").get();
-  //   FirebaseData.categoires = categories.docs
-  //       .map((e) => OldCategoiresModel.FromJson(e.data(), e.id))
-  //       .toList();
-  //   categoirescontroller.updateCategories(FirebaseData.categoires!);
-  //   FirebaseData.subcategoires = subcategories.docs
-  //       .map((e) => OldSubCategoriesModel.FromJson(e.data(), e.id))
-  //       .toList();
-
-  //   // FirebaseData.products = products.docs
-  //   //     .map((e) => ProductItemModel.fromJson(e.data(), e.id))
-  //   //     .toList();
-
-  //   loadingController.updateLoadingState();
-  // }
+  getData() async {
+    var controller = Get.find<AppData>();
+    List<ProductModel> products = controller.products;
+    products.shuffle();
+    controller.productsforyou = products;
+    NotificationServices.requestNotification(context);
+  }
 }

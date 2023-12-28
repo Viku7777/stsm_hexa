@@ -74,15 +74,15 @@ class _SearchViewState extends State<SearchView> {
 
   search() {
     var data = Get.find<AppData>();
+    searchProducts.clear();
     searchProducts = data.products
-        .where((element) => element.name!.contains(searchController.text))
+        .where((element) => element.name!
+            .toLowerCase()
+            .contains(searchController.text.toLowerCase()))
         .toList();
-    if (searchProducts.isNotEmpty) {
-      setState(() {});
-    }
     if (searchController.text.isEmpty) {
       searchProducts.clear();
-      setState(() {});
     }
+    setState(() {});
   }
 }

@@ -69,16 +69,16 @@ class TitleComponent {
   static Widget titleWidgetWithView(String title, {Function()? onTap}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.sp),
-      child: InkWell(
-        onTap: onTap,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: GetTextTheme.fs14_bold,
-            ),
-            Row(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: GetTextTheme.fs14_bold,
+          ),
+          InkWell(
+            onTap: onTap,
+            child: Row(
               children: [
                 Text(
                   "View All",
@@ -90,8 +90,8 @@ class TitleComponent {
                     color: AppColors.primaryColor),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

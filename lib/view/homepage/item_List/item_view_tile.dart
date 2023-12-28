@@ -68,7 +68,28 @@ class ItemViewTiel extends StatelessWidget {
                   Positioned(
                       top: 5.h,
                       right: 5.w,
-                      child: FavoriteItemTiel(itemId: product.id.toString()))
+                      child: FavoriteItemTiel(itemId: product.id.toString())),
+                  product.varients!.first.discount == "0"
+                      ? const SizedBox()
+                      : Positioned(
+                          top: 5.h,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(15),
+                                    bottomRight: Radius.circular(15))),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 5.h),
+                            alignment: Alignment.center,
+                            child: Text(
+                                product.varients!.first.discountType!
+                                        .toLowerCase()
+                                        .contains("amount")
+                                    ? "Off ₹${product.varients!.first.discount}/-"
+                                    : "Off ${product.varients!.first.discount}%",
+                                style: GetTextTheme.fs14_bold),
+                          ))
                 ],
               ),
             ),
@@ -95,6 +116,7 @@ class ItemViewTiel extends StatelessWidget {
                               fontSize: showMore ? 16.sp : 19.sp),
                         )
                       : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "₹ ${product.varients!.first.originalPrice.toString()}",

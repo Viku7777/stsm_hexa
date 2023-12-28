@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:cattel_feed/repository/banner_repository/banner_repository.dart';
+import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
+import 'package:cattel_feed/resource/component/showloading.dart';
 import 'package:cattel_feed/resource/const/base_getters.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/model/categories_Model/categorymodel.dart';
@@ -5,7 +10,7 @@ import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/resource/component/text_field.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
-import 'package:cattel_feed/screens/homepage/home_view/Components/weekly_deals_view.dart';
+import 'package:cattel_feed/services/notification_services.dart';
 import 'package:cattel_feed/view/account_setting/my_favorites/favorites.dart';
 import 'package:cattel_feed/view/address/add_address/add_new_address.dart';
 import 'package:cattel_feed/view/cart_view/cart_view.dart';
@@ -18,6 +23,7 @@ import 'package:cattel_feed/view/homepage/home_view/Components/delivery_banner.d
 import 'package:cattel_feed/view/homepage/home_view/Components/products_for_you.dart';
 import 'package:cattel_feed/view/homepage/home_view/Components/shop_by_brands.dart';
 import 'package:cattel_feed/view/homepage/home_view/Components/title_bar.dart';
+import 'package:cattel_feed/view/homepage/item_List/item_list_screen.dart';
 import 'package:cattel_feed/view/homepage/search_view/search_view.dart';
 import 'package:cattel_feed/view/notification_screens/empty_notification.dart';
 import 'package:cattel_feed/view_model/controller/address_controller.dart';
@@ -47,6 +53,7 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
   List<CategoriesModel> twoByTwo = [];
   List<CategoriesModel> twoByTwoWithList = [];
   List<CategoriesModel> threeByThree = [];
+  bool loading = false;
 
   @override
   void initState() {
@@ -57,6 +64,10 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        NotificationServices.showNotification(
+            "Hello", "This is test Notification");
+      }),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.whiteColor,
@@ -113,249 +124,281 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            AppServices.addHeight(5),
+      body: Stack(
+        children: [
+          RefreshIndicator(
+            color: AppColors.primaryColor,
+            onRefresh: () async {
+              var controller = Get.find<AppData>();
+              BannerRepository banner = BannerRepository();
+              FirebaseRepository apis = FirebaseRepository();
+              await banner.getAllBanners(context);
 
-            // This Widget show Location Title on dashboard
-            GetBuilder<UserAddressController>(
-              builder: (controller) {
-                if (controller.addresses.isEmpty) {
-                  return InkWell(
-                      onTap: () =>
-                          nextscreen(context, AddNewAddressView.routes),
-                      child: Column(
+              await apis.getCategories().then((value) async {
+                controller.updateCategories(value);
+              }).onError((error, stackTrace) {
+                Utils.flushBarErrorMessage(error.toString(), context);
+              });
+
+              await apis.getSubCategories().then((value) async {
+                controller.updateSubCategories(value);
+              }).onError((error, stackTrace) {
+                Utils.flushBarErrorMessage(error.toString(), context);
+              });
+
+              await apis.getProducts().then((value) async {
+                controller.updateProducts(value);
+              }).onError((error, stackTrace) {
+                Utils.flushBarErrorMessage(error.toString(), context);
+              });
+            },
+            child: ListView(
+              children: [
+                AppServices.addHeight(5),
+
+                // This Widget show Location Title on dashboard
+                GetBuilder<UserAddressController>(
+                  builder: (controller) {
+                    if (controller.addresses.isEmpty) {
+                      return InkWell(
+                          onTap: () =>
+                              nextscreen(context, AddNewAddressView.routes),
+                          child: Column(
+                            children: [
+                              TitleComponent.locationTitleComponent(),
+                              AppServices.addHeight(10),
+                            ],
+                          ));
+                    }
+                    return const SizedBox();
+                  },
+                ),
+
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: CustomTextfield(
+                      readOnly: true,
+                      onTap: () => Get.toNamed(SearchView.routes),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(color: Colors.grey)),
+                      controller: SearchController(),
+                      prefixIcon: const Icon(
+                        CupertinoIcons.search,
+                        color: AppColors.greyColor,
+                      ),
+                      hintText: "Search by Keyword or Product ID",
+                      suffixIcon: const Icon(
+                        Icons.sort,
+                        color: AppColors.greyColor,
+                      ),
+                    )),
+                AppServices.addHeight(10),
+
+                // This widget show Highlights category top of the dashboard
+                GetBuilder<AppData>(builder: (controller) {
+                  return controller.categories.isEmpty
+                      ? const SizedBox()
+                      : SizedBox(
+                          height: 90.h,
+                          width: Get.width,
+                          child: ListView.separated(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: controller.categories.length,
+                            separatorBuilder: (context, index) => 5.w.widthBox,
+                            itemBuilder: (context, index) {
+                              return storyView(
+                                  controller.categories[index].image,
+                                  controller.categories[index].title, () {
+                                var subcontroller =
+                                    Get.find<SubCategoriesController>();
+                                subcontroller.updateSubCategoriesList(
+                                    controller.categories[index].id);
+
+                                Get.to(SubCategoriesItemView(
+                                  currentCategories:
+                                      controller.categories[index],
+                                ));
+                              });
+                            },
+                          ),
+                        );
+                }),
+                AppServices.addHeight(5),
+
+                BannerController.largeBanner.isNotEmpty
+                    ? Column(
                         children: [
-                          TitleComponent.locationTitleComponent(),
-                          AppServices.addHeight(10),
+                          Image.network(
+                            BannerController.largeBanner.first,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Utils.imageError(),
+                          ),
+                          AppServices.addHeight(15),
                         ],
-                      ));
-                }
-                return const SizedBox();
-              },
-            ),
+                      )
+                    : const SizedBox(),
 
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: CustomTextfield(
-                  readOnly: false,
-                  onTap: () => Get.toNamed(SearchView.routes),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.grey)),
-                  controller: SearchController(),
-                  prefixIcon: const Icon(
-                    CupertinoIcons.search,
-                    color: AppColors.greyColor,
-                  ),
-                  hintText: "Search by Keyword or Product ID",
-                  suffixIcon: const Icon(
-                    Icons.sort,
-                    color: AppColors.greyColor,
-                  ),
-                )),
-            AppServices.addHeight(10),
+                // Ads Banner
+                BannerController.salesOffers.isNotEmpty
+                    ? showcarouselslider(BannerController.salesOffers)
+                    : const SizedBox(),
+                AppServices.addHeight(15),
 
-            // This widget show Highlights category top of the dashboard
-            GetBuilder<AppData>(builder: (controller) {
-              return controller.categories.isEmpty
-                  ? const SizedBox()
-                  : SizedBox(
-                      height: 90.h,
-                      width: Get.width,
-                      child: ListView.separated(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: controller.categories.length,
-                        separatorBuilder: (context, index) => 5.w.widthBox,
-                        itemBuilder: (context, index) {
-                          return storyView(controller.categories[index].image,
-                              controller.categories[index].title, () {
-                            var subcontroller =
-                                Get.find<SubCategoriesController>();
-                            subcontroller.updateSubCategoriesList(
-                                controller.categories[index].id);
+                // Weekly Top Deals
+                TitleComponent.titleWidgetWithView(
+                  "Weekly Top Deals",
+                  onTap: () => Get.to(() => ItemlistScreen(
+                      title: "Weekly Top Deals", products: data.weeklyproduct)),
+                ),
+                AppServices.addHeight(15),
 
-                            Get.to(SubCategoriesItemView(
-                              currentCategories: controller.categories[index],
-                            ));
-                          });
-                        },
-                      ),
-                    );
-            }),
-            AppServices.addHeight(5),
+                CategoriesLayoutTile.oneByThree(data.weeklyproduct),
+                AppServices.addHeight(15),
 
-            BannerController.largeBanner.isNotEmpty
-                ? Column(
-                    children: [
-                      Image.network(
-                        BannerController.largeBanner.first,
+                // Kids Garments
+
+                //// 1 by 3
+                if (oneByThree.isNotEmpty) ...[
+                  TitleComponent.taglineGradient(oneByThree.first.title),
+                  AppServices.addHeight(20),
+                  CategoriesLayoutTile.oneByThree(data.products),
+                  AppServices.addHeight(20),
+                ],
+
+                // pati Banner
+                BannerController.smallPattBanner.isNotEmpty
+                    ? Image.network(
+                        BannerController.smallPattBanner.first,
                         errorBuilder: (context, error, stackTrace) =>
                             Utils.imageError(),
-                      ),
-                      AppServices.addHeight(15),
-                    ],
-                  )
-                : const SizedBox(),
+                      )
+                    : const SizedBox(),
+                AppServices.addHeight(5),
 
-            // Ads Banner
-            BannerController.salesOffers.isNotEmpty
-                ? showcarouselslider(BannerController.salesOffers)
-                : const SizedBox(),
-            AppServices.addHeight(15),
+                // Delivery Banner
+                const DeliveryBannerView(),
+                AppServices.addHeight(20),
 
-            // Weekly Top Deals
-            TitleComponent.titleWidgetWithView("Weekly Top Deals"),
-            AppServices.addHeight(15),
-            const WeeklyDealsView(),
-
-            //  CategoryViewTiels.oneByThree(data.products),
-            AppServices.addHeight(15),
-
-            // Kids Garments
-
-            //// 1 by 3
-            if (oneByThree.isNotEmpty) ...[
-              TitleComponent.taglineGradient(oneByThree.first.title),
-              AppServices.addHeight(20),
-              CategoriesLayoutTile.oneByThree(data.products),
-              AppServices.addHeight(20),
-            ],
-
-            // pati Banner
-            BannerController.smallPattBanner.isNotEmpty
-                ? Image.network(
-                    BannerController.smallPattBanner.first,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Utils.imageError(),
-                  )
-                : const SizedBox(),
-            AppServices.addHeight(5),
-
-            // Delivery Banner
-            const DeliveryBannerView(),
-            AppServices.addHeight(20),
-
-            // Budget Storer
-            const BudgetStoreView(),
-            AppServices.addHeight(20),
-            if (threeByTwo.isNotEmpty) ...[
-              ...threeByTwo.generate((index) {
-                return Column(
-                  children: [
-                    TitleComponent.taglineGradient(threeByTwo[index].title),
-                    AppServices.addHeight(20),
-                    CategoriesLayoutTile.threeByTwo(data.products),
-                    AppServices.addHeight(20),
-                  ],
-                );
-              })
-            ],
-
-            // 2nd pati banner
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-              child: Image.asset(AppImages.banner1),
-            ),
-            AppServices.addHeight(20),
-
-            // 2nd pati banner
-            BannerController.smallPattBanner.length >= 2
-                ? Column(
-                    children: [
-                      Image.network(
-                        BannerController.smallPattBanner[1],
-                        errorBuilder: (context, error, stackTrace) =>
-                            Utils.imageError(),
-                      ),
-                      AppServices.addHeight(20),
-                    ],
-                  )
-                : const SizedBox(),
-
-            // Trending
-            if (twoByTwo.isNotEmpty) ...[
-              TitleComponent.titleWidgetWithView("Trending"),
-              AppServices.addHeight(20),
-              CategoriesLayoutTile.twoByTwo(data.products),
-              AppServices.addHeight(20),
-            ],
-
-            // Electronics
-            if (twoByTwoWithList.isNotEmpty) ...[
-              TitleComponent.taglineGradient(twoByTwoWithList.first.title),
-              AppServices.addHeight(20),
-              CategoriesLayoutTile.twoByTwoWithList(data.products),
-              AppServices.addHeight(20),
-            ],
-
-            // Banner View
-            // 2nd pati banner
-            BannerController.smallPattBanner.length > 2
-                ? Column(
-                    children: [
-                      Image.network(
-                        BannerController.smallPattBanner[2],
-                        errorBuilder: (context, error, stackTrace) =>
-                            Utils.imageError(),
-                      ),
-                      AppServices.addHeight(20),
-                    ],
-                  )
-                : const SizedBox(),
-
-            // 2nd pati banner
-            BannerController.largeBanner.length >= 2
-                ? Column(
-                    children: [
-                      Image.network(
-                        BannerController.largeBanner.first,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Utils.imageError(),
-                      ),
-                      AppServices.addHeight(5),
-                    ],
-                  )
-                : const SizedBox(),
-
-// 3 by 3
-            if (threeByThree.isNotEmpty) ...[
-              TitleComponent.taglineGradient(threeByThree.first.title),
-              AppServices.addHeight(10),
-              CategoriesLayoutTile.threeByThree(data.products),
-              AppServices.addHeight(20),
-            ],
-            // Explore More
-
-            // Banner
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-              child: BannerController.animalSupliments.isNotEmpty
-                  ? Column(
+                // Budget Storer
+                const BudgetStoreView(),
+                AppServices.addHeight(20),
+                if (threeByTwo.isNotEmpty) ...[
+                  ...threeByTwo.generate((index) {
+                    return Column(
                       children: [
-                        showcarouselslider(BannerController.animalSupliments),
+                        CategoriesLayoutTile.threeByTwo(threeByTwo[index]),
                         AppServices.addHeight(20),
                       ],
-                    )
-                  : const SizedBox(),
+                    );
+                  })
+                ],
+
+                // 2nd pati banner
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                  child: Image.asset(AppImages.banner1),
+                ),
+                AppServices.addHeight(20),
+
+                // 2nd pati banner
+                BannerController.smallPattBanner.length >= 2
+                    ? Column(
+                        children: [
+                          Image.network(
+                            BannerController.smallPattBanner[1],
+                            errorBuilder: (context, error, stackTrace) =>
+                                Utils.imageError(),
+                          ),
+                          AppServices.addHeight(20),
+                        ],
+                      )
+                    : const SizedBox(),
+
+                // Trending
+                if (twoByTwo.isNotEmpty) ...[
+                  CategoriesLayoutTile.twoByTwo(twoByTwo.first),
+                  AppServices.addHeight(20),
+                ],
+
+                // Electronics
+                if (twoByTwoWithList.isNotEmpty) ...[
+                  CategoriesLayoutTile.twoByTwoWithList(twoByTwoWithList.first),
+                  AppServices.addHeight(20),
+                ],
+
+                // Banner View
+                // 2nd pati banner
+                BannerController.smallPattBanner.length > 2
+                    ? Column(
+                        children: [
+                          Image.network(
+                            BannerController.smallPattBanner[2],
+                            errorBuilder: (context, error, stackTrace) =>
+                                Utils.imageError(),
+                          ),
+                          AppServices.addHeight(20),
+                        ],
+                      )
+                    : const SizedBox(),
+
+                // 2nd pati banner
+                BannerController.largeBanner.length >= 2
+                    ? Column(
+                        children: [
+                          Image.network(
+                            BannerController.largeBanner.first,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Utils.imageError(),
+                          ),
+                          AppServices.addHeight(5),
+                        ],
+                      )
+                    : const SizedBox(),
+
+                // 3 by 3
+                if (threeByThree.isNotEmpty) ...[
+                  CategoriesLayoutTile.threeByThree(threeByThree.first),
+                  AppServices.addHeight(20),
+                ],
+                // Explore More
+
+                // Banner
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                  child: BannerController.animalSupliments.isNotEmpty
+                      ? Column(
+                          children: [
+                            showcarouselslider(
+                                BannerController.animalSupliments),
+                            AppServices.addHeight(20),
+                          ],
+                        )
+                      : const SizedBox(),
+                ),
+
+                // Shop by Brands
+                TitleComponent.titleWidgetWithView(
+                  "Shop by brands",
+                  onTap: () =>
+                      Utils.flushBarErrorMessage("Comming Soon", context),
+                ),
+                AppServices.addHeight(5),
+                const ShowByBrandsView(),
+                AppServices.addHeight(30),
+
+                // Products For You
+                TitleComponent.taglineGradient("Products For You"),
+                AppServices.addHeight(20),
+                const ProductsForYouView(),
+                AppServices.addHeight(20),
+              ],
             ),
-
-            // Shop by Brands
-            TitleComponent.titleWidgetWithView("Shop by brands"),
-            AppServices.addHeight(5),
-            const ShowByBrandsView(),
-            AppServices.addHeight(30),
-
-            // Products For You
-            TitleComponent.taglineGradient("Products For You"),
-            AppServices.addHeight(20),
-            const ProductsForYouView(),
-            AppServices.addHeight(20),
-          ],
-        ),
+          ),
+          loading ? const ShowLoading() : const SizedBox()
+        ],
       ),
     );
   }
@@ -366,6 +409,7 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
         .where((element) =>
             element.homepagelayout.contains(CategoryViewType.threeByTwo.name))
         .toList();
+
     oneByThree = data.categories
         .where((element) =>
             element.homepagelayout.contains(CategoryViewType.oneByThree.name))

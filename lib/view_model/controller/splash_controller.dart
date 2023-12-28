@@ -27,7 +27,7 @@ class SplashController extends GetxController {
   Future<void> getData(BuildContext context) async {
     var controller = Get.find<AppData>();
     BannerRepository banner = BannerRepository();
-    banner.getAllBanners(context);
+    await banner.getAllBanners(context);
 
     var favcontroller = Get.find<FavoriteItemController>();
 
@@ -40,9 +40,7 @@ class SplashController extends GetxController {
         controller.updateSubCategories(sub);
         await apis.getProducts().then((product) async {
           controller.updateProducts(product);
-
           String? data = await SFStorage.getSFData(SFStorage.savedUser);
-
           if (data.isEmptyOrNull) {
             Get.offNamedUntil(LoginWithNumber.routes, (route) => false);
           } else {

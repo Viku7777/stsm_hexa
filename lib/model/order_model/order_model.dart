@@ -16,7 +16,7 @@ class OrderModel {
   String? orderId;
   String? createdAt;
   int? orderPrice;
-  String? uid;
+  String? uid, deliverydate;
   int? shippingCharge;
   int? serviceCharge;
   int? promoDiscount;
@@ -50,6 +50,7 @@ class OrderModel {
     shippingCharge = json['shipping_charge'];
     serviceCharge = json['service_charge'];
     promoDiscount = json['promo_discount'];
+    deliverydate = json["delivery_date"] ?? "";
     transaction = json['transaction'] != null
         ? Transaction.fromJson(json['transaction'])
         : null;
@@ -93,7 +94,7 @@ class OrderModel {
 }
 
 class Transaction {
-  bool? status;
+  String? status;
   String? txId;
   String? date;
   String? mode;

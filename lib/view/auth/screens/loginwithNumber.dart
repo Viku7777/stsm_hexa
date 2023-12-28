@@ -30,7 +30,6 @@ class _LoginWithNumberState extends State<LoginWithNumber> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () async {}),
         backgroundColor: AppColors.greythinColor,
         body: Stack(
           children: [

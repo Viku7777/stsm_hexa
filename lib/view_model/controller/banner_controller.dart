@@ -1,5 +1,4 @@
 import 'package:cattel_feed/model/banner_model/banner_model.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class BannerController {
   List<BannerModel> allBanners = [];
@@ -12,30 +11,32 @@ class BannerController {
     categoiresBanner.clear();
     if (allBanners.isNotEmpty) {
       for (var element in allBanners) {
-        if (element.title.isNotEmptyAndNotNull) {
-          if (element.title!.toLowerCase().contains("salesoffers")) {
-            for (var e in element.data!.first.imagelinks!) {
+        String title = element.title.toLowerCase();
+        switch (title) {
+          case "salesoffers":
+            for (var e in element.data) {
               salesOffers.add(e.imgUrl.toString());
             }
-          } else if (element.title!
-              .toLowerCase()
-              .contains("animalsupliments")) {
-            for (var e in element.data!.first.imagelinks!) {
+            break;
+          case "animalsupliments":
+            for (var e in element.data) {
               animalSupliments.add(e.imgUrl.toString());
             }
-          } else if (element.title!.toLowerCase().contains("smallpattbanner")) {
-            for (var e in element.data!.first.imagelinks!) {
+          case "smallpattbanner":
+            for (var e in element.data) {
               smallPattBanner.add(e.imgUrl.toString());
             }
-          } else if (element.title!.toLowerCase().contains("largebanner")) {
-            for (var e in element.data!.first.imagelinks!) {
+            break;
+          case "largebanner":
+            for (var e in element.data) {
               largeBanner.add(e.imgUrl.toString());
             }
-          } else {
-            for (var e in element.data!.first.imagelinks!) {
+            break;
+
+          default:
+            for (var e in element.data) {
               categoiresBanner.add(e);
             }
-          }
         }
       }
     }
@@ -45,5 +46,5 @@ class BannerController {
   static List<String> smallPattBanner = [];
   static List<String> animalSupliments = [];
   static List<String> salesOffers = [];
-  static List<Imagelinks> categoiresBanner = [];
+  static List<BannerDataModel> categoiresBanner = [];
 }

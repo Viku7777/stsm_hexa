@@ -304,7 +304,7 @@ class _CartViewState extends State<CartView> {
                                 serviceCharge: 0,
                                 promoDiscount: 0,
                                 transaction: Transaction(
-                                    status: true,
+                                    status: paymentMode.toString(),
                                     txId: orderController.generateRandomId(),
                                     date: DateTime.now().toIso8601String(),
                                     mode: paymentMode),

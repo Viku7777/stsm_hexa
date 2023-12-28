@@ -17,6 +17,10 @@ class IconsClass {
   static String notificationIcon = "assets/icon/notification.png";
   static String wishlist = "assets/icon/wishlist.png";
   static String emptyCart = "assets/icon/empty_cart.png";
+  static String help1 = "assets/icon/help1.png";
+  static String help2 = "assets/icon/help2.png";
+  static String help3 = "assets/icon/help3.png";
+  static String help4 = "assets/icon/help4.png";
 }
 
 class AppBanner {

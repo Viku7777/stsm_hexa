@@ -69,6 +69,8 @@ dependencies:
   device_preview: ^1.1.0
   another_flushbar: ^1.12.30
   cached_network_image: ^3.3.0
+  flutter_local_notifications: ^16.3.0
+  firebase_messaging: ^14.7.9
 
 dev_dependencies:
   flutter_test:

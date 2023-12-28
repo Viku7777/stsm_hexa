@@ -52,12 +52,6 @@ class CartController extends GetxController {
     /// Get the id of the user
     String uid = currentuser.userModel!.uid.toString();
 
-    /// set the customer details to the [CartProductModel]
-    // var customer = Customer(
-    //   email: currentuser.user.email,
-    //   image: currentuser.user.image,
-    //   name: currentuser.user.name,
-    //   phone: currentuser.user.phone,
     // );
     CartProductModel cartItem = item;
     // cartItem.customer = customer;

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:cattel_feed/data/network/network_api_services.dart';
 import 'package:cattel_feed/model/banner_model/banner_model.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
@@ -15,6 +17,7 @@ class BannerRepository {
     try {
       var data = await apis
           .getCollectionData(FirebaseFirestore.instance.collection("Banner"));
+
       List<BannerModel> allBanners = data.docs
           .map((e) => BannerModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();

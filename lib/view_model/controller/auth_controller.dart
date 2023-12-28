@@ -127,8 +127,8 @@ class AuthController extends GetxController {
         });
       } else {
         FirebaseRepository.getUserProfile(credential).then((value) async {
-          // await SFStorage.setSFData(
-          //     SFStorage.savedUser, jsonEncode(value!.toJson()));
+          await SFStorage.setSFData(
+              SFStorage.savedUser, jsonEncode(value!.toJson()));
           Get.offAll(const BottomNavView());
           updateLoadingstatus();
         }).onError((error, stackTrace) {

@@ -51,18 +51,18 @@ class CategoriesProductTiles extends StatelessWidget {
           textAlign: TextAlign.center,
           style: GetTextTheme.fs14_medium,
         ),
-        RichText(
-          text: TextSpan(
-            text: "under ",
-            style: GetTextTheme.fs12_regular,
-            children: [
-              TextSpan(
-                text: subtitle,
-                style: GetTextTheme.fs14_regular.copyWith(fontSize: 13),
-              ),
-            ],
-          ),
-        ),
+        // RichText(
+        //   text: TextSpan(
+        //     text: "under ",
+        //     style: GetTextTheme.fs12_regular,
+        //     children: [
+        //       TextSpan(
+        //         text: subtitle,
+        //         style: GetTextTheme.fs14_regular.copyWith(fontSize: 13),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

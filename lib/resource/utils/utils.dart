@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar_route.dart';
+import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -72,6 +73,15 @@ class Utils {
             .toStringAsFixed(2);
       }
     }
+  }
+
+  static List<ProductModel> sortPrice(List<ProductModel> products) {
+    List<ProductModel> sortdata = products;
+    sortdata.sort((a, b) =>
+        Utils.convertStringIntoInt(a.varients!.first.originalPrice.toString())
+            .compareTo(Utils.convertStringIntoInt(
+                b.varients!.first.originalPrice.toString())));
+    return sortdata;
   }
 
   static imageError() {

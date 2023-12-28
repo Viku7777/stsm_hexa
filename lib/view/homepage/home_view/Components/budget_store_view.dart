@@ -2,7 +2,9 @@ import 'package:cattel_feed/resource/const/base_getters.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/model/all_data.dart';
+import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BudgetStoreView extends StatelessWidget {
@@ -30,32 +32,36 @@ class BudgetStoreView extends StatelessWidget {
                 budgeStoreModel.length,
                 (index) => Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Image.asset(
-                        AppIcons.icon1,
-                        height: 80.sp,
-                        width: 80.sp,
-                      ),
-                      Column(
-                        children: [
-                          AppServices.addHeight(12),
-                          RichText(
-                            text: TextSpan(
-                              text: "UNDER\n",
-                              style: GetTextTheme.fs12_medium,
-                              children: [
-                                TextSpan(
-                                    text:
-                                        "\u20B9 ${budgeStoreModel[index].price}",
-                                    style: GetTextTheme.fs18_bold)
-                              ],
+                  child: InkWell(
+                    onTap: () =>
+                        Utils.flushBarErrorMessage("Comming Soon", context),
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Image.asset(
+                          AppIcons.icon1,
+                          height: 80.sp,
+                          width: 80.sp,
+                        ),
+                        Column(
+                          children: [
+                            AppServices.addHeight(12),
+                            RichText(
+                              text: TextSpan(
+                                text: "UNDER\n",
+                                style: GetTextTheme.fs12_medium,
+                                children: [
+                                  TextSpan(
+                                      text:
+                                          "\u20B9 ${budgeStoreModel[index].price}",
+                                      style: GetTextTheme.fs18_bold)
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
