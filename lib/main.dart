@@ -5,6 +5,7 @@ import 'package:cattel_feed/services/notification_services.dart';
 import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:cattel_feed/view_model/controller/auth_controller.dart';
+import 'package:cattel_feed/view_model/controller/cart_controller.dart';
 import 'package:cattel_feed/view_model/controller/cart_model.dart';
 import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
 import 'package:cattel_feed/view_model/controller/item_favorite.dart';
@@ -89,8 +90,9 @@ class InitBinding extends Bindings {
     Get.put(ItemDetailsViewController());
     Get.put(FavoriteItemController());
     Get.put(SplashController());
-    Get.put(CartController());
-    Get.put(OrderController());
+    // Get.put(CartController());
+    // Get.put(OrderController());
+    Get.put(NewCartController());
     Get.put(SubCategoriesController());
     Get.put(UserAddressController());
   }

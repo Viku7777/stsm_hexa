@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cattel_feed/repository/banner_repository/banner_repository.dart';
 import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
@@ -10,10 +11,8 @@ import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/resource/component/text_field.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
-import 'package:cattel_feed/services/notification_services.dart';
 import 'package:cattel_feed/view/account_setting/my_favorites/favorites.dart';
 import 'package:cattel_feed/view/address/add_address/add_new_address.dart';
-import 'package:cattel_feed/view/cart_view/cart_view.dart';
 import 'package:cattel_feed/view/categories/component/component.dart';
 import 'package:cattel_feed/view/categories/ui/sub_categories_list.dart';
 import 'package:cattel_feed/view/homepage/home_view/Components/CategoryLayoutTiel.dart';
@@ -29,7 +28,9 @@ import 'package:cattel_feed/view/notification_screens/empty_notification.dart';
 import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:cattel_feed/view_model/controller/banner_controller.dart';
+import 'package:cattel_feed/view_model/controller/cart_model.dart';
 import 'package:cattel_feed/view_model/controller/sub_categories_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,9 +65,11 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        NotificationServices.showNotification(
-            "Hello", "This is test Notification");
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        await FirebaseFirestore.instance.collection("cart").doc("112").set({
+          "uid": "112",
+          "items": [CartItems()]
+        });
       }),
       appBar: AppBar(
         elevation: 0,
@@ -111,7 +114,7 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
           ),
           IconButton(
             onPressed: () {
-              Get.toNamed(CartView.route);
+              // Get.toNamed(CartView.route);
             },
             icon: const Icon(Icons.shopping_cart_outlined,
                 color: AppColors.blackColor),

@@ -6,6 +6,7 @@ import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/services/notification_services.dart';
 import 'package:cattel_feed/view/account_setting/home/account_home.dart';
 import 'package:cattel_feed/view/cart_view/cart_view.dart';
+import 'package:cattel_feed/view/cart_view/empty_cart.dart';
 import 'package:cattel_feed/view/categories/ui/categories_view.dart';
 import 'package:cattel_feed/view/homepage/home_view/dashboard.dart';
 import 'package:cattel_feed/view/notification_screens/empty_notification.dart';
@@ -36,7 +37,7 @@ class _BottomNavViewState extends State<BottomNavView> {
   List screens = [
     const DashboardScreenView(),
     const CategoriesView(),
-    const CartView(),
+    const EmptyCartView(),
     const EmptyNotificationView(),
     const AccountHomeView(),
   ];

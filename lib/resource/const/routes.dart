@@ -99,8 +99,8 @@ List<GetPage<dynamic>>? getPagesRoutes = [
     name: SearchView.routes,
     page: () => const SearchView(),
   ),
-  GetPage(
-    name: CartView.route,
-    page: () => const CartView(),
-  )
+  // GetPage(
+  //   name: CartView.route,
+  //   page: () => const CartView(),
+  // )
 ];

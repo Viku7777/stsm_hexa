@@ -45,7 +45,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
 
   var controller = Get.put(PincodeController());
 
-  var cartcontroller = Get.put(CartController());
+  // var cartcontroller = Get.put(CartController());
 
   var products = Get.find<AppData>();
 
@@ -511,29 +511,31 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                           setState(() {
                             loading = true;
                           });
-                          var controller = Get.find<CartController>();
-                          CartProductModel cart = CartProductModel(
-                            createdAt: DateTime.now().toIso8601String(),
-                            items: [
-                              Items(
-                                title: widget.product.name,
-                                image: widget.product.productImages!.first,
-                                itemId: widget.product.id,
-                                price: Utils.convertStringIntoInt(provider
-                                    .currentVarients.originalPrice
-                                    .toString()),
-                                qnty: 1,
-                                discount: int.tryParse(provider
-                                    .currentVarients.discount
-                                    .toString()),
-                                size: provider.currentVarients.name,
-                              ),
-                            ],
-                          );
-                          await controller.addItem(context, cart);
-                          setState(() {
-                            loading = false;
-                          });
+
+                          // var controller = Get.find<CartController>();
+                          // CartProductModel cart = CartProductModel(
+                          //   createdAt: DateTime.now().toIso8601String(),
+                          //   items: [
+                          //     Items(
+                          //       title: widget.product.name,
+                          //       image: widget.product.productImages!.first,
+                          //       itemId: widget.product.id,
+                          //       price: Utils.convertStringIntoInt(provider
+                          //           .currentVarients.originalPrice
+                          //           .toString()),
+                          //       qnty: 1,
+                          //       discount: int.tryParse(provider
+                          //           .currentVarients.discount
+                          //           .toString()),
+                          //       size: provider.currentVarients.name,
+                          //     ),
+                          //   ],
+                          // );
+                          // await controller.addItem(context, cart);
+                          // setState(() {
+                          //   loading = false;
+                          // });
+
                           // if (loggedInUserInfo != null) {
                           //   cartcontroller.addItemInCart(product.id);
 
@@ -600,7 +602,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                         setState(() {
                           loading = true;
                         });
-                        var controller = Get.find<CartController>();
+                        // var controller = Get.find<CartController>();
                         var provider = Get.find<ItemDetailsViewController>();
                         CartProductModel cart = CartProductModel(
                           createdAt: DateTime.now().toIso8601String(),
@@ -619,11 +621,11 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                             ),
                           ],
                         );
-                        await controller.addItem(context, cart);
-                        Get.toNamed(CartView.route);
-                        setState(() {
-                          loading = false;
-                        });
+                        // await controller.addItem(context, cart);
+                        // Get.toNamed(CartView.route);
+                        // setState(() {
+                        //   loading = false;
+                        // });
 
                         // if (loggedInUserInfo != null) {
                         //   cartcontroller.addItemInCart(product.id);

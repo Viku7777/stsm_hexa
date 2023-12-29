@@ -117,3 +117,74 @@ class Varients {
     return data;
   }
 }
+
+class CartVarient {
+  String originalPrice;
+  String discount;
+  int quantity;
+  String image;
+  String itemId;
+  String title;
+  CartVarient({
+    required this.originalPrice,
+    required this.discount,
+    required this.quantity,
+    required this.image,
+    required this.itemId,
+    required this.title,
+  });
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'originalPrice': originalPrice});
+    result.addAll({'discount': discount});
+    result.addAll({'quantity': quantity});
+    result.addAll({'image': image});
+    result.addAll({'itemId': itemId});
+    result.addAll({'title': title});
+
+    return result;
+  }
+
+  factory CartVarient.fromMap(Map<String, dynamic> map) {
+    return CartVarient(
+      originalPrice: map['originalPrice'] ?? '',
+      discount: map['discount'] ?? '',
+      quantity: map['quantity']?.toInt() ?? 0,
+      image: map['image'] ?? '',
+      itemId: map['itemId'] ?? '',
+      title: map['title'] ?? '',
+    );
+  }
+}
+
+class CartModels {
+  String createAt;
+  String uid;
+  List<CartVarient> items;
+  CartModels({
+    required this.createAt,
+    required this.uid,
+    required this.items,
+  });
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'createAt': createAt});
+    result.addAll({'uid': uid});
+    result.addAll({'items': items.map((x) => x.toMap()).toList()});
+
+    return result;
+  }
+
+  factory CartModels.fromMap(Map<String, dynamic> map) {
+    return CartModels(
+      createAt: map['createAt'] ?? '',
+      uid: map['uid'] ?? '',
+      items: List<CartVarient>.from(
+          map['items']?.map((x) => CartVarient.fromMap(x))),
+    );
+  }
+}
