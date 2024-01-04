@@ -8,7 +8,6 @@ import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/backend/dummyData.dart';
 import 'package:cattel_feed/controller/addressController/pincodeController.dart';
 import 'package:cattel_feed/main.dart';
-import 'package:cattel_feed/model/cart_model/cart_product_model.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
@@ -24,7 +23,7 @@ import 'package:cattel_feed/view/homepage/item_List/item_view_tile.dart';
 import 'package:cattel_feed/view/homepage/item_details/showRatingtile.dart';
 import 'package:cattel_feed/view/homepage/show_rating/reviews_Comments.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
-import 'package:cattel_feed/view_model/controller/cart_model.dart';
+import 'package:cattel_feed/view_model/controller/cart_controller.dart';
 import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,8 +41,7 @@ class ItemDetailsView extends StatefulWidget {
 
 class _ItemDetailsViewState extends State<ItemDetailsView> {
   var searchPincodeController = TextEditingController();
-
-  var controller = Get.put(PincodeController());
+  String searchPinCode = "";
 
   // var cartcontroller = Get.put(CartController());
 
@@ -447,7 +445,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                         decoration: InputDecoration(
                             suffixIcon: TextButton(
                                 onPressed: () {
-                                  controller.updateSearch(
+                                  products.searcPinCode(
                                       searchPincodeController.text);
                                 },
                                 child: Text(
@@ -464,28 +462,31 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                                 color: const Color(0xff5B5B5B))),
                       ),
                     ),
-                    Obx(() {
-                      if (controller.searchPin.isEmpty) {
-                        return customText(
-                          "Delivery charges may vary according to pincode",
-                          GetTextTheme.fs12_regular
-                              .copyWith(color: Colors.grey),
-                        );
-                      } else if (controller.availablepins
-                          .contains(int.parse(controller.searchPin))) {
-                        return customText(
-                          "Expected Delivery in 2 Days.",
-                          GetTextTheme.fs12_regular
-                              .copyWith(color: AppColors.orange),
-                        );
-                      } else {
-                        return customText(
-                          "Item is not deliverable at your address.",
-                          GetTextTheme.fs12_regular
-                              .copyWith(color: AppColors.redColor),
-                        );
-                      }
-                    })
+                    GetBuilder<AppData>(
+                      builder: (controller) {
+                        if (controller.searchPinCode.isEmpty) {
+                          return customText(
+                            "Delivery charges may vary according to pincode",
+                            GetTextTheme.fs12_regular
+                                .copyWith(color: Colors.grey),
+                          );
+                        } else if (controller.servicesArea.any((element) =>
+                            element.postalCode ==
+                            searchPincodeController.text)) {
+                          return customText(
+                            "Expected Delivery in ${(controller.servicesArea.firstWhere((element) => element.postalCode!.contains(controller.searchPinCode))).expectedDelivery}",
+                            GetTextTheme.fs12_regular
+                                .copyWith(color: AppColors.orange),
+                          );
+                        } else {
+                          return customText(
+                            "Item is not deliverable at your address.",
+                            GetTextTheme.fs12_regular
+                                .copyWith(color: AppColors.redColor),
+                          );
+                        }
+                      },
+                    )
                   ],
                 ),
               ),
@@ -504,135 +505,40 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                 child: Row(
                   children: [
                     // add to cart button
-                    Expanded(child: GetBuilder<ItemDetailsViewController>(
-                        builder: (provider) {
-                      return InkWell(
-                        onTap: () async {
-                          setState(() {
-                            loading = true;
-                          });
-
-                          // var controller = Get.find<CartController>();
-                          // CartProductModel cart = CartProductModel(
-                          //   createdAt: DateTime.now().toIso8601String(),
-                          //   items: [
-                          //     Items(
-                          //       title: widget.product.name,
-                          //       image: widget.product.productImages!.first,
-                          //       itemId: widget.product.id,
-                          //       price: Utils.convertStringIntoInt(provider
-                          //           .currentVarients.originalPrice
-                          //           .toString()),
-                          //       qnty: 1,
-                          //       discount: int.tryParse(provider
-                          //           .currentVarients.discount
-                          //           .toString()),
-                          //       size: provider.currentVarients.name,
-                          //     ),
-                          //   ],
-                          // );
-                          // await controller.addItem(context, cart);
-                          // setState(() {
-                          //   loading = false;
-                          // });
-
-                          // if (loggedInUserInfo != null) {
-                          //   cartcontroller.addItemInCart(product.id);
-
-                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     backgroundColor: AppColors.greenColor,
-                          //     behavior: SnackBarBehavior.floating,
-                          //     content: Row(
-                          //       mainAxisAlignment: MainAxisAlignment.start,
-                          //       crossAxisAlignment: CrossAxisAlignment.start,
-                          //       children: [
-                          //         Image.asset(
-                          //           IconsClass.cartIcon,
-                          //           height: 60.h,
-                          //           width: 60.h,
-                          //         ),
-                          //         20.w.widthBox,
-                          //         Expanded(
-                          //             child: Text("Item Successfully Added to Cart",
-                          //                 overflow: TextOverflow.fade,
-                          //                 style: GetTextTheme.fs16_medium
-                          //                     .copyWith(color: Colors.white)))
-                          //       ],
-                          //     ),
-                          //     action: SnackBarAction(
-                          //       label: "View Cart",
-                          //       onPressed: () {
-                          //         nextscreen(context, RoutesName.cart);
-                          //       },
-                          //       textColor: Colors.black,
-                          //     ),
-                          //   ));
-                          // } else {
-                          //   nextscreenRemove(context, LoginWithNumber.routes);
-                          // }
-                        },
-                        child: Container(
-                          height: 44.h,
-                          decoration: kGradientBoxDecoration,
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Container(
-                                decoration: kInnerDecoration,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    customIconWithGradient(
-                                      Icons.shopping_cart_outlined,
-                                    ),
-                                    10.w.widthBox,
-                                    customtextWithGradentColor("Add to cart",
-                                        GetTextTheme.fs16_regular)
-                                  ],
-                                )),
-                          ),
+                    Expanded(
+                        child: InkWell(
+                      onTap: () async {
+                        addToCartService(context, widget.product);
+                      },
+                      child: Container(
+                        height: 44.h,
+                        decoration: kGradientBoxDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Container(
+                              decoration: kInnerDecoration,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  customIconWithGradient(
+                                    Icons.shopping_cart_outlined,
+                                  ),
+                                  10.w.widthBox,
+                                  customtextWithGradentColor(
+                                      "Add to cart", GetTextTheme.fs16_regular)
+                                ],
+                              )),
                         ),
-                      );
-                    })),
+                      ),
+                    )),
 
                     10.w.widthBox,
                     // buy now button
                     Expanded(
                         child: InkWell(
                       onTap: () async {
-                        setState(() {
-                          loading = true;
-                        });
-                        // var controller = Get.find<CartController>();
-                        var provider = Get.find<ItemDetailsViewController>();
-                        CartProductModel cart = CartProductModel(
-                          createdAt: DateTime.now().toIso8601String(),
-                          items: [
-                            Items(
-                              title: widget.product.name,
-                              image: widget.product.productImages!.first,
-                              itemId: widget.product.id,
-                              price: Utils.convertStringIntoInt(provider
-                                  .currentVarients.originalPrice
-                                  .toString()),
-                              qnty: 1,
-                              discount: int.tryParse(
-                                  provider.currentVarients.discount.toString()),
-                              size: provider.currentVarients.name,
-                            ),
-                          ],
-                        );
-                        // await controller.addItem(context, cart);
-                        // Get.toNamed(CartView.route);
-                        // setState(() {
-                        //   loading = false;
-                        // });
-
-                        // if (loggedInUserInfo != null) {
-                        //   cartcontroller.addItemInCart(product.id);
-                        //   nextscreen(context, RoutesName.cart);
-                        // } else {
-                        //   nextscreen(context, LoginWithNumber.routes);
-                        // }
+                        addToCartService(context, widget.product);
+                        Get.to(() => const CartView());
                       },
                       child: Container(
                         height: 44.h,

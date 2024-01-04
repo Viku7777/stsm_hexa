@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:cattel_feed/model/product_model/product_model.dart';
+import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/services/notification_services.dart';
@@ -37,7 +38,7 @@ class _BottomNavViewState extends State<BottomNavView> {
   List screens = [
     const DashboardScreenView(),
     const CategoriesView(),
-    const EmptyCartView(),
+    const CartView(),
     const EmptyNotificationView(),
     const AccountHomeView(),
   ];
@@ -108,8 +109,10 @@ class _BottomNavViewState extends State<BottomNavView> {
 
   getData() async {
     var controller = Get.find<AppData>();
+    FirebaseRepository.cartProducts();
     List<ProductModel> products = controller.products;
     products.shuffle();
+
     controller.productsforyou = products;
     NotificationServices.requestNotification(context);
   }

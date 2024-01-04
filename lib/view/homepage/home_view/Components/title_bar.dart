@@ -76,6 +76,7 @@ class TitleComponent {
             title,
             style: GetTextTheme.fs14_bold,
           ),
+        
           InkWell(
             onTap: onTap,
             child: Row(

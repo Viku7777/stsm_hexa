@@ -3,6 +3,7 @@
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/component/showloading.dart';
 import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
+import 'package:cattel_feed/view/error_view/error_view.dart';
 import 'package:cattel_feed/view_model/controller/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,6 +47,13 @@ class _SplashScreenViewState extends State<SplashScreenView> {
 
   selectRoutes() async {
     var spalashController = Get.find<SplashController>();
-    spalashController.getData(context);
+    bool isInternetFound = await spalashController.checkInternet();
+    if (isInternetFound) {
+      spalashController.getData(context);
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const InternetErrorView(),
+      ));
+    }
   }
 }

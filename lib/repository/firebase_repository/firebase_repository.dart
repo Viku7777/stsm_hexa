@@ -4,7 +4,11 @@ import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/model/categories_Model/sub_category.dart';
 import 'package:cattel_feed/model/user_model/user_model.dart';
 import 'package:cattel_feed/resource/const/reference.dart';
+import 'package:cattel_feed/view_model/controller/cart_controller.dart';
+import 'package:cattel_feed/view_model/controller/cart_model.dart';
+import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 class FirebaseRepository {
   static NetworkApiServices apis = NetworkApiServices();
@@ -14,6 +18,23 @@ class FirebaseRepository {
     try {
       await apis.postFirestore(
           CollectionRef.customersReference.doc(model.uid), model.toJson());
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future cartProducts() async {
+    var controller = Get.find<NewCartController>();
+    var user = Get.find<LoggedInUserController>();
+    try {
+      var data = await apis.getData(FirebaseFirestore.instance
+          .collection("cart")
+          .doc(user.userModel!.uid));
+      if (data.exists) {
+        controller.updateCartItems((data.get("items") as List)
+            .map((e) => CartItems.fromJson(e))
+            .toList());
+      }
     } catch (e) {
       throw Exception(e.toString());
     }

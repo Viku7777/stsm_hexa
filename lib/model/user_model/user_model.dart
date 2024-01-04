@@ -82,7 +82,7 @@ class UserModel {
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
     _data['devices_token'] = devicesToken;
-    _data['addresses'] = addresses;
+    _data['addresses'] = addresses.map((e) => e.toJson()).toList();
     return _data;
   }
 }

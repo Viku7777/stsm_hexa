@@ -42,15 +42,15 @@ class _AppSettingViewState extends State<AppSettingView> {
   ];
   @override
   void initState() {
-    getData();
+    // getData();
     super.initState();
   }
 
-  getData() async {
-    dropStates.clear();
-    var states = await getStatesOfCountry('IN');
-    dropStates = states;
-  }
+  // getData() async {
+  //   dropStates.clear();
+  //   var states = await getStatesOfCountry('IN');
+  //   dropStates = states;
+  // }
 
   @override
   Widget build(BuildContext context) {

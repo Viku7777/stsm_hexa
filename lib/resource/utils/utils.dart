@@ -62,7 +62,7 @@ class Utils {
   static findPrice(String originalPrice, discount, String discountType) {
     if (discountType.contains("Amount")) {
       return convertStringIntoInt(originalPrice) -
-          convertStringIntoInt(discount).toDouble();
+          convertStringIntoInt(discount);
     } else {
       if (discount == "0") {
         return originalPrice;
@@ -70,7 +70,7 @@ class Utils {
         return (convertStringIntoInt(originalPrice) -
                 (convertStringIntoInt(originalPrice) /
                     convertStringIntoInt(discount)))
-            .toStringAsFixed(2);
+            .toStringAsFixed(0);
       }
     }
   }

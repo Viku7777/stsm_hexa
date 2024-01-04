@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-import '../cart_model/cart_product_model.dart';
+import 'package:cattel_feed/view_model/controller/cart_model.dart';
 
 enum OrderStatus {
   NEW,
@@ -22,7 +22,7 @@ class OrderModel {
   int? promoDiscount;
   Transaction? transaction;
   Customer? customer;
-  List<Items>? items;
+  List<CartItems>? items;
   Shipping? shipping;
   OrderStatus? orderStatus;
 
@@ -46,7 +46,7 @@ class OrderModel {
     uid = json['uid'];
     items = json['items'] == null
         ? []
-        : (json['items'] as List).map((e) => Items.fromJson(e)).toList();
+        : (json['items'] as List).map((e) => CartItems.fromJson(e)).toList();
     shippingCharge = json['shipping_charge'];
     serviceCharge = json['service_charge'];
     promoDiscount = json['promo_discount'];

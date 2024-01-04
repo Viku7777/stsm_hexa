@@ -81,12 +81,14 @@ class MYOrderTile extends StatelessWidget {
                                   ),
                                 ),
                                 Expanded(
-                                    child: Text(
-                                        e.size == null ? "" : "(${e.size})")),
+                                    child: Text(e.varientName.isEmptyOrNull ||
+                                            e.varientName!.contains("not_found")
+                                        ? ""
+                                        : "(${e.varientName})")),
                               ],
                             ),
                           ),
-                          Text("x ${e.qnty}  ₹${e.price}/-")
+                          Text("x ${e.quantity}  ₹${e.finalPrice}/-")
                         ],
                       );
                     }).toList(),

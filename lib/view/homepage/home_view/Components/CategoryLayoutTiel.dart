@@ -10,6 +10,7 @@ import 'package:cattel_feed/view/homepage/home_view/Components/categories_produc
 import 'package:cattel_feed/view/homepage/home_view/Components/title_bar.dart';
 import 'package:cattel_feed/view/homepage/item_details/item_details.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
+import 'package:cattel_feed/view_model/controller/banner_controller.dart';
 import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,77 @@ enum CategoryViewType {
 
 class CategoriesLayoutTile {
   // three by two
-  static oneByThree(List<ProductModel> products) {
+  static oneByThreewithProduct(List<ProductModel> products) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          AppServices.addWidth(5),
+          ...List.generate(
+            products.length,
+            (index) => InkWell(
+              onTap: () {
+                var controller = Get.find<ItemDetailsViewController>();
+                controller.updateVarient(products[index].varients!.first);
+                Get.to(ItemDetailsView(product: products[index]));
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 5),
+                width: 100.w,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Column(
+                  // alignment: Alignment.bottomCenter,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Container(
+                        color: Colors.grey.shade200,
+                        child: Image.network(
+                          products[index].productImages!.first,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.error,
+                            size: 25.r,
+                          ),
+                          width: 100.w,
+                          height: 100.h,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(10.r))),
+                      child: Text(
+                        products[index].name.toString(),
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        style: GetTextTheme.fs14_regular
+                            .copyWith(color: AppColors.whiteColor),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static oneByThree(CategoriesModel cat) {
+    var appdata = Get.find<AppData>();
+    List<ProductModel> products = [];
+    products = Utils.sortPrice(appdata.products
+        .where((element) => element.categories!.parentId!.contains(cat.id))
+        .toList());
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -129,11 +200,29 @@ class CategoriesLayoutTile {
                   );
                 },
               ),
+              AppServices.addHeight(20),
+              BannerController.categoiresBanner
+                      .any((element) => element.categoryId == categories.id)
+                  ? Column(
+                      children: [
+                        Image.network(
+                          BannerController.categoiresBanner
+                              .firstWhere((element) =>
+                                  element.categoryId == categories.id)
+                              .imgUrl,
+                          fit: BoxFit.fitWidth,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Utils.imageError(),
+                        ),
+                        AppServices.addHeight(20),
+                      ],
+                    )
+                  : const SizedBox(),
             ],
           );
   }
 
-  static twoByTwo(categories) {
+  static twoByTwo(CategoriesModel categories, {bool isTranding = false}) {
     var appdata = Get.find<AppData>();
     List<ProductModel> products = [];
     products = Utils.sortPrice(appdata.products
@@ -144,7 +233,9 @@ class CategoriesLayoutTile {
         ? const SizedBox()
         : Column(
             children: [
-              TitleComponent.titleWidgetWithView("Trending"),
+              isTranding
+                  ? TitleComponent.titleWidgetWithView("Trending")
+                  : TitleComponent.taglineGradient(categories.title),
               AppServices.addHeight(20),
               GridView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -236,6 +327,24 @@ class CategoriesLayoutTile {
                   );
                 },
               ),
+              AppServices.addHeight(20),
+              BannerController.categoiresBanner
+                      .any((element) => element.categoryId == categories.id)
+                  ? Column(
+                      children: [
+                        Image.network(
+                          BannerController.categoiresBanner
+                              .firstWhere((element) =>
+                                  element.categoryId == categories.id)
+                              .imgUrl,
+                          fit: BoxFit.fitWidth,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Utils.imageError(),
+                        ),
+                        AppServices.addHeight(20),
+                      ],
+                    )
+                  : const SizedBox()
             ],
           );
   }
@@ -372,69 +481,91 @@ class CategoriesLayoutTile {
                       AppServices.addHeight(20),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            AppServices.addWidth(10),
-                            ...List.generate(
-                              products.length,
-                              (index) => Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      var controller =
-                                          Get.find<ItemDetailsViewController>();
-                                      controller.updateVarient(
-                                          products[index].varients!.first);
-                                      Get.to(ItemDetailsView(
-                                          product: products[index]));
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(right: 5),
-                                      height: 120.h,
-                                      width: 120.w,
-                                      padding: const EdgeInsets.all(1.2),
-                                      decoration: BoxDecoration(
-                                          gradient: AppColors.appGradientColor,
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          child: Row(
+                            children: [
+                              AppServices.addWidth(10),
+                              ...List.generate(
+                                products.length,
+                                (index) => Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        var controller = Get.find<
+                                            ItemDetailsViewController>();
+                                        controller.updateVarient(
+                                            products[index].varients!.first);
+                                        Get.to(ItemDetailsView(
+                                            product: products[index]));
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.only(right: 5),
+                                        height: 120.h,
+                                        width: 120.w,
+                                        padding: const EdgeInsets.all(1.2),
+                                        decoration: BoxDecoration(
+                                            gradient:
+                                                AppColors.appGradientColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10.r)),
+                                        child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(10.r)),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                        child: Container(
-                                          color: Colors.grey.shade200,
-                                          child: Image.network(
-                                            products[index]
-                                                .productImages!
-                                                .first,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    const Icon(Icons.error),
+                                              BorderRadius.circular(10.r),
+                                          child: Container(
+                                            color: Colors.grey.shade200,
+                                            child: Image.network(
+                                              products[index]
+                                                  .productImages!
+                                                  .first,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error,
+                                                      stackTrace) =>
+                                                  const Icon(Icons.error),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  AppServices.addHeight(5),
-                                  SizedBox(
-                                    width: 120.w,
-                                    child: Text(
-                                      products[index].name.toString(),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      style: GetTextTheme.fs12_regular,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+                                    AppServices.addHeight(5),
+                                    SizedBox(
+                                      width: 120.w,
+                                      child: Text(
+                                        products[index].name.toString(),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        style: GetTextTheme.fs12_regular,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],
                   )
                 ],
               ),
+              AppServices.addHeight(20),
+              BannerController.categoiresBanner
+                      .any((element) => element.categoryId == categories.id)
+                  ? Column(
+                      children: [
+                        Image.network(
+                          BannerController.categoiresBanner
+                              .firstWhere((element) =>
+                                  element.categoryId == categories.id)
+                              .imgUrl,
+                          fit: BoxFit.fitWidth,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Utils.imageError(),
+                        ),
+                        AppServices.addHeight(20),
+                      ],
+                    )
+                  : const SizedBox()
             ],
           );
   }
@@ -453,59 +584,81 @@ class CategoriesLayoutTile {
         Container(
           padding: const EdgeInsets.all(10),
           color: AppColors.primaryColor.withOpacity(.2),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: products.length > 9 ? 9 : products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.65.sp,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10),
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  var controller = Get.find<ItemDetailsViewController>();
-                  controller.updateVarient(products[index].varients!.first);
-                  Get.to(ItemDetailsView(product: products[index]));
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(1.1),
-                        width: 127.w,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            gradient: AppColors.appGradientColor),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
+          child: Column(
+            children: [
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: products.length > 9 ? 9 : products.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 0.65.sp,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      var controller = Get.find<ItemDetailsViewController>();
+                      controller.updateVarient(products[index].varients!.first);
+                      Get.to(ItemDetailsView(product: products[index]));
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
                           child: Container(
-                            color: Colors.grey.shade200,
-                            child: Image.network(
-                              products[index].productImages!.first,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.error),
-                              fit: BoxFit.cover,
+                            padding: const EdgeInsets.all(1.1),
+                            width: 127.w,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                gradient: AppColors.appGradientColor),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.r),
+                              child: Container(
+                                color: Colors.grey.shade200,
+                                child: Image.network(
+                                  products[index].productImages!.first,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.error),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        AppServices.addHeight(5),
+                        Text(
+                          products[index].name.toString(),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          style: GetTextTheme.fs14_regular,
+                        ),
+                      ],
                     ),
-                    AppServices.addHeight(5),
-                    Text(
-                      products[index].name.toString(),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: GetTextTheme.fs14_regular,
-                    ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+              AppServices.addHeight(20),
+            ],
           ),
         ),
+        BannerController.categoiresBanner
+                .any((element) => element.categoryId == categories.id)
+            ? Column(
+                children: [
+                  Image.network(
+                    BannerController.categoiresBanner
+                        .firstWhere(
+                            (element) => element.categoryId == categories.id)
+                        .imgUrl,
+                    fit: BoxFit.fitWidth,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Utils.imageError(),
+                  ),
+                  AppServices.addHeight(20),
+                ],
+              )
+            : const SizedBox()
       ],
     );
   }

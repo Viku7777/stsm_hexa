@@ -124,7 +124,27 @@ import 'package:cattel_feed/model/product_model/product_model.dart';
 //       Utils.flushBarErrorMessage(e.toString(), context);
 //     }
 //   }
+
 // }
+
+class CartModel {
+  String uid;
+  List<CartItems> items;
+
+  CartModel({required this.uid, required this.items});
+
+  CartModel.fromJson(Map<String, dynamic> json)
+      : uid = json['uid'],
+        items =
+            (json["items"] as List).map((e) => CartItems.fromJson(e)).toList();
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['uid'] = uid;
+    data["items"] = items.map((e) => e.toJson()).toList();
+    return data;
+  }
+}
 
 class CartItems {
   String? image;
@@ -136,11 +156,13 @@ class CartItems {
   String? productId;
   String? varientDiscount;
   String? varientPrice;
-  DateTime? createAt;
+  String? createAt;
+  String? title;
 
   CartItems({
     this.image,
-    this.quantity,
+    required this.quantity,
+    required this.title,
     this.color,
     this.size,
     this.finalPrice,
@@ -153,7 +175,7 @@ class CartItems {
 
   CartItems.fromJson(Map<String, dynamic> json) {
     image = json['image'] ?? "";
-    quantity = json['quantity'] ?? "";
+    quantity = json['quantity'] ?? 0;
     color = json['color'] ?? "";
     size = json['size'] ?? "";
     finalPrice = json['final_price'] ?? "";
@@ -161,13 +183,14 @@ class CartItems {
     productId = json['product_id'] ?? "";
     varientDiscount = json['varient_discount'] ?? "";
     varientPrice = json['varient_price'] ?? "";
-    createAt = json['createAt'] ?? "";
+    createAt = json['createAt'].toString();
+    title = json["title"] ?? "";
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['image'] = image ?? "";
-    data['quantity'] = quantity ?? "";
+    data['quantity'] = quantity ?? 1;
     data['color'] = color ?? "";
     data['size'] = size ?? "";
     data['final_price'] = finalPrice ?? "";
@@ -175,7 +198,9 @@ class CartItems {
     data['product_id'] = productId ?? "";
     data['varient_discount'] = varientDiscount ?? "";
     data['varient_price'] = varientPrice ?? "";
-    data['createAt'] = createAt ?? DateTime.now();
+    data['createAt'] = DateTime.now().toIso8601String();
+    data["title"] = title ?? "";
     return data;
   }
 }
+  

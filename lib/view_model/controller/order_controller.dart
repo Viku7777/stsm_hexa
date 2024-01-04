@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:cattel_feed/model/order_model/order_model.dart';
-import 'package:cattel_feed/repository/cart_repository/cart_repository.dart';
 import 'package:cattel_feed/repository/order_repository/order_repository.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +53,8 @@ class OrderController extends GetxController {
         ..then((data) {
           order.orderId = data.id;
           _orders.add(orderData);
+          
           update();
-          CartRepository().deleteCart(context);
           showDialog(
             context: context,
             builder: (context) => showSuccessDialog(

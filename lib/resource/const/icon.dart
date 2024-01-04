@@ -21,6 +21,7 @@ class IconsClass {
   static String help2 = "assets/icon/help2.png";
   static String help3 = "assets/icon/help3.png";
   static String help4 = "assets/icon/help4.png";
+  static String noInternet = "assets/icon/nonet.png";
 }
 
 class AppBanner {

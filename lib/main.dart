@@ -90,8 +90,7 @@ class InitBinding extends Bindings {
     Get.put(ItemDetailsViewController());
     Get.put(FavoriteItemController());
     Get.put(SplashController());
-    // Get.put(CartController());
-    // Get.put(OrderController());
+    Get.put(OrderController());
     Get.put(NewCartController());
     Get.put(SubCategoriesController());
     Get.put(UserAddressController());

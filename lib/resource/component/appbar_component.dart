@@ -22,7 +22,7 @@ AppBar customAppbar(title,
                   icon: const Icon(Icons.notifications_none_rounded)),
               IconButton(
                   onPressed: () {
-                    // Get.to(() => const CartView());
+                    Get.to(() => const CartView());
                   },
                   icon: const Icon(Icons.shopping_cart_outlined)),
             ]
