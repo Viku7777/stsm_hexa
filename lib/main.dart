@@ -6,7 +6,6 @@ import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:cattel_feed/view_model/controller/auth_controller.dart';
 import 'package:cattel_feed/view_model/controller/cart_controller.dart';
-import 'package:cattel_feed/view_model/controller/cart_model.dart';
 import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
 import 'package:cattel_feed/view_model/controller/item_favorite.dart';
 import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
@@ -96,3 +95,19 @@ class InitBinding extends Bindings {
     Get.put(UserAddressController());
   }
 }
+
+
+
+
+
+
+
+
+/* key 
+
+storePassword=Rohitv
+keyPassword=Rohitv
+keyAlias=upload
+storeFile=key/upload-keystore.jks
+
+*/
