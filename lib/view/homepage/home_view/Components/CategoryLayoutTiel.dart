@@ -362,29 +362,19 @@ class CategoriesLayoutTile {
             children: [
               TitleComponent.taglineGradient(categories.title),
               AppServices.addHeight(20),
-              Stack(
-                children: [
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    child: Container(
-                      height: 400.h,
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            const Color(0xffFFFFFF),
-                            const Color.fromARGB(255, 250, 214, 135)
-                                .withOpacity(0.1),
-                          ],
-                        ),
-                      ),
+              Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        const Color(0xffFFFFFF),
+                        const Color.fromARGB(255, 250, 214, 135)
+                            .withOpacity(0.1),
+                      ],
                     ),
                   ),
-                  Column(
+                  child: Column(
                     children: [
                       GridView.builder(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -395,55 +385,35 @@ class CategoriesLayoutTile {
                             crossAxisCount: 2,
                             childAspectRatio: .8.sp,
                             crossAxisSpacing: 10,
-                            mainAxisSpacing: 10),
+                            mainAxisSpacing: 15.h),
                         itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              var controller =
-                                  Get.find<ItemDetailsViewController>();
-                              controller.updateVarient(
-                                  products[index].varients!.first);
-                              Get.to(ItemDetailsView(product: products[index]));
-                            },
+                          return Container(
+                            padding: EdgeInsets.all(2.sp),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.r),
+                              gradient: AppColors.appGradientColor,
+                            ),
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  border: Border.all(
-                                      color: AppColors.greyColor
-                                          .withOpacity(0.2))),
+                                  borderRadius: BorderRadius.circular(5.r),
+                                  color: Colors.grey.shade100),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(1.1),
-                                      width: double.maxFinite,
-                                      decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(8.r)),
-                                          gradient: AppColors.appGradientColor),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(8.r)),
-                                        child: Container(
-                                          color: Colors.grey.shade200,
-                                          child: Image.network(
-                                            products[index]
-                                                .productImages!
-                                                .first,
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    const Icon(Icons.error),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(5.r),
+                                          topRight: Radius.circular(5.r)),
+                                      child: Image.network(
+                                        products[index].productImages!.first,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
+                                    padding: EdgeInsets.all(8.sp),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -470,84 +440,61 @@ class CategoriesLayoutTile {
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  10.h.heightBox,
+                                  )
                                 ],
                               ),
                             ),
                           );
                         },
                       ),
-                      AppServices.addHeight(20),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: SizedBox(
-                          width: double.maxFinite,
-                          child: Row(
-                            children: [
-                              AppServices.addWidth(10),
-                              ...List.generate(
-                                products.length,
-                                (index) => Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        var controller = Get.find<
-                                            ItemDetailsViewController>();
-                                        controller.updateVarient(
-                                            products[index].varients!.first);
-                                        Get.to(ItemDetailsView(
-                                            product: products[index]));
-                                      },
+                      10.h.heightBox,
+                      SizedBox(
+                        height: 140.h,
+                        child: ListView.builder(
+                          padding: EdgeInsets.only(left: 20.w),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: products.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: 120.w,
+                                    margin: EdgeInsets.only(right: 10.w),
+                                    padding: const EdgeInsets.all(1.2),
+                                    decoration: BoxDecoration(
+                                        gradient: AppColors.appGradientColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.r),
                                       child: Container(
-                                        margin: const EdgeInsets.only(right: 5),
-                                        height: 120.h,
-                                        width: 120.w,
-                                        padding: const EdgeInsets.all(1.2),
-                                        decoration: BoxDecoration(
-                                            gradient:
-                                                AppColors.appGradientColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10.r)),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                          child: Container(
-                                            color: Colors.grey.shade200,
-                                            child: Image.network(
-                                              products[index]
-                                                  .productImages!
-                                                  .first,
-                                              fit: BoxFit.cover,
-                                              errorBuilder: (context, error,
-                                                      stackTrace) =>
+                                        color: Colors.grey.shade200,
+                                        child: Image.network(
+                                          products[index].productImages!.first,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
                                                   const Icon(Icons.error),
-                                            ),
-                                          ),
                                         ),
                                       ),
                                     ),
-                                    AppServices.addHeight(5),
-                                    SizedBox(
-                                      width: 120.w,
-                                      child: Text(
-                                        products[index].name.toString(),
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        style: GetTextTheme.fs12_regular,
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
+                                10.h.heightBox,
+                                Text(
+                                  products[index].name.toString(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GetTextTheme.fs14_medium,
+                                )
+                              ],
+                            );
+                          },
                         ),
                       )
                     ],
-                  )
-                ],
-              ),
+                  )),
               AppServices.addHeight(20),
               BannerController.categoiresBanner
                       .any((element) => element.categoryId == categories.id)

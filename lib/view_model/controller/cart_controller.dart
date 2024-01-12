@@ -59,14 +59,12 @@ class NewCartController extends GetxController {
   }
 
   removeProduct(int index) {
-    int left = cartItems[index].quantity! - 1;
-    if (left == 0) {
-      cartItems.removeAt(index);
-    } else {
-      cartItems[index].quantity = left;
+    if (cartItems[index].quantity != 1) {
+      cartItems[index].quantity = cartItems[index].quantity! - 1;
+
+      addCartProductOnFirebase();
+      update();
     }
-    addCartProductOnFirebase();
-    update();
   }
 
   deleteProduct(int index) {

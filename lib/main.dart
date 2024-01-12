@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         builder: DevicePreview.appBuilder,
         getPages: getPagesRoutes,
         initialBinding: InitBinding(),
-        title: 'Flutter Demo',
+        title: 'Save time Save Money',
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light().copyWith(
             scaffoldBackgroundColor: AppColors.whiteColor,

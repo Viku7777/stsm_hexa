@@ -59,6 +59,7 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
   getStates() async {
     var data = await getStatesOfCountry("IN");
     dropStates = data;
+    setState(() {});
   }
 
   Future getCities(String stateCode) async {
@@ -161,98 +162,97 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
                 ),
               ]),
               20.h.heightBox,
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Text(
-              //             "State",
-              //             style: GetTextTheme.fs12_regular,
-              //           ),
-              //           DropdownButtonFormField(
-              //             isExpanded: true,
-              //             value: stateValue,
-              //             hint: const Text("Select State"),
-              //             style: GetTextTheme.fs16_regular,
-              //             decoration: const InputDecoration(
-              //                 focusedBorder: UnderlineInputBorder(
-              //                     borderSide:
-              //                         BorderSide(color: Colors.black54)),
-              //                 border: UnderlineInputBorder(
-              //                     borderSide:
-              //                         BorderSide(color: Colors.black87))),
-              //             icon: const Icon(Icons.keyboard_arrow_down),
-              //             items: dropStates
-              //                 .map((e) => DropdownMenuItem(
-              //                     value: e,
-              //                     child: Text(e.name,
-              //                         maxLines: 1,
-              //                         overflow: TextOverflow.ellipsis,
-              //                         style: GetTextTheme.fs16_regular
-              //                             .copyWith(color: Colors.black54))))
-              //                 .toList(),
-              //             onChanged: (dynamic value) async {
-              //               stateValue = value;
-              //               setState(() {});
-              //               // setState(() {
-              //               //   loading = true;
-              //               // });
-              //               // // await getCities(value.isoCode);
-              //               // setState(() {
-              //               //   loading = false;
-              //               // });
-              //             },
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     20.w.widthBox,
-              //     // Expanded(
-              //     //   child: Column(
-              //     //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     //     mainAxisSize: MainAxisSize.min,
-              //     //     children: [
-              //     //       Text(
-              //     //         "City",
-              //     //         style: GetTextTheme.fs12_regular,
-              //     //       ),
-              //     //       DropdownButtonFormField(
-              //     //         isExpanded: true,
-              //     //         value: cityValue,
-              //     //         hint: const Text("Select City"),
-              //     //         style: GetTextTheme.fs16_regular,
-              //     //         decoration: const InputDecoration(
-              //     //             focusedBorder: UnderlineInputBorder(
-              //     //                 borderSide:
-              //     //                     BorderSide(color: Colors.black54)),
-              //     //             border: UnderlineInputBorder(
-              //     //                 borderSide:
-              //     //                     BorderSide(color: Colors.black87))),
-              //     //         // icon: const Icon(Icons.keyboard_arrow_down),
-              //     //         items: dropCitys.map((String items) {
-              //     //           return DropdownMenuItem(
-              //     //             value: items,
-              //     //             child: Text(items,
-              //     //                 maxLines: 1,
-              //     //                 overflow: TextOverflow.ellipsis,
-              //     //                 style: GetTextTheme.fs16_regular
-              //     //                     .copyWith(color: Colors.black54)),
-              //     //           );
-              //     //         }).toList(),
-              //     //         onChanged: (value) {
-              //     //           cityValue = value.toString();
-              //     //           setState(() {});
-              //     //         },
-              //     //       ),
-              //     //     ],
-              //     //   ),
-              //     // )
-              //   ],
-              // ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "State",
+                          style: GetTextTheme.fs12_regular,
+                        ),
+                        DropdownButtonFormField(
+                          isExpanded: true,
+                          value: stateValue,
+                          hint: const Text("Select State"),
+                          style: GetTextTheme.fs16_regular,
+                          decoration: const InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.black54)),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.black87))),
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          items: dropStates
+                              .map((e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GetTextTheme.fs16_regular
+                                          .copyWith(color: Colors.black54))))
+                              .toList(),
+                          onChanged: (dynamic value) async {
+                            stateValue = value;
 
-              // 20.h.heightBox,
+                            setState(() {
+                              loading = true;
+                            });
+                            await getCities(value.isoCode);
+                            setState(() {
+                              loading = false;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  20.w.widthBox,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "City",
+                          style: GetTextTheme.fs12_regular,
+                        ),
+                        DropdownButtonFormField(
+                          isExpanded: true,
+                          value: cityValue,
+                          hint: const Text("Select City"),
+                          style: GetTextTheme.fs16_regular,
+                          decoration: const InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.black54)),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.black87))),
+                          // icon: const Icon(Icons.keyboard_arrow_down),
+                          items: dropCitys.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GetTextTheme.fs16_regular
+                                      .copyWith(color: Colors.black54)),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            cityValue = value.toString();
+                            setState(() {});
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              20.h.heightBox,
               textfiledWithName(bio, "Bio", "Hey, I am a Musician.",
                   padding: false),
               25.h.heightBox,
@@ -298,19 +298,21 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
   }
 
   setData() async {
+    await getStates();
     var controller = Get.find<LoggedInUserController>();
     name.text = controller.userModel!.name;
     number.text = controller.userModel!.phone;
     email.text = controller.userModel!.email;
     bio.text = controller.userModel!.bio;
     image = controller.userModel!.image;
-    getStates();
+
     String state = controller.userModel!.state.toString();
-    String city = controller.userModel!.city.toString();
-    if (state.isNotEmptyAndNotNull && city.isNotEmptyAndNotNull) {
-      // stateValue = dropStates.firstWhere((element) => element.name == state);
-      // await getCities(stateValue.isoCode);
-      // cityValue = city;
+
+    if (state.isNotEmptyAndNotNull) {
+      stateValue = dropStates.firstWhere((element) => element.name == state);
+      await getCities(stateValue.isoCode);
+      String city = controller.userModel!.city.toString();
+      cityValue = city;
     }
 
     selectgender = controller.userModel!.gender.isEmptyOrNull

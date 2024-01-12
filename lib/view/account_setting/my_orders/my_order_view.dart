@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:cattel_feed/data/network/network_api_services.dart';
 import 'package:cattel_feed/model/order_model/order_model.dart';
 import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
@@ -8,9 +7,11 @@ import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:cattel_feed/view/account_setting/my_orders/my_order_tiel.dart';
+import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MyOrderView extends StatefulWidget {
@@ -171,16 +172,19 @@ class _MyOrderViewState extends State<MyOrderView> {
   }
 
   getData() async {
-    await FirebaseRepository.getData(
-            FirebaseFirestore.instance.collection("order"))
+    var controller = Get.find<LoggedInUserController>();
+    String uid = controller.userModel!.uid;
+
+    await FirebaseFirestore.instance
+        .collection("order")
+        .where("uid", isEqualTo: uid)
+        .get()
         .then((value) {
-      allmyorders = value.docs
-          .map((e) =>
-              OrderModel.fromJson(e.id, e.data() as Map<String, dynamic>))
-          .toList();
-    }).onError((error, stackTrace) {
-      Utils.flushBarErrorMessage(error.toString(), context);
-    });
+      allmyorders =
+          value.docs.map((e) => OrderModel.fromJson(e.id, e.data())).toList();
+    }).onError((error, stackTrace) =>
+            Utils.flushBarErrorMessage(error.toString(), context));
+
     myorder = allmyorders
         .where((element) =>
             element.orderStatus == OrderStatus.DISPATCHED ||
