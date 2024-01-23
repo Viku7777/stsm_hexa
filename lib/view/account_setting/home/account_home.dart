@@ -54,16 +54,16 @@ class _AccountHomeViewState extends State<AccountHomeView> {
       "name": "Privacy Policy",
       "route": PrivacyPolicyView.routes,
     },
-    {
-      "icon": Icons.star,
-      "name": "Rate us",
-      "route": "",
-    },
-    {
-      "icon": Icons.help_outline_sharp,
-      "name": "Help Centre",
-      "route": HelpView.routes,
-    },
+    // {
+    //   "icon": Icons.star,
+    //   "name": "Rate us",
+    //   "route": "",
+    // },
+    // {
+    //   "icon": Icons.help_outline_sharp,
+    //   "name": "Help Centre",
+    //   "route": HelpView.routes,
+    // },
   ];
   @override
   Widget build(BuildContext context) {

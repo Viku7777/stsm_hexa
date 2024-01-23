@@ -50,23 +50,41 @@ class _SearchViewState extends State<SearchView> {
           ),
           20.h.heightBox,
           Expanded(
-              child: GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: searchProducts.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: .60.sp,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10),
-            itemBuilder: (context, index) {
-              return ItemViewTiel(
-                replace: true,
-                product: searchProducts[index],
-              );
-            },
-          ))
+              child: searchController.text.isEmpty
+                  ? Center(
+                      child: Text(
+                        "Search any item",
+                        style: TextStyle(
+                            fontSize: 20.sp, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  : searchProducts.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(5.sp),
+                            child: Image.asset(
+                              "assets/icon/search_not_found.png",
+                            ),
+                          ),
+                        )
+                      : GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: searchProducts.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: .60.sp,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
+                          itemBuilder: (context, index) {
+                            return ItemViewTiel(
+                              replace: true,
+                              product: searchProducts[index],
+                            );
+                          },
+                        ))
         ],
       ),
     );

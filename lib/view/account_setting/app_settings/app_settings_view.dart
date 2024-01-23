@@ -9,7 +9,6 @@ import 'package:cattel_feed/view/account_setting/app_settings/language/language_
 import 'package:cattel_feed/view/account_setting/app_settings/notification_settings/notification_settings_view.dart';
 import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
 import 'package:cattel_feed/resource/sf/offline_storage.dart';
-import 'package:country_state_city/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

@@ -110,51 +110,42 @@ class _MyOrderViewState extends State<MyOrderView> {
                         )
                         .toList(),
                   )),
-              // Container(
-              //   height: 40.h,
-              //   padding: EdgeInsets.all(5.sp),
-              //   margin: EdgeInsets.symmetric(horizontal: 10.w),
-              //   decoration: BoxDecoration(
-              //       color: AppColors.greythinColor,
-              //       borderRadius: BorderRadius.circular(5)),
-              //   child: Row(
-              //       children: orderType.map((e) {
-              //     String current = e.toString();
-              //     return Expanded(
-              //       child: InkWell(
-
-              //         child: Container(
-              //             alignment: Alignment.center,
-              //             decoration: BoxDecoration(
-              //                 color: current.contains(select)
-              //                     ? Colors.white
-              //                     : Colors.transparent,
-              //                 borderRadius: BorderRadius.circular(5)),
-              //             child: Text(
-              //               e,
-              //               style: GetTextTheme.fs16_regular,
-              //             )),
-              //       ),
-              //     );
-              //   }).toList()),
-              // ),
-
               5.h.heightBox,
               Expanded(
-                child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  children: myorder
-                      .map((e) => MYOrderTile(
-                            tapClick: (p0) {
-                              setState(() {
-                                // select = p0;
-                              });
-                            },
-                            selected: select,
-                            order: e,
-                          ))
-                      .toList(),
-                ),
+                child: myorder.isEmpty
+                    ? Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w)
+                                .copyWith(top: 20.h),
+                            child: Image.asset(
+                              "assets/icon/no_order.png",
+                            ),
+                          ),
+                          Text(
+                            "No Order Found!",
+                            style: GetTextTheme.fs20_bold,
+                          ),
+                          Text(
+                            "Looks like you have not made any order yet. ",
+                            style: GetTextTheme.fs14_regular,
+                          )
+                        ],
+                      )
+                    : ListView(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        children: myorder
+                            .map((e) => MYOrderTile(
+                                  tapClick: (p0) {
+                                    setState(() {
+                                      // select = p0;
+                                    });
+                                  },
+                                  selected: select,
+                                  order: e,
+                                ))
+                            .toList(),
+                      ),
               )
             ],
           ),
