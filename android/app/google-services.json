@@ -27,6 +27,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:103361561282:android:05600c3897122a80caf15b",
+        "android_client_info": {
+          "package_name": "com.hexabird.stsm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrN78ZdLS8wboiQ_S2OO_L_3QlN1m6Ht0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:103361561282:android:93e3942fa8497ef0caf15b",
         "android_client_info": {
           "package_name": "com.hexabirds.stsm"

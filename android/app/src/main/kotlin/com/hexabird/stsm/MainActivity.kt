@@ -1,4 +1,4 @@
-package com.example.cattel_feed
+package com.hexabird.stsm
 
 import io.flutter.embedding.android.FlutterActivity
 

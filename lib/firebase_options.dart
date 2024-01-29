@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCrN78ZdLS8wboiQ_S2OO_L_3QlN1m6Ht0',
-    appId: '1:103361561282:android:93e3942fa8497ef0caf15b',
+    appId: '1:103361561282:android:05600c3897122a80caf15b',
     messagingSenderId: '103361561282',
     projectId: 'save-time-save-money-a36f2',
     databaseURL: 'https://save-time-save-money-a36f2-default-rtdb.asia-southeast1.firebasedatabase.app',
