@@ -56,14 +56,14 @@ android {
 
     }
 
-    signingConfigs {
+ signingConfigs {
        release {
            keyAlias "upload"
-           keyPassword "123456"
+           keyPassword "Rohit@123"
            storeFile file("key/upload-keystore.jks")
-           storePassword "123456"
+           storePassword "Rohit@123"
        }
-    }
+   }
 
     buildTypes {
         release {
