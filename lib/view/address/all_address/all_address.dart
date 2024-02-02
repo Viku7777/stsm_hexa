@@ -48,21 +48,19 @@ class _AllAddressViewState extends State<AllAddressView> {
           GetBuilder<UserAddressController>(
             builder: (controller) {
               if (controller.addresses.isEmpty) {
-                return Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      50.h.heightBox,
-                      Image.asset(IconsClass.addressIcon, width: 225.w),
-                      customtextWithGradentColor(
-                          "No Addresses Found!", GetTextTheme.fs28_bold),
-                      Text(
-                        "Seems like you have not added any address yet.\nPlease add your first address of delivery.",
-                        style: GetTextTheme.fs14_regular,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    50.h.heightBox,
+                    Image.asset(IconsClass.addressIcon, width: 225.w),
+                    customtextWithGradentColor(
+                        "No Addresses Found!", GetTextTheme.fs28_bold),
+                    Text(
+                      "Seems like you have not added any address yet.\nPlease add your first address of delivery.",
+                      style: GetTextTheme.fs14_regular,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
                 );
               } else {
                 return ListView.builder(

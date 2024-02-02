@@ -53,7 +53,7 @@ class _SearchViewState extends State<SearchView> {
               child: searchController.text.isEmpty
                   ? Center(
                       child: Text(
-                        "Search any item",
+                        "Search any Keyword",
                         style: TextStyle(
                             fontSize: 20.sp, fontWeight: FontWeight.w400),
                       ),

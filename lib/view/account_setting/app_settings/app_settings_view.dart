@@ -11,6 +11,8 @@ import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
 import 'package:cattel_feed/resource/sf/offline_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettingView extends StatefulWidget {
   static String routes = "/account_&_settings/app_setting";
@@ -64,10 +66,11 @@ class _AppSettingViewState extends State<AppSettingView> {
         itemBuilder: (context, index) => ListTile(
           onTap: () async {
             if (screens[index]["name"] == "Logout") {
-              FirebaseAuth.instance.signOut();
-              SFStorage.setSFData(SFStorage.savedUser, "");
-              nextscreenRemove(context, LoginWithNumber.routes);
-              await setSFData("userAllAddresses", "");
+              var sf = await SharedPreferences.getInstance();
+              await sf.setString(SFStorage.savedUser, "");
+              await sf.setString("userAllAddresses", "");
+              await FirebaseAuth.instance.signOut();
+              Get.offAllNamed(LoginWithNumber.routes);
             } else {
               nextscreen(context, screens[index]["route"]);
             }

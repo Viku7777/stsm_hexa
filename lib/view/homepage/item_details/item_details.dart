@@ -6,7 +6,6 @@ import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/backend/dummyData.dart';
-import 'package:cattel_feed/controller/addressController/pincodeController.dart';
 import 'package:cattel_feed/main.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
@@ -102,21 +101,22 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                       },
                     ),
                   ),
-
-                  Positioned(
-                      bottom: 10.h,
-                      left: screenSize.width * .4,
-                      child: SmoothPageIndicator(
-                          controller: pgcontroller, // PageController
-                          count: widget.product.productImages!.length,
-                          effect: ExpandingDotsEffect(
-                              dotHeight: 10,
-                              dotWidth: 10,
-                              radius: 20.sp,
-                              dotColor: Colors.grey,
-                              activeDotColor: Colors
-                                  .grey.shade300), // your preferred effect
-                          onDotClicked: (index) {})),
+                  widget.product.productImages!.length == 1
+                      ? const SizedBox()
+                      : Positioned(
+                          bottom: 10.h,
+                          left: screenSize.width * .4,
+                          child: SmoothPageIndicator(
+                              controller: pgcontroller, // PageController
+                              count: widget.product.productImages!.length,
+                              effect: ExpandingDotsEffect(
+                                  dotHeight: 10,
+                                  dotWidth: 10,
+                                  radius: 20.sp,
+                                  dotColor: Colors.grey,
+                                  activeDotColor: Colors
+                                      .grey.shade300), // your preferred effect
+                              onDotClicked: (index) {})),
                   Positioned(
                       top: 25.h,
                       right: 25.w,
@@ -408,17 +408,17 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => customersReviewtile(index),
               ),
-              Padding(
-                  padding: contentPaddings,
-                  child: viewAllRow(
-                    "${availableReview.length - 3} More Reviews",
-                    () => nextscreen(context, ShowAllRatingsView.routes),
-                    textcolor: 0xff54B435,
-                    icon: Icon(
-                      Icons.arrow_circle_right,
-                      color: AppColors.primaryColor,
-                    ),
-                  )),
+              // Padding(
+              //     padding: contentPaddings,
+              //     child: viewAllRow(
+              //       "${availableReview.length - 3} More Reviews",
+              //       () => nextscreen(context, ShowAllRatingsView.routes),
+              //       textcolor: 0xff54B435,
+              //       icon: Icon(
+              //         Icons.arrow_circle_right,
+              //         color: AppColors.primaryColor,
+              //       ),
+              //     )),
 
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),

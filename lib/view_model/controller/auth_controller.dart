@@ -11,6 +11,7 @@ import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:cattel_feed/view/auth/screens/createaccounwithphone.dart';
 import 'package:cattel_feed/view/auth/screens/otp_verification.dart';
 import 'package:cattel_feed/view/bottomNav/bottom_Nav.dart';
+import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -129,6 +130,9 @@ class AuthController extends GetxController {
         FirebaseRepository.getUserProfile(credential).then((value) async {
           await SFStorage.setSFData(
               SFStorage.savedUser, jsonEncode(value!.toJson()));
+          var addresscontroller = Get.find<UserAddressController>();
+          addresscontroller.updateAddress(value.addresses);
+
           Get.offAll(const BottomNavView());
           updateLoadingstatus();
         }).onError((error, stackTrace) {

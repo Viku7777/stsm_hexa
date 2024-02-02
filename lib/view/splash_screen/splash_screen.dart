@@ -1,12 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cattel_feed/resource/const/colors.dart';
+import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/component/showloading.dart';
+import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
 import 'package:cattel_feed/view/error_view/error_view.dart';
 import 'package:cattel_feed/view_model/controller/splash_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});
@@ -25,24 +30,27 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        Center(
-          child: InkWell(
-              onTap: () => nextscreenRemove(context, LoginWithNumber.routes),
-              child: const Text("Splash Screen")),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(IconsClass.appIcon, height: 100.h),
+            Text(
+              "Save Time Save Money",
+              style: GetTextTheme.fs14_medium,
+            ),
+            10.h.heightBox,
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
+            ),
+          ],
         ),
-        GetBuilder<SplashController>(
-          builder: (controller) {
-            if (controller.isloading) {
-              return const ShowLoading();
-            } else {
-              return const SizedBox();
-            }
-          },
-        )
-      ],
-    ));
+      ),
+    );
   }
 
   selectRoutes() async {
