@@ -90,6 +90,27 @@ class Languages extends Translations {
           LanguagesKey.noAddressFound: "कोई पता नहीं मिला!",
           LanguagesKey.noAddressmessage:
               "ऐसा लगता है जैसे आपने अभी तक कोई पता नहीं जोड़ा है।\nकृपया अपना पहला डिलीवरी पता जोड़ें।",
+          //add new address
+          LanguagesKey.address: "पता",
+          LanguagesKey.usemyCurrentLocation: "मेरे वर्तमान स्थान का उपयोग करें",
+          LanguagesKey.houseno: "मकान संख्या/भवन का नाम",
+          LanguagesKey.roadArea: "सड़क/क्षेत्र/कॉलोनी",
+          LanguagesKey.landmarkNearBy: "आस-पास का स्थान",
+          LanguagesKey.pincode: "पिन कोड",
+          LanguagesKey.addressTitle: "पता शीर्षक",
+          LanguagesKey.contactName: "संपर्क नाम",
+          LanguagesKey.contactNumber: "संपर्क संख्या",
+          LanguagesKey.contactDetails: "सम्पर्क करने का विवरण",
+          LanguagesKey.addnewAddressTitle: "नया पता जोड़ें",
+          LanguagesKey.saveAddress: "पता सहेजें",
+          //dashboard
+          LanguagesKey.hello: "नमस्ते",
+          LanguagesKey.letsExplore: "आइए ढूंढते हैं!",
+          LanguagesKey.addDeliveryLocation: "डिलीवरी स्थान जोड़ें",
+          LanguagesKey.weeklyTopDeals: "साप्ताहिक शीर्ष सौदे",
+          LanguagesKey.viewall: "सभी को देखें",
+          LanguagesKey.shopByBrand: "ब्रांड के अनुसार खरीदारी करें",
+          LanguagesKey.budgetStore: "बजट स्टोर",
         },
         "en_US": {
           LanguagesKey.enterMobileNumber: "Enter your phone number",
@@ -178,11 +199,73 @@ class Languages extends Translations {
           LanguagesKey.noAddressFound: "No Addresses Found!",
           LanguagesKey.noAddressmessage:
               "Seems like you have not added any address yet.\nPlease add your first address of delivery.",
+          //add new address
+          LanguagesKey.address: "Address",
+          LanguagesKey.usemyCurrentLocation: "Use my current location",
+          LanguagesKey.houseno: "House No. / Building Name",
+          LanguagesKey.roadArea: "Road / Area / Colony",
+          LanguagesKey.landmarkNearBy: "Landmark / Nearby Place",
+          LanguagesKey.pincode: "Pincode",
+          LanguagesKey.addressTitle: "Address Title",
+          LanguagesKey.contactName: "Contact Name",
+          LanguagesKey.contactNumber: "Contact Number",
+          LanguagesKey.contactDetails: "Contact Details",
+          LanguagesKey.addnewAddressTitle: "Add new address",
+          LanguagesKey.saveAddress: "Save Address",
+
+          //dashboard
+          LanguagesKey.hello: "Hello",
+          LanguagesKey.letsExplore: "Let’s explore!",
+          LanguagesKey.addDeliveryLocation: "Add delivery location",
+          LanguagesKey.weeklyTopDeals: "Weekly Top Deals",
+          LanguagesKey.viewall: "View All",
+          LanguagesKey.shopByBrand: "Shop by brands",
+          LanguagesKey.budgetStore: "Budget Store",
+          //item details
+          LanguagesKey.freeDelivery: "ff",
+          LanguagesKey.productDetails: "ff",
+          LanguagesKey.checkDelivery: "ff",
+          LanguagesKey.checkDeliveryContent: "ff",
+          LanguagesKey.addToCart: "ff",
+          LanguagesKey.buyNow: "ff",
+          LanguagesKey.similarProducts: "ff",
         },
       };
 }
 
 class LanguagesKey {
+  //item details
+  static String freeDelivery = "Free Delivery";
+  static String productDetails = "Product Details";
+  static String checkDelivery = "Product Details";
+  static String checkDeliveryContent = "Product Details";
+  static String addToCart = "Product Details";
+  static String buyNow = "Product Details";
+  static String similarProducts = "Product Details";
+
+  //dashboard
+  static String hello = "hello";
+  static String letsExplore = "letsExplore";
+  static String addDeliveryLocation = "addDeliveryLocation";
+  static String weeklyTopDeals = "weeklyTopDeals";
+  static String viewall = "viewall";
+  static String budgetStore = "budgetStore";
+  static String shopByBrand = "shopByBrand";
+
+//add new address
+  static String address = "Address";
+  static String usemyCurrentLocation = "Use my current location";
+  static String houseno = "House No. / Building Name";
+  static String roadArea = "Road / Area / Colony";
+  static String landmarkNearBy = "Landmark / Nearby Place";
+  static String pincode = "Pincode";
+  static String addressTitle = "Address Title";
+  static String contactName = "Contact Name";
+  static String contactNumber = "Contact Number";
+  static String contactDetails = "Contact Details";
+  static String addnewAddressTitle = "Add new address";
+  static String saveAddress = "Save Address";
+
   //all address
   static String allAddressTitle = "allAddressTitle";
   static String addNewAddress = "addNewAddress";

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/component/showloading.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
@@ -168,7 +169,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                         widget.product.name.toString(), GetTextTheme.fs20_bold),
                     // product delivery type
                     customText(
-                      "Free Delivery",
+                      LanguagesKey.freeDelivery.tr,
                       // product.deliveryCharge == 0
                       //     ? "Free Delivery"
                       //     : "Delivery Charge : ${product.deliveryCharge}",

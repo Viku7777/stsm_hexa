@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/base_getters.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
@@ -6,6 +7,7 @@ import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class BudgetStoreView extends StatelessWidget {
   const BudgetStoreView({super.key});
@@ -18,7 +20,7 @@ class BudgetStoreView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
-            "Budget Store",
+            LanguagesKey.budgetStore.tr,
             style: GetTextTheme.fs14_bold,
           ),
         ),

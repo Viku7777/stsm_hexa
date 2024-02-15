@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/repository/banner_repository/banner_repository.dart';
 import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/component/showloading.dart';
@@ -83,11 +84,11 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hello",
+                    LanguagesKey.hello.tr,
                     style: GetTextTheme.fs12_regular,
                   ),
                   Text(
-                    "Let’s explore!",
+                    LanguagesKey.letsExplore.tr,
                     style: GetTextTheme.fs12_bold,
                   ),
                 ],
@@ -243,7 +244,7 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
 
                 // Weekly Top Deals
                 TitleComponent.titleWidgetWithView(
-                  "Weekly Top Deals",
+                  LanguagesKey.weeklyTopDeals.tr,
                   onTap: () => Get.to(() => ItemlistScreen(
                       title: "Weekly Top Deals", products: data.weeklyproduct)),
                 ),
@@ -331,7 +332,7 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
 
                 // Shop by Brands
                 TitleComponent.titleWidgetWithView(
-                  "Shop by brands",
+                  LanguagesKey.shopByBrand.tr,
                   onTap: () =>
                       Utils.flushBarErrorMessage("Comming Soon", context),
                 ),

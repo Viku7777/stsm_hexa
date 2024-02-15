@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/base_getters.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
@@ -32,7 +33,7 @@ class TitleComponent {
           ),
           AppServices.addWidth(10),
           Text(
-            "Add delivery location...>>>",
+            "${LanguagesKey.addDeliveryLocation.tr}...>>>",
             style: GetTextTheme.fs14_regular.copyWith(
               color: AppColors.whiteColor,
             ),
@@ -76,13 +77,12 @@ class TitleComponent {
             title,
             style: GetTextTheme.fs14_bold,
           ),
-        
           InkWell(
             onTap: onTap,
             child: Row(
               children: [
                 Text(
-                  "View All",
+                  LanguagesKey.viewall.tr,
                   style: GetTextTheme.fs14_medium
                       .copyWith(color: AppColors.primaryColor),
                 ),

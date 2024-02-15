@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
@@ -71,7 +72,8 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: customAppbar("Add new address", isActionButtonShow: false),
+      appBar: customAppbar(LanguagesKey.addnewAddressTitle.tr,
+          isActionButtonShow: false),
       body: Form(
         key: formKey,
         child: ListView(
@@ -83,7 +85,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Address", style: GetTextTheme.fs16_bold),
+                  Text(LanguagesKey.address.tr, style: GetTextTheme.fs16_bold),
                   InkWell(
                     onTap: () async {
                       PermissionStatus status =
@@ -100,7 +102,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
                       children: [
                         customIconWithGradient(Icons.location_on_outlined),
                         customText(
-                            "Use my current location",
+                            LanguagesKey.usemyCurrentLocation.tr,
                             GetTextTheme.fs16_regular
                                 .copyWith(color: AppColors.primaryColor))
                       ],
@@ -112,7 +114,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             20.h.heightBox,
             textfiledWithName(
               housenoController,
-              "House No. / Building Name",
+              LanguagesKey.houseno.tr,
               "Enter House No.",
               validator: (value) {
                 if (value!.isEmpty) {
@@ -125,7 +127,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             20.h.heightBox,
             textfiledWithName(
               roadAreaColonyController,
-              "Road / Area / Colony",
+              LanguagesKey.roadArea.tr,
               "Enter your area name",
               validator: (value) {
                 if (value!.isEmpty) {
@@ -137,7 +139,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             20.h.heightBox,
             textfiledWithName(
               landmarkController,
-              "Landmark / Nearby Place",
+              LanguagesKey.landmarkNearBy.tr,
               "Famous place / Shop / School / Temple etc.",
               validator: (value) {
                 if (value!.isEmpty) {
@@ -149,7 +151,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             20.h.heightBox,
             textfiledWithName(
               pincodeController,
-              "Pincode",
+              LanguagesKey.pincode.tr,
               "123456",
               keyboardType: TextInputType.number,
               validator: (value) {
@@ -165,7 +167,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
                 Expanded(
                   child: textfiledWithName(
                     cityController,
-                    "City",
+                    LanguagesKey.city.tr,
                     "Hisar",
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -179,7 +181,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
                 Expanded(
                   child: textfiledWithName(
                     stateController,
-                    "State",
+                    LanguagesKey.state.tr,
                     "Haryana",
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -196,14 +198,14 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
               color: Colors.grey.shade300,
               padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 10.w),
               child: Text(
-                "Contact Details",
+                LanguagesKey.contactDetails.tr,
                 style: GetTextTheme.fs16_bold,
               ),
             ),
             20.h.heightBox,
             textfiledWithName(
               addressTitleController,
-              "Address Title",
+              LanguagesKey.addressTitle.tr,
               "",
               validator: (value) {
                 if (value!.isEmpty) {
@@ -218,7 +220,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
                 Expanded(
                   child: textfiledWithName(
                     contactnameController,
-                    "Contact Name",
+                    LanguagesKey.contactName.tr,
                     "",
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -232,7 +234,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
                 Expanded(
                   child: textfiledWithName(
                     contactnocontroller,
-                    "Contact Number",
+                    LanguagesKey.contactNumber.tr,
                     "+91",
                     keyboardType: TextInputType.number,
                     validator: (value) {
@@ -248,7 +250,8 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             50.h.heightBox,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: customButtonWithGradent("Save Address", () async {
+              child:
+                  customButtonWithGradent(LanguagesKey.saveAddress, () async {
                 if (formKey.currentState!.validate()) {
                   var address = AddressModel(
                     housenoController.text,
