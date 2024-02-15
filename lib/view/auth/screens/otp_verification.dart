@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/main.dart';
@@ -50,13 +51,14 @@ class _OtpverificationScreenState extends State<OtpverificationScreen> {
                     icon: const Icon(Icons.arrow_back),
                     color: Colors.black,
                   ),
-                  customText("Verify", GetTextTheme.fs22_regular),
+                  customText(LanguagesKey.verify.tr, GetTextTheme.fs22_regular),
                 ],
               ),
               SizedBox(
                 height: screenSize.height * .03,
               ),
-              customText("Enter the OTP sent to +91 ${currentNumber.join("")}",
+              customText(
+                  "${LanguagesKey.enterTheOtp.tr} +91 ${currentNumber.join("")}",
                   GetTextTheme.fs14_regular),
               SizedBox(
                 height: screenSize.height * .04,
@@ -74,7 +76,7 @@ class _OtpverificationScreenState extends State<OtpverificationScreen> {
               SizedBox(
                 height: screenSize.height * .04,
               ),
-              customButtonWithGradent("Submit", () async {
+              customButtonWithGradent(LanguagesKey.submit.tr, () async {
                 if (otpController.length == 6) {
                   var controller = Get.find<AuthController>();
                   controller.verifyOtp(
@@ -95,13 +97,13 @@ class _OtpverificationScreenState extends State<OtpverificationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Didn't receive any code?",
+                    LanguagesKey.didnotreceivecode.tr,
                     style: GetTextTheme.fs14_regular,
                   ),
                   InkWell(
                     onTap: () {},
                     child: customText(
-                        "RESEND CODE",
+                        LanguagesKey.rESENDCODE.tr,
                         GetTextTheme.fs16_bold
                             .copyWith(color: AppColors.primaryColor)),
                   )

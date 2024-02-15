@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
@@ -40,7 +41,8 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
             SizedBox(
               height: screenSize.height * .020,
             ),
-            customText("Create Account", GetTextTheme.fs22_regular),
+            customText(
+                LanguagesKey.createAccount.tr, GetTextTheme.fs22_regular),
             SizedBox(
               height: screenSize.height * .03,
             ),
@@ -50,7 +52,7 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
                   children: [
                     authTextField(
                       nameController,
-                      "Your Name",
+                      LanguagesKey.yourName.tr,
                       "John Doe",
                       validator: (v) {
                         if (v!.isEmpty) {
@@ -64,7 +66,7 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
                     ),
                     authTextField(
                       phoneController,
-                      "Your Phone Number",
+                      LanguagesKey.yourPhonenumber.tr,
                       "+91 ",
                       maxLength: 10,
                       keyboardType: TextInputType.number,
@@ -81,7 +83,7 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
             SizedBox(
               height: screenSize.height * .02,
             ),
-            customButtonWithGradent("Get Started", () async {
+            customButtonWithGradent(LanguagesKey.getStart.tr, () async {
               if (formKey.currentState!.validate()) {
                 OtpverificationScreen.name = nameController.text;
                 OtpverificationScreen.isCreateProfile = true;
@@ -104,7 +106,7 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
                 )),
                 20.w.widthBox,
                 Text(
-                  "OR",
+                  LanguagesKey.oR.tr,
                   style: GetTextTheme.fs16_regular,
                 ),
                 20.w.widthBox,
@@ -121,7 +123,7 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
             InkWell(
                 onTap: () => nextscreen(context, CreateAccountWithEmail.routes),
                 child: customTextButtonWithGradent(
-                    "Sign up with Email Address", Icons.email)),
+                    LanguagesKey.signupwithemail.tr, Icons.email)),
             SizedBox(
               height: screenSize.height * .015,
             ),
@@ -130,9 +132,11 @@ class _CreateAccountWithPhoneState extends State<CreateAccountWithPhone> {
               child: RichText(
                   text: TextSpan(children: [
                 TextSpan(
-                    text: "Already have an account?",
+                    text: LanguagesKey.alreadyHaveAccount.tr,
                     style: GetTextTheme.fs16_regular),
-                TextSpan(text: "Sign In", style: GetTextTheme.fs16_bold),
+                TextSpan(
+                    text: LanguagesKey.signIn.tr,
+                    style: GetTextTheme.fs16_bold),
               ])),
             )
           ]),

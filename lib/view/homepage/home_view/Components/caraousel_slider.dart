@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,11 +8,12 @@ Widget showcarouselslider(List<String> images) {
     padding: EdgeInsets.symmetric(horizontal: 10.w),
     child: CarouselSlider(
         items: images
-            .map((e) => Image.network(
-                  e,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.error),
-                ))
+            .map(
+              (e) => CachedNetworkImage(
+                imageUrl: e,
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            )
             .toList(),
         options: CarouselOptions(
           height: 150.h,

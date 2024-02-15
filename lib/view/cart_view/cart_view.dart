@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:cattel_feed/language/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   // ignore: override_on_non_overriding_member
-  String paymentMode = "online"; //no radio button will be selected on initial
+  String paymentMode = "cod"; //no radio button will be selected on initial
   // var controller = Get.put(CartController());
   // var addresscontroller = Get.put(AddressController());
 
@@ -56,7 +57,7 @@ class _CartViewState extends State<CartView> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: customText("Cart", GetTextTheme.fs16_regular),
+          title: customText(LanguagesKey.cart.tr, GetTextTheme.fs16_regular),
         ),
         body: GetBuilder<NewCartController>(builder: (provider) {
           final items = provider.cartItems;
@@ -199,9 +200,12 @@ class _CartViewState extends State<CartView> {
                               value: "online",
                               groupValue: paymentMode,
                               onChanged: (value) {
-                                setState(() {
-                                  paymentMode = value.toString();
-                                });
+                                Utils.flushBarErrorMessage(
+                                    "Currently we are accepting only COD",
+                                    context);
+                                // setState(() {
+                                //   paymentMode = value.toString();
+                                // });
                               },
                             ),
                           )),

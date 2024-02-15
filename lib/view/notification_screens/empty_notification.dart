@@ -1,8 +1,10 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class EmptyNotificationView extends StatefulWidget {
   static String routes = "/empty_notification";
@@ -31,9 +33,9 @@ class _EmptyNotificationViewState extends State<EmptyNotificationView> {
               ],
             ),
             customtextWithGradentColor(
-                "No Notifications Yet", GetTextTheme.fs28_bold),
+                LanguagesKey.noNotificationYet.tr, GetTextTheme.fs28_bold),
             Text(
-              "You have no notifications right now. \ncome back later",
+              LanguagesKey.noNotficationMessage.tr,
               style: GetTextTheme.fs14_regular,
               textAlign: TextAlign.center,
             )

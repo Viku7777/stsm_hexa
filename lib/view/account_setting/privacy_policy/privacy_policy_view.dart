@@ -1,7 +1,10 @@
+import 'package:cattel_feed/language/language.dart';
+import 'package:cattel_feed/main.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:get/get.dart';
 
 class PrivacyPolicyView extends StatelessWidget {
   static String routes = "/account_&_settings/privacy_policy";
@@ -11,7 +14,7 @@ class PrivacyPolicyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: customAppbar("Privacy Policy"),
+        appBar: customAppbar(LanguagesKey.privacyPolicy.tr),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),

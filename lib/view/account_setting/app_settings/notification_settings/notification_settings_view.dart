@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 
@@ -5,6 +6,7 @@ import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/view/homepage/home_view/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NotificationSettingView extends StatefulWidget {
   static String routes = "/account_&_settings/app_setting/notification_setting";
@@ -19,19 +21,19 @@ class NotificationSettingView extends StatefulWidget {
 class _NotificationSettingViewState extends State<NotificationSettingView> {
   List notificationSettingsOption = [
     {
-      "name": "Notification Sound",
+      "name": LanguagesKey.notificationSound.tr,
       "value": false,
     },
     {
-      "name": "Vibration",
+      "name": LanguagesKey.vibration.tr,
       "value": false,
     },
     {
-      "name": "Offer Notifications",
+      "name": LanguagesKey.offerNotification.tr,
       "value": false,
     },
     {
-      "name": "Order Notifications",
+      "name": LanguagesKey.orderNotification.tr,
       "value": false,
     }
   ];
@@ -39,7 +41,7 @@ class _NotificationSettingViewState extends State<NotificationSettingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppbar("Notifications"),
+      appBar: customAppbar(LanguagesKey.notifications.tr),
       body: customListview(
         isverticalAxis: true,
         notificationSettingsOption.length,

@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
@@ -28,7 +29,7 @@ class _AllAddressViewState extends State<AllAddressView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: customAppbar("Add / Edit Delivery Address",
+      appBar: customAppbar(LanguagesKey.allAddressTitle.tr,
           isActionButtonShow: false),
       body: ListView(
         children: [
@@ -40,7 +41,7 @@ class _AllAddressViewState extends State<AllAddressView> {
               child: InkWell(
                   onTap: () => nextscreen(context, AddNewAddressView.routes),
                   child: Text(
-                    "+ Add new address",
+                    LanguagesKey.addNewAddress.tr,
                     style: GetTextTheme.fs16_regular
                         .copyWith(color: AppColors.primaryColor),
                   ))),
@@ -54,9 +55,9 @@ class _AllAddressViewState extends State<AllAddressView> {
                     50.h.heightBox,
                     Image.asset(IconsClass.addressIcon, width: 225.w),
                     customtextWithGradentColor(
-                        "No Addresses Found!", GetTextTheme.fs28_bold),
+                        LanguagesKey.noAddressFound.tr, GetTextTheme.fs28_bold),
                     Text(
-                      "Seems like you have not added any address yet.\nPlease add your first address of delivery.",
+                      LanguagesKey.noNotficationMessage.tr,
                       style: GetTextTheme.fs14_regular,
                       textAlign: TextAlign.center,
                     )

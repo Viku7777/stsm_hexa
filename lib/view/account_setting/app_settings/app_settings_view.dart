@@ -1,5 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
@@ -25,21 +26,21 @@ class AppSettingView extends StatefulWidget {
 class _AppSettingViewState extends State<AppSettingView> {
   List screens = [
     {
-      "name": "Edit Profile",
+      "name": LanguagesKey.editprofile.tr,
       "icon": Icons.person_outlined,
       "route": UserProfileSettingView.routes,
     },
     {
-      "name": "Language",
+      "name": LanguagesKey.language.tr,
       "icon": Icons.translate_sharp,
       "route": ChangeLanguageView.routes,
     },
     {
-      "name": "Notifications",
+      "name": LanguagesKey.notifications.tr,
       "icon": Icons.notifications_none_outlined,
       "route": NotificationSettingView.routes,
     },
-    {"name": "Logout", "icon": Icons.login}
+    {"name": LanguagesKey.logout.tr, "icon": Icons.login}
   ];
   @override
   void initState() {
@@ -55,9 +56,10 @@ class _AppSettingViewState extends State<AppSettingView> {
 
   @override
   Widget build(BuildContext context) {
+    print("language change");
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: customAppbar("App Settings"),
+      appBar: customAppbar(LanguagesKey.appSettings.tr),
       body: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

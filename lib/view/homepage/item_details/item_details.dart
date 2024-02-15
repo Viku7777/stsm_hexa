@@ -1,11 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cattel_feed/resource/component/showloading.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
-import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
-import 'package:cattel_feed/backend/dummyData.dart';
 import 'package:cattel_feed/main.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
@@ -16,14 +15,16 @@ import 'package:cattel_feed/resource/component/rating_tile.dart';
 import 'package:cattel_feed/resource/component/users_review_tiel.dart';
 import 'package:cattel_feed/resource/component/viewallrow.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
+import 'package:cattel_feed/services/firebase_Analytics_services.dart';
+import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
 import 'package:cattel_feed/view/cart_view/cart_view.dart';
 import 'package:cattel_feed/view/homepage/item_List/item_list_screen.dart';
 import 'package:cattel_feed/view/homepage/item_List/item_view_tile.dart';
 import 'package:cattel_feed/view/homepage/item_details/showRatingtile.dart';
-import 'package:cattel_feed/view/homepage/show_rating/reviews_Comments.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:cattel_feed/view_model/controller/cart_controller.dart';
 import 'package:cattel_feed/view_model/controller/item_detail_view_controller.dart';
+import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
   // var cartcontroller = Get.put(CartController());
 
   var products = Get.find<AppData>();
+  var loggedInUser = Get.find<LoggedInUserController>();
 
   EdgeInsetsGeometry contentPaddings = EdgeInsets.symmetric(horizontal: 10.w);
 
@@ -68,13 +70,13 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
     }
 
     final pages = List.generate(
-        widget.product.productImages!.length,
-        (index) => Image.network(
-              widget.product.productImages![index],
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.error),
-            ));
+      widget.product.productImages!.length,
+      (index) => CachedNetworkImage(
+        imageUrl: widget.product.productImages![index],
+        fit: BoxFit.contain,
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      ),
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -508,7 +510,16 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                     Expanded(
                         child: InkWell(
                       onTap: () async {
-                        addToCartService(context, widget.product);
+                        if (loggedInUser.isGuestUser) {
+                          Get.offAll(() => const LoginWithNumber());
+                        } else {
+                          FirebaseAnalyticsServices()
+                              .customEvent("add_to_cart_product", {
+                            "item": widget.product.id,
+                            "item_name": widget.product.name,
+                          });
+                          addToCartService(context, widget.product);
+                        }
                       },
                       child: Container(
                         height: 44.h,
@@ -537,8 +548,17 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                     Expanded(
                         child: InkWell(
                       onTap: () async {
-                        addToCartService(context, widget.product);
-                        Get.to(() => const CartView());
+                        if (loggedInUser.isGuestUser) {
+                          Get.offAll(() => const LoginWithNumber());
+                        } else {
+                          FirebaseAnalyticsServices()
+                              .customEvent("buy_now_product", {
+                            "item": widget.product.id,
+                            "item_name": widget.product.name,
+                          });
+                          addToCartService(context, widget.product);
+                          Get.to(() => const CartView());
+                        }
                       },
                       child: Container(
                         height: 44.h,

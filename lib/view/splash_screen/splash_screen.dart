@@ -2,10 +2,8 @@
 
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
-import 'package:cattel_feed/resource/const/nextscreen.dart';
-import 'package:cattel_feed/resource/component/showloading.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
-import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
+import 'package:cattel_feed/services/firebase_Analytics_services.dart';
 import 'package:cattel_feed/view/error_view/error_view.dart';
 import 'package:cattel_feed/view_model/controller/splash_controller.dart';
 import 'package:flutter/material.dart';

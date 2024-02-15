@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
@@ -38,7 +39,8 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
             SizedBox(
               height: screenSize.height * .012,
             ),
-            customText("Create Account", GetTextTheme.fs22_regular),
+            customText(
+                LanguagesKey.createAccount.tr, GetTextTheme.fs22_regular),
             SizedBox(
               height: screenSize.height * .02,
             ),
@@ -48,7 +50,7 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
                   children: [
                     authTextField(
                       nameController,
-                      "Your Name",
+                      LanguagesKey.yourName.tr,
                       "John Doe",
                       validator: (v) {
                         if (v!.isEmpty) {
@@ -62,7 +64,7 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
                     ),
                     authTextField(
                       emailcontroller,
-                      "Email",
+                      LanguagesKey.yourEmail.tr,
                       "user@example.com",
                       validator: (v) {
                         if (!EmailValidator.validate(emailcontroller.text)) {
@@ -76,10 +78,10 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
                     ),
                     authTextField(
                       passwordcontroller,
-                      "Password",
+                      LanguagesKey.yourpassword.tr,
                       "********",
                       validator: (v) {
-                        if (v!.isEmpty) {
+                        if (v!.isEmpty || v.length < 7) {
                           return "Please enter a vaild password";
                         }
                         return null;
@@ -90,7 +92,7 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
                     ),
                   ],
                 )),
-            customButtonWithGradent("Get Started", () {
+            customButtonWithGradent(LanguagesKey.getStart.tr, () {
               if (formKey.currentState!.validate()) {
                 var controller = Get.find<AuthController>();
                 controller.createAccountWithEmail(emailcontroller.text,
@@ -109,7 +111,7 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
                 )),
                 20.w.widthBox,
                 Text(
-                  "OR",
+                  LanguagesKey.oR.tr,
                   style: GetTextTheme.fs16_regular,
                 ),
                 20.w.widthBox,
@@ -127,7 +129,7 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
                 onTap: () => nextscreenwithargu(
                     context, CreateAccountWithPhone.routes, ""),
                 child: customTextButtonWithGradent(
-                    "Sign up with Phone Number", Icons.phone)),
+                    LanguagesKey.signupwithPhone.tr, Icons.phone)),
             SizedBox(
               height: screenSize.height * .015,
             ),
@@ -136,9 +138,11 @@ class _CreateAccountWithEmailState extends State<CreateAccountWithEmail> {
               child: RichText(
                   text: TextSpan(children: [
                 TextSpan(
-                    text: "Already have an account? ",
+                    text: LanguagesKey.alreadyHaveAccount.tr,
                     style: GetTextTheme.fs16_regular),
-                TextSpan(text: "Sign In", style: GetTextTheme.fs16_bold),
+                TextSpan(
+                    text: LanguagesKey.signIn.tr,
+                    style: GetTextTheme.fs16_bold),
               ])),
             ),
           ], height: .68),

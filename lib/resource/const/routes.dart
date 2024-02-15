@@ -52,6 +52,7 @@ List<GetPage<dynamic>>? getPagesRoutes = [
   ),
   GetPage(
     name: "/",
+    // page: () => const OtpverificationScreen(),
     page: () => const SplashScreenView(),
   ),
   GetPage(

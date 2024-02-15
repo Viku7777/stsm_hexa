@@ -1,9 +1,7 @@
-import 'package:cattel_feed/data/network/network_api_services.dart';
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/model/order_model/order_model.dart';
-import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
-
 import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:cattel_feed/view/account_setting/my_orders/my_order_tiel.dart';
@@ -14,6 +12,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+List orderType = [
+  LanguagesKey.delivered.tr,
+  LanguagesKey.ongoing.tr,
+  LanguagesKey.cancelled.tr
+];
+
 class MyOrderView extends StatefulWidget {
   static String routes = "/account_&_settings/my_order";
   const MyOrderView({super.key});
@@ -23,8 +27,7 @@ class MyOrderView extends StatefulWidget {
 }
 
 class _MyOrderViewState extends State<MyOrderView> {
-  String select = "Delivered";
-  List orderType = ["Delivered", "Ongoing", "Cancelled"];
+  String select = orderType[0];
   List<OrderModel> allmyorders = [];
   List<OrderModel> myorder = [];
   bool loading = true;
@@ -44,7 +47,7 @@ class _MyOrderViewState extends State<MyOrderView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppbar("My Orders"),
+      appBar: customAppbar(LanguagesKey.myOrders.tr),
       body: Stack(
         children: [
           Column(
@@ -72,7 +75,7 @@ class _MyOrderViewState extends State<MyOrderView> {
                                     setState(() {
                                       select = e;
 
-                                      if (select.contains("Delivered")) {
+                                      if (select.contains(orderType[0])) {
                                         myorder = allmyorders
                                             .where((element) =>
                                                 element.orderStatus ==
@@ -80,7 +83,8 @@ class _MyOrderViewState extends State<MyOrderView> {
                                                 element.orderStatus ==
                                                     OrderStatus.DELIVERED)
                                             .toList();
-                                      } else if (select.contains("Ongoing")) {
+                                      } else if (select
+                                          .contains(orderType[1])) {
                                         myorder = allmyorders
                                             .where((element) =>
                                                 element.orderStatus ==
@@ -123,11 +127,11 @@ class _MyOrderViewState extends State<MyOrderView> {
                             ),
                           ),
                           Text(
-                            "No Order Found!",
+                            LanguagesKey.noOrderFound.tr,
                             style: GetTextTheme.fs20_bold,
                           ),
                           Text(
-                            "Looks like you have not made any order yet. ",
+                            LanguagesKey.noOrderFoundMessage.tr,
                             style: GetTextTheme.fs14_regular,
                           )
                         ],

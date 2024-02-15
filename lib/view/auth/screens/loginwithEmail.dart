@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
@@ -42,13 +43,14 @@ class _LoginwithEmailScreenState extends State<LoginwithEmailScreen> {
               SizedBox(
                 height: screenSize.height * .03,
               ),
-              customText("Enter your email address", GetTextTheme.fs22_regular),
+              customText(
+                  LanguagesKey.enteryourEmail.tr, GetTextTheme.fs22_regular),
               SizedBox(
                 height: screenSize.height * .02,
               ),
               authTextField(
                 emailcontroller,
-                "Email",
+                LanguagesKey.email.tr,
                 "user@example.com",
                 validator: (v) {
                   if (!EmailValidator.validate(emailcontroller.text)) {
@@ -62,7 +64,7 @@ class _LoginwithEmailScreenState extends State<LoginwithEmailScreen> {
               ),
               authTextField(
                 passwordcontroller,
-                "Password",
+                LanguagesKey.password.tr,
                 "********",
                 validator: (v) {
                   if (v!.isEmpty) {
@@ -74,7 +76,7 @@ class _LoginwithEmailScreenState extends State<LoginwithEmailScreen> {
               SizedBox(
                 height: screenSize.height * .02,
               ),
-              customButtonWithGradent("Login", () async {
+              customButtonWithGradent(LanguagesKey.login.tr, () async {
                 if (formKey.currentState!.validate()) {
                   var controller = Get.find<AuthController>();
                   controller.loginwithEmail(
@@ -93,7 +95,7 @@ class _LoginwithEmailScreenState extends State<LoginwithEmailScreen> {
                   )),
                   20.w.widthBox,
                   Text(
-                    "OR",
+                    LanguagesKey.oR.tr,
                     style: GetTextTheme.fs16_regular,
                   ),
                   20.w.widthBox,
@@ -110,7 +112,7 @@ class _LoginwithEmailScreenState extends State<LoginwithEmailScreen> {
               InkWell(
                   onTap: () => nextscreen(context, LoginWithNumber.routes),
                   child: customTextButtonWithGradent(
-                      "Login with Phone Number", Icons.phone)),
+                      LanguagesKey.loginwithNumber.tr, Icons.phone)),
               SizedBox(
                 height: screenSize.height * .015,
               ),
@@ -119,10 +121,11 @@ class _LoginwithEmailScreenState extends State<LoginwithEmailScreen> {
                 child: RichText(
                     text: TextSpan(children: [
                   TextSpan(
-                      text: "Don’t have an account? ",
+                      text: LanguagesKey.donthaveAccount.tr,
                       style: GetTextTheme.fs16_regular),
                   TextSpan(
-                      text: "Register here", style: GetTextTheme.fs16_bold),
+                      text: LanguagesKey.registerhere.tr,
+                      style: GetTextTheme.fs16_bold),
                 ])),
               )
             ]),

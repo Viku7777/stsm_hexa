@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,10 @@ class ShowByBrandsView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.r)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.r),
-              child: Image.network(
-                showBrandData[index].image,
+              child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.error),
+                imageUrl: showBrandData[index].image,
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
           ),

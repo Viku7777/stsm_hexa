@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/view/account_setting/my_favorites/empty_wishlist.dart';
@@ -16,7 +17,7 @@ class FavoritesItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppbar("My Favorites / Wishlist"),
+      appBar: customAppbar(LanguagesKey.myFavorites.tr),
       body: GetBuilder<FavoriteItemController>(builder: (controller) {
         if (controller.allfavoriteItem.isEmpty) {
           return const EmptyWishlistVIew();

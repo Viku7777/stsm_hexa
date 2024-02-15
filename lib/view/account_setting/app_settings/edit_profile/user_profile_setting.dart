@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
@@ -75,7 +76,7 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: customAppbar("User Profile"),
+      appBar: customAppbar(LanguagesKey.userProfile.tr),
       body: Stack(
         children: [
           ListView(
@@ -126,17 +127,20 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
                 ),
               ),
               20.h.heightBox,
-              textfiledWithName(name, "Full Name", "John Doe", padding: false),
-              20.h.heightBox,
-              textfiledWithName(number, "Phone Number", "+91 *******123",
+              textfiledWithName(name, LanguagesKey.fullName.tr, "John Doe",
                   padding: false),
               20.h.heightBox,
-              textfiledWithName(email, "Email ID", "johndoe@example.com",
+              textfiledWithName(
+                  number, LanguagesKey.phoneNumber.tr, "+91 *******123",
+                  padding: false),
+              20.h.heightBox,
+              textfiledWithName(
+                  email, LanguagesKey.email.tr, "johndoe@example.com",
                   padding: false),
               20.h.heightBox,
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  "Gender",
+                  LanguagesKey.gender.tr,
                   style: GetTextTheme.fs12_regular,
                 ),
                 DropdownButtonFormField(
@@ -169,7 +173,7 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "State",
+                          LanguagesKey.state.tr,
                           style: GetTextTheme.fs12_regular,
                         ),
                         DropdownButtonFormField(
@@ -216,7 +220,7 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "City",
+                          LanguagesKey.city.tr,
                           style: GetTextTheme.fs12_regular,
                         ),
                         DropdownButtonFormField(
@@ -253,10 +257,11 @@ class _UserProfileSettingViewState extends State<UserProfileSettingView> {
                 ],
               ),
               20.h.heightBox,
-              textfiledWithName(bio, "Bio", "Hey, I am a Musician.",
+              textfiledWithName(
+                  bio, LanguagesKey.bio.tr, "Hey, I am a Musician.",
                   padding: false),
               25.h.heightBox,
-              customButtonWithGradent("Edit Profile", () async {
+              customButtonWithGradent(LanguagesKey.editprofile.tr, () async {
                 setState(() {
                   loading = true;
                 });

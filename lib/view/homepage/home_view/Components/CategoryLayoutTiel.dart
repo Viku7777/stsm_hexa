@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cattel_feed/model/categories_Model/categorymodel.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/resource/const/base_getters.dart';
@@ -593,14 +594,14 @@ class CategoriesLayoutTile {
                 .any((element) => element.categoryId == categories.id)
             ? Column(
                 children: [
-                  Image.network(
-                    BannerController.categoiresBanner
+                  CachedNetworkImage(
+                    imageUrl: BannerController.categoiresBanner
                         .firstWhere(
                             (element) => element.categoryId == categories.id)
                         .imgUrl,
                     fit: BoxFit.fitWidth,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Utils.imageError(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   AppServices.addHeight(20),
                 ],

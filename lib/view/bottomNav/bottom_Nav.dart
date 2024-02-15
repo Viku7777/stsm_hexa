@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
 import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
@@ -7,11 +8,11 @@ import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/services/notification_services.dart';
 import 'package:cattel_feed/view/account_setting/home/account_home.dart';
 import 'package:cattel_feed/view/cart_view/cart_view.dart';
-import 'package:cattel_feed/view/cart_view/empty_cart.dart';
 import 'package:cattel_feed/view/categories/ui/categories_view.dart';
 import 'package:cattel_feed/view/homepage/home_view/dashboard.dart';
 import 'package:cattel_feed/view/notification_screens/empty_notification.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
+import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,7 @@ class _BottomNavViewState extends State<BottomNavView> {
                   height: 18.h,
                   width: 18.w,
                 ),
-                title: const Text("Home"),
+                title: Text(LanguagesKey.home.tr),
                 selectedColor: AppColors.primaryColor,
               ),
 
@@ -68,7 +69,7 @@ class _BottomNavViewState extends State<BottomNavView> {
                   height: 18.h,
                   width: 18.w,
                 ),
-                title: const Text("Category"),
+                title: Text(LanguagesKey.category.tr),
                 selectedColor: AppColors.primaryColor,
               ),
 
@@ -78,7 +79,7 @@ class _BottomNavViewState extends State<BottomNavView> {
                   Icons.shopping_cart_outlined,
                   color: Colors.black,
                 ),
-                title: const Text("Cart"),
+                title: Text(LanguagesKey.cart.tr),
                 selectedColor: AppColors.primaryColor,
               ),
 
@@ -89,7 +90,7 @@ class _BottomNavViewState extends State<BottomNavView> {
                   height: 18.h,
                   width: 18.w,
                 ),
-                title: const Text("Alerts"),
+                title: Text(LanguagesKey.alerts.tr),
                 selectedColor: AppColors.primaryColor,
               ),
               SalomonBottomBarItem(
@@ -98,7 +99,7 @@ class _BottomNavViewState extends State<BottomNavView> {
                   height: 18.h,
                   width: 18.w,
                 ),
-                title: const Text("Options"),
+                title: Text(LanguagesKey.options.tr),
                 selectedColor: AppColors.primaryColor,
               ),
             ],
@@ -114,6 +115,9 @@ class _BottomNavViewState extends State<BottomNavView> {
     products.shuffle();
 
     controller.productsforyou = products;
-    NotificationServices.requestNotification(context);
+    var loggedInUser = Get.find<LoggedInUserController>();
+    if (!loggedInUser.isGuestUser) {
+      NotificationServices.requestNotification(context);
+    }
   }
 }

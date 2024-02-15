@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
@@ -56,12 +57,12 @@ class ItemViewTiel extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10.sp),
                         topRight: Radius.circular(10.sp)),
-                    child: Image.network(
-                      product.productImages!.first,
+                    child: CachedNetworkImage(
+                      imageUrl: product.productImages!.first,
                       fit: BoxFit.contain,
                       height: Get.height,
                       width: Get.width,
-                      errorBuilder: (context, error, stackTrace) =>
+                      errorWidget: (context, error, stackTrace) =>
                           const Icon(Icons.error),
                     ),
                   ),

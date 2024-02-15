@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 class LoggedInUserController extends GetxController {
   UserModel? userModel;
   bool loggedInUserInfo = false;
+  bool isGuestUser = false;
 
   UserModel get user => userModel!;
   updateUser(UserModel user) {

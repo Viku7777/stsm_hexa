@@ -1,3 +1,4 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/title_banner.dart';
 import 'package:cattel_feed/model/product_model/product_model.dart';
@@ -29,7 +30,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: customAppbar("CATEGORIES"),
+      appBar: customAppbar(LanguagesKey.category.tr),
       body: Column(
         children: [
           Padding(

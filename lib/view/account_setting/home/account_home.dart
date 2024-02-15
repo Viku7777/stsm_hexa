@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:cattel_feed/resource/const/nextscreen.dart';
@@ -7,7 +9,6 @@ import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/resource/component/icon_with_gradinet.dart';
 import 'package:cattel_feed/view/account_setting/app_settings/app_settings_view.dart';
 import 'package:cattel_feed/view/account_setting/app_settings/edit_profile/user_profile_setting.dart';
-import 'package:cattel_feed/view/account_setting/help_centre/help_view.dart';
 import 'package:cattel_feed/view/account_setting/my_favorites/favorites.dart';
 import 'package:cattel_feed/view/account_setting/my_orders/my_order_view.dart';
 import 'package:cattel_feed/view/account_setting/privacy_policy/privacy_policy_view.dart';
@@ -31,27 +32,27 @@ class _AccountHomeViewState extends State<AccountHomeView> {
   List screens = [
     {
       "icon": Icons.favorite_border_outlined,
-      "name": "My Favorites",
+      "name": LanguagesKey.myFavorites.tr,
       "route": FavoritesItemView.routes,
     },
     {
       "icon": Icons.shopping_cart_outlined,
-      "name": "My Orders",
+      "name": LanguagesKey.myOrders.tr,
       "route": MyOrderView.routes,
     },
     {
       "icon": Icons.currency_rupee_outlined,
-      "name": "Refer & Earn",
+      "name": LanguagesKey.referEarn.tr,
       "route": ReferEarnView.routes,
     },
     {
       "icon": Icons.settings_outlined,
-      "name": "App Settings",
+      "name": LanguagesKey.appSettings.tr,
       "route": AppSettingView.routes,
     },
     {
       "icon": Icons.privacy_tip_outlined,
-      "name": "Privacy Policy",
+      "name": LanguagesKey.privacyPolicy.tr,
       "route": PrivacyPolicyView.routes,
     },
     // {
@@ -68,10 +69,10 @@ class _AccountHomeViewState extends State<AccountHomeView> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<LoggedInUserController>();
-    bool loggedInUserInfo =
-        controller.userModel.toString().isNotEmptyAndNotNull;
+    bool loggedInUserInfo = !controller.isGuestUser;
     return Scaffold(
-      appBar: customAppbar("Account & settings", isActionButtonShow: true),
+      appBar: customAppbar(LanguagesKey.accountsetting.tr,
+          isActionButtonShow: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -96,13 +97,14 @@ class _AccountHomeViewState extends State<AccountHomeView> {
                                   .isNotEmptyAndNotNull
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(1000.sp),
-                              child: Image.network(
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Icon(Icons.error),
-                                controller.userModel!.image.toString(),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    controller.userModel!.image.toString(),
                                 fit: BoxFit.cover,
                                 height: 55.sp,
                                 width: 55.sp,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               ),
                             )
                           : Image.asset(

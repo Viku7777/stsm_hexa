@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cattel_feed/repository/banner_repository/banner_repository.dart';
 import 'package:cattel_feed/repository/firebase_repository/firebase_repository.dart';
 import 'package:cattel_feed/resource/component/showloading.dart';
@@ -27,6 +28,7 @@ import 'package:cattel_feed/view/notification_screens/empty_notification.dart';
 import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:cattel_feed/view_model/controller/banner_controller.dart';
+import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
 import 'package:cattel_feed/view_model/controller/sub_categories_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,8 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
   final TextEditingController searchProductController = TextEditingController();
   BannerController banners = BannerController();
   var data = Get.find<AppData>();
+  var loggedInUser = Get.find<LoggedInUserController>();
+
   bool loading = false;
 
   @override
@@ -146,22 +150,23 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
                 AppServices.addHeight(5),
 
                 // This Widget show Location Title on dashboard
-                GetBuilder<UserAddressController>(
-                  builder: (controller) {
-                    if (controller.addresses.isEmpty) {
-                      return InkWell(
-                          onTap: () =>
-                              nextscreen(context, AddNewAddressView.routes),
-                          child: Column(
-                            children: [
-                              TitleComponent.locationTitleComponent(),
-                              AppServices.addHeight(10),
-                            ],
-                          ));
-                    }
-                    return const SizedBox();
-                  },
-                ),
+                if (!loggedInUser.isGuestUser)
+                  GetBuilder<UserAddressController>(
+                    builder: (controller) {
+                      if (controller.addresses.isEmpty) {
+                        return InkWell(
+                            onTap: () =>
+                                nextscreen(context, AddNewAddressView.routes),
+                            child: Column(
+                              children: [
+                                TitleComponent.locationTitleComponent(),
+                                AppServices.addHeight(10),
+                              ],
+                            ));
+                      }
+                      return const SizedBox();
+                    },
+                  ),
 
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -220,9 +225,9 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
                 BannerController.largeBanner.isNotEmpty
                     ? Column(
                         children: [
-                          Image.network(
-                            BannerController.largeBanner.first,
-                            errorBuilder: (context, error, stackTrace) =>
+                          CachedNetworkImage(
+                            imageUrl: BannerController.largeBanner.first,
+                            errorWidget: (context, url, error) =>
                                 Utils.imageError(),
                           ),
                           AppServices.addHeight(15),
@@ -249,10 +254,10 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
 
                 // pati Banner
                 BannerController.smallPattBanner.isNotEmpty
-                    ? Image.network(
-                        BannerController.smallPattBanner.first,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Utils.imageError(),
+                    ? CachedNetworkImage(
+                        imageUrl: BannerController.smallPattBanner.first,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       )
                     : const SizedBox(),
                 AppServices.addHeight(5),
@@ -287,10 +292,10 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
                 // 2nd pati banner
 
                 BannerController.smallPattBanner.length > 1
-                    ? Image.network(
-                        BannerController.smallPattBanner[2],
-                        errorBuilder: (context, error, stackTrace) =>
-                            Utils.imageError(),
+                    ? CachedNetworkImage(
+                        imageUrl: BannerController.smallPattBanner[2],
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       )
                     : const SizedBox(),
                 AppServices.addHeight(20),
@@ -314,10 +319,10 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
                 BannerController.largeBanner.length >= 2
                     ? Column(
                         children: [
-                          Image.network(
-                            BannerController.largeBanner.first,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Utils.imageError(),
+                          CachedNetworkImage(
+                            imageUrl: BannerController.largeBanner.first,
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                           AppServices.addHeight(20),
                         ],
