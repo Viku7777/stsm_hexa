@@ -23,7 +23,7 @@ class ProductsForYouView extends StatelessWidget {
       itemCount: controller.productsforyou.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: .55.sp,
+          childAspectRatio: .65.sp,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {

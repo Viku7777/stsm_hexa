@@ -32,6 +32,7 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   var provider = Get.find<NewCartController>();
+
   // ignore: override_on_non_overriding_member
   String paymentMode = "cod"; //no radio button will be selected on initial
   // var controller = Get.put(CartController());
@@ -72,6 +73,7 @@ class _CartViewState extends State<CartView> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          automaticallyImplyLeading: false,
           title: customText(LanguagesKey.cart.tr, GetTextTheme.fs16_regular),
         ),
         body: items.isEmpty
@@ -301,71 +303,75 @@ class _CartViewState extends State<CartView> {
                   // 60.h.heightBox,
                 ],
               ),
-        floatingActionButton: InkWell(
-          onTap: () async {
-            if (address == null) {
-              Utils.flushBarErrorMessage(
-                  "Please Select an Address to proceed", context);
-            } else {
-              /// Get the Current login User Data
-              var currentuser = Get.find<LoggedInUserController>();
-              var controller = Get.find<OrderController>();
-              var user = currentuser.user;
+        floatingActionButton: items.isEmpty
+            ? const SizedBox()
+            : InkWell(
+                onTap: () async {
+                  if (address == null) {
+                    Utils.flushBarErrorMessage(
+                        "Please Select an Address to proceed", context);
+                  } else {
+                    /// Get the Current login User Data
+                    var currentuser = Get.find<LoggedInUserController>();
+                    var controller = Get.find<OrderController>();
+                    var user = currentuser.user;
 
-              /// Get the id of the user
-              String uid = currentuser.userModel!.uid.toString();
-              final order = OrderModel(
-                  createdAt: DateTime.now().toIso8601String(),
-                  orderPrice: finalPrice,
-                  uid: uid,
-                  shippingCharge: 0,
-                  serviceCharge: 0,
-                  promoDiscount: 0,
-                  transaction: Transaction(
-                      status: paymentMode.toString(),
-                      txId: controller.generateRandomId(),
-                      date: DateTime.now().toIso8601String(),
-                      mode: paymentMode),
-                  customer: Customer(
-                      name: user.name,
-                      phone: user.phone,
-                      email: user.email,
-                      image: user.image),
-                  items: provider.cartItems,
-                  shipping: Shipping(
-                      address:
-                          "${address!.houseno} ${address!.colony}, ${address!.landmark}, ${address!.city}, ${address!.state} ",
-                      lat: address!.lat,
-                      long: address!.lng,
-                      addressTitle: address!.addresstitle,
-                      contactPerson: address!.name,
-                      contactNo: address!.number),
-                  orderStatus: OrderStatus.NEW);
+                    /// Get the id of the user
+                    String uid = currentuser.userModel!.uid.toString();
+                    final order = OrderModel(
+                        createdAt: DateTime.now().toIso8601String(),
+                        orderPrice: finalPrice,
+                        uid: uid,
+                        shippingCharge: 0,
+                        serviceCharge: 0,
+                        promoDiscount: 0,
+                        transaction: Transaction(
+                            status: paymentMode.toString(),
+                            txId: controller.generateRandomId(),
+                            date: DateTime.now().toIso8601String(),
+                            mode: paymentMode),
+                        customer: Customer(
+                            name: user.name,
+                            phone: user.phone,
+                            email: user.email,
+                            image: user.image),
+                        items: provider.cartItems,
+                        shipping: Shipping(
+                            address:
+                                "${address!.houseno} ${address!.colony}, ${address!.landmark}, ${address!.city}, ${address!.state} ",
+                            lat: address!.lat,
+                            long: address!.lng,
+                            addressTitle: address!.addresstitle,
+                            contactPerson: address!.name,
+                            contactNo: address!.number),
+                        orderStatus: OrderStatus.NEW);
 
-              await controller.addOrder(context, order);
-              provider.cleanCart();
-            }
-          },
-          child: Container(
-            height: 44.h,
-            margin: EdgeInsets.only(left: .082.sw),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient: titleWidgetGradient),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.arrow_circle_right_rounded,
-                  color: Colors.white,
+                    await controller.addOrder(context, order);
+                    provider.cleanCart();
+                  }
+                },
+                child: Container(
+                  height: 44.h,
+                  margin: EdgeInsets.only(left: .082.sw),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      gradient: titleWidgetGradient),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.arrow_circle_right_rounded,
+                        color: Colors.white,
+                      ),
+                      10.w.widthBox,
+                      customText(
+                          "Checkout",
+                          GetTextTheme.fs16_regular
+                              .copyWith(color: Colors.white))
+                    ],
+                  ),
                 ),
-                10.w.widthBox,
-                customText("Checkout",
-                    GetTextTheme.fs16_regular.copyWith(color: Colors.white))
-              ],
-            ),
-          ),
-        ),
+              ),
       );
     });
   }

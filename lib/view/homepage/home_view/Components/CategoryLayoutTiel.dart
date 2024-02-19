@@ -353,10 +353,16 @@ class CategoriesLayoutTile {
   static twoByTwoWithList(categories) {
     var appdata = Get.find<AppData>();
     List<ProductModel> products = [];
+    List<ProductModel> listProduct = [];
     products = Utils.sortPrice(appdata.products
         .where(
             (element) => element.categories!.parentId!.contains(categories.id))
         .toList());
+    bool isShowList = products.length > 4;
+    if (isShowList) {
+      listProduct = products.sublist(4);
+    }
+
     return products.isEmpty
         ? const SizedBox()
         : Column(
@@ -394,106 +400,131 @@ class CategoriesLayoutTile {
                               borderRadius: BorderRadius.circular(5.r),
                               gradient: AppColors.appGradientColor,
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.r),
-                                  color: Colors.grey.shade100),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(5.r),
-                                          topRight: Radius.circular(5.r)),
-                                      child: Image.network(
-                                        products[index].productImages!.first,
-                                        width: double.infinity,
-                                        fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () {
+                                var controller =
+                                    Get.find<ItemDetailsViewController>();
+                                controller.updateVarient(
+                                    products[index].varients!.first);
+                                Get.to(
+                                    ItemDetailsView(product: products[index]));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                    color: Colors.grey.shade100),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(5.r),
+                                            topRight: Radius.circular(5.r)),
+                                        child: Image.network(
+                                          products[index].productImages!.first,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.sp),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppServices.addHeight(5),
-                                        Text(
-                                          products[index].name.toString(),
-                                          maxLines: 1,
-                                          textAlign: TextAlign.start,
-                                          style: GetTextTheme.fs14_medium,
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            text: "Best Product",
-                                            style: GetTextTheme.fs12_regular,
-                                            children: const [
-                                              // TextSpan(
-                                              //   text: "300",
-                                              //   style: GetTextTheme.fs14_regular
-                                              //       .copyWith(fontSize: 13),
-                                              // ),
-                                            ],
+                                    Padding(
+                                      padding: EdgeInsets.all(8.sp),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppServices.addHeight(5),
+                                          Text(
+                                            products[index].name.toString(),
+                                            maxLines: 1,
+                                            textAlign: TextAlign.start,
+                                            style: GetTextTheme.fs14_medium,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                          RichText(
+                                            text: TextSpan(
+                                              text: "Best Product",
+                                              style: GetTextTheme.fs12_regular,
+                                              children: const [
+                                                // TextSpan(
+                                                //   text: "300",
+                                                //   style: GetTextTheme.fs14_regular
+                                                //       .copyWith(fontSize: 13),
+                                                // ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );
                         },
                       ),
-                      10.h.heightBox,
-                      SizedBox(
-                        height: 140.h,
-                        child: ListView.builder(
-                          padding: EdgeInsets.only(left: 20.w),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: products.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    width: 120.w,
-                                    margin: EdgeInsets.only(right: 10.w),
-                                    padding: const EdgeInsets.all(1.2),
-                                    decoration: BoxDecoration(
-                                        gradient: AppColors.appGradientColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10.r)),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      child: Container(
-                                        color: Colors.grey.shade200,
-                                        child: Image.network(
-                                          products[index].productImages!.first,
-                                          fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  const Icon(Icons.error),
+                      // isShowList
+                      isShowList
+                          ? SizedBox(
+                              height: 150.h,
+                              child: ListView.builder(
+                                padding: EdgeInsets.only(left: 20.w),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: listProduct.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.to(ItemDetailsView(
+                                          product: listProduct[index]));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        10.h.heightBox,
+                                        Expanded(
+                                          child: Container(
+                                            width: 120.w,
+                                            margin:
+                                                EdgeInsets.only(right: 10.w),
+                                            padding: const EdgeInsets.all(1.2),
+                                            decoration: BoxDecoration(
+                                                gradient:
+                                                    AppColors.appGradientColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.r)),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                              child: Container(
+                                                color: Colors.grey.shade200,
+                                                child: Image.network(
+                                                  listProduct[index]
+                                                      .productImages!
+                                                      .first,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error,
+                                                          stackTrace) =>
+                                                      const Icon(Icons.error),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        10.h.heightBox,
+                                        Text(
+                                          listProduct[index].name.toString(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GetTextTheme.fs14_medium,
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                10.h.heightBox,
-                                Text(
-                                  products[index].name.toString(),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GetTextTheme.fs14_medium,
-                                )
-                              ],
-                            );
-                          },
-                        ),
-                      )
+                                  );
+                                },
+                              ),
+                            )
+                          : const SizedBox()
                     ],
                   )),
               AppServices.addHeight(20),

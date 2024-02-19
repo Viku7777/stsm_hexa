@@ -10,6 +10,7 @@ import 'package:cattel_feed/view/account_setting/app_settings/language/language_
 import 'package:cattel_feed/view/account_setting/app_settings/notification_settings/notification_settings_view.dart';
 import 'package:cattel_feed/view/auth/screens/loginwithNumber.dart';
 import 'package:cattel_feed/resource/sf/offline_storage.dart';
+import 'package:cattel_feed/view_model/controller/cart_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,10 +69,12 @@ class _AppSettingViewState extends State<AppSettingView> {
         itemBuilder: (context, index) => ListTile(
           onTap: () async {
             if (screens[index]["name"] == "Logout") {
+              Get.find<NewCartController>().updateCartItems([]);
               var sf = await SharedPreferences.getInstance();
               await sf.setString(SFStorage.savedUser, "");
               await sf.setString("userAllAddresses", "");
               await FirebaseAuth.instance.signOut();
+
               Get.offAllNamed(LoginWithNumber.routes);
             } else {
               nextscreen(context, screens[index]["route"]);

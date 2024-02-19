@@ -29,6 +29,7 @@ import 'package:cattel_feed/view/notification_screens/empty_notification.dart';
 import 'package:cattel_feed/view_model/controller/address_controller.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
 import 'package:cattel_feed/view_model/controller/banner_controller.dart';
+import 'package:cattel_feed/view_model/controller/cart_controller.dart';
 import 'package:cattel_feed/view_model/controller/logged_in_user_controller.dart';
 import 'package:cattel_feed/view_model/controller/sub_categories_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,6 +38,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:cattel_feed/resource/const/icon.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:badges/badges.dart' as badges;
 
 class DashboardScreenView extends StatefulWidget {
   const DashboardScreenView({super.key});
@@ -103,12 +105,24 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
             },
             icon: const Icon(Icons.favorite, color: AppColors.blackColor),
           ),
-          IconButton(
-            onPressed: () {
+          badges.Badge(
+            badgeStyle: badges.BadgeStyle(badgeColor: AppColors.primaryColor),
+            onTap: () {
               Get.to(const CartView());
             },
-            icon: const Icon(Icons.shopping_cart_outlined,
-                color: AppColors.blackColor),
+            showBadge: (loggedInUser.isGuestUser) ? false : true,
+            badgeContent: GetBuilder<NewCartController>(
+              builder: (controller) =>
+                  Text(controller.cartItems.length.toString()),
+            ),
+            position: badges.BadgePosition.bottomEnd(
+              bottom: 5,
+            ),
+            child: Icon(
+              Icons.shopping_cart_outlined,
+              color: AppColors.blackColor,
+              size: 25.sp,
+            ),
           ),
           IconButton(
             onPressed: () {
@@ -331,15 +345,15 @@ class _DashboardScreenViewState extends State<DashboardScreenView> {
                     : const SizedBox(),
 
                 // Shop by Brands
-                TitleComponent.titleWidgetWithView(
-                  LanguagesKey.shopByBrand.tr,
-                  onTap: () =>
-                      Utils.flushBarErrorMessage("Comming Soon", context),
-                ),
-                5.h.heightBox,
-                AppServices.addHeight(5),
-                const ShowByBrandsView(),
-                AppServices.addHeight(30),
+                // TitleComponent.titleWidgetWithView(
+                //   LanguagesKey.shopByBrand.tr,
+                //   onTap: () =>
+                //       Utils.flushBarErrorMessage("Comming Soon", context),
+                // ),
+                // 5.h.heightBox,
+                // AppServices.addHeight(5),
+                // const ShowByBrandsView(),
+                // AppServices.addHeight(30),
 
                 // Products For You
                 TitleComponent.taglineGradient("Products For You"),

@@ -145,7 +145,7 @@ class _AccountHomeViewState extends State<AccountHomeView> {
               separatorBuilder: (context, index) =>
                   const Divider(thickness: 1.5),
               itemBuilder: (context, index) => ListTile(
-                onTap: () => !loggedInUserInfo
+                onTap: () => Get.find<LoggedInUserController>().isGuestUser
                     ? nextscreenRemove(context, LoginWithNumber.routes)
                     : nextscreen(context, screens[index]["route"]),
                 leading: customIconWithGradient(screens[index]["icon"]),
