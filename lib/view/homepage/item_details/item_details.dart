@@ -254,7 +254,11 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              customtitleText("Available Sizes"),
+                              10.h.heightBox,
+                              Text(
+                                LanguagesKey.availableSizes.tr,
+                                style: GetTextTheme.fs16_medium,
+                              ),
                               10.h.heightBox,
                               SizedBox(
                                   height: 30.h,
@@ -322,7 +326,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
 
                     //////////////// Product Discription ////////////////
                     Text(
-                      "Product Details",
+                      LanguagesKey.productDetails.tr,
                       style: GetTextTheme.fs16_medium,
                     ),
                     10.h.heightBox,
@@ -430,7 +434,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                   children: [
                     10.h.heightBox,
                     Text(
-                      "Check Delivery Availablity",
+                      LanguagesKey.checkDelivery.tr,
                       style: GetTextTheme.fs14_regular,
                     ),
                     10.h.heightBox,
@@ -469,7 +473,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                       builder: (controller) {
                         if (controller.searchPinCode.isEmpty) {
                           return customText(
-                            "Delivery charges may vary according to pincode",
+                            LanguagesKey.checkDeliveryContent.tr,
                             GetTextTheme.fs12_regular
                                 .copyWith(color: Colors.grey),
                           );
@@ -537,7 +541,8 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                                   ),
                                   10.w.widthBox,
                                   customtextWithGradentColor(
-                                      "Add to cart", GetTextTheme.fs16_regular)
+                                      LanguagesKey.addToCart.tr,
+                                      GetTextTheme.fs16_regular)
                                 ],
                               )),
                         ),
@@ -576,7 +581,7 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                             ),
                             10.w.widthBox,
                             Text(
-                              "Buy Now",
+                              LanguagesKey.buyNow.tr,
                               style: GetTextTheme.fs16_regular
                                   .copyWith(color: Colors.white),
                             )
@@ -596,10 +601,10 @@ class _ItemDetailsViewState extends State<ItemDetailsView> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: viewAllRow(
-                        "Similar Products",
+                        LanguagesKey.similarProducts.tr,
                         () {
                           Get.to(() => ItemlistScreen(
-                                title: "Similar Products",
+                                title: LanguagesKey.similarProducts.tr,
                                 products: relatedProduct,
                               ));
                         },

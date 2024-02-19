@@ -111,6 +111,29 @@ class Languages extends Translations {
           LanguagesKey.viewall: "सभी को देखें",
           LanguagesKey.shopByBrand: "ब्रांड के अनुसार खरीदारी करें",
           LanguagesKey.budgetStore: "बजट स्टोर",
+          //item details
+          LanguagesKey.freeDelivery: "नि: शुल्क डिलिवरी",
+          LanguagesKey.productDetails: "उत्पाद विवरण",
+          LanguagesKey.checkDelivery: "डिलिवरी उपलब्धता की जाँच करें",
+          LanguagesKey.checkDeliveryContent:
+              "डिलीवरी शुल्क पिनकोड के अनुसार भिन्न हो सकते हैं",
+          LanguagesKey.addToCart: "कार्ट में जोड़ें",
+          LanguagesKey.buyNow: "अभी खरीदें",
+          LanguagesKey.similarProducts: "इसी तरह के उत्पादों",
+          LanguagesKey.availableSizes: "उपलब्ध आकार",
+          // cart
+          LanguagesKey.deliveryAddress: "डिलिवरी का पता",
+          LanguagesKey.add: "जोड़ना",
+          LanguagesKey.paymentMode: "भुगतान का प्रकार",
+          LanguagesKey.online: "ऑनलाइन",
+          LanguagesKey.cod: "डिलवरी पर नकदी",
+          LanguagesKey.items: "सामान",
+          LanguagesKey.productPriceTotal: "उत्पाद मूल्य कुल",
+          LanguagesKey.deliveryCharge: "वितरण शुल्क",
+          LanguagesKey.serviceCharge: "सेवा शुल्क",
+          LanguagesKey.totalDiscount: "कुल छूट",
+          LanguagesKey.orderTotal: "भुगतान",
+          LanguagesKey.checkout: "चेक आउट",
         },
         "en_US": {
           LanguagesKey.enterMobileNumber: "Enter your phone number",
@@ -222,26 +245,58 @@ class Languages extends Translations {
           LanguagesKey.shopByBrand: "Shop by brands",
           LanguagesKey.budgetStore: "Budget Store",
           //item details
-          LanguagesKey.freeDelivery: "ff",
-          LanguagesKey.productDetails: "ff",
-          LanguagesKey.checkDelivery: "ff",
-          LanguagesKey.checkDeliveryContent: "ff",
-          LanguagesKey.addToCart: "ff",
-          LanguagesKey.buyNow: "ff",
-          LanguagesKey.similarProducts: "ff",
+          LanguagesKey.freeDelivery: "Free Delivery",
+          LanguagesKey.productDetails: "Product Details",
+          LanguagesKey.checkDelivery: "Check Delivery Availablity",
+          LanguagesKey.checkDeliveryContent:
+              "Delivery charges may vary according to pincode",
+          LanguagesKey.addToCart: "Add to cart",
+          LanguagesKey.buyNow: "Buy Now",
+          LanguagesKey.similarProducts: "Similar Products",
+          LanguagesKey.availableSizes: "Available Sizes",
+          // cart
+          LanguagesKey.deliveryAddress: "Delivery Address",
+          LanguagesKey.add: "Add",
+          LanguagesKey.paymentMode: "Payment Mode",
+          LanguagesKey.online: "Online",
+          LanguagesKey.cod: "Cash on delivery",
+          LanguagesKey.items: "items",
+          LanguagesKey.productPriceTotal: "Product Price Total",
+          LanguagesKey.deliveryCharge: "Delivery Charge",
+          LanguagesKey.serviceCharge: "Service Charge",
+          LanguagesKey.totalDiscount: "Total Discount",
+          LanguagesKey.orderTotal: "Order Total",
+          LanguagesKey.checkout: "Checkout",
         },
       };
 }
 
 class LanguagesKey {
+// cart
+  static String deliveryAddress = "Delivery Address";
+  static String add = "add";
+  static String paymentMode = "Payment Mode";
+  static String online = "Online";
+  static String cod = "Cash on delivery";
+  static String priceDetails = "Price Details";
+  static String items = "items";
+  static String productPriceTotal = "Product Price Total";
+  static String deliveryCharge = "Delivery Charge";
+  static String serviceCharge = "Service Charge";
+  static String totalDiscount = "Total Discount";
+  static String orderTotal = "Order Total";
+  static String checkout = "Checkout";
+
   //item details
   static String freeDelivery = "Free Delivery";
   static String productDetails = "Product Details";
-  static String checkDelivery = "Product Details";
-  static String checkDeliveryContent = "Product Details";
-  static String addToCart = "Product Details";
-  static String buyNow = "Product Details";
-  static String similarProducts = "Product Details";
+  static String checkDelivery = "Check Delivery Availablity";
+  static String checkDeliveryContent =
+      "Delivery charges may vary according to pincode";
+  static String addToCart = "addtocart";
+  static String buyNow = "buynow";
+  static String similarProducts = "Similar Products";
+  static String availableSizes = "Available Sizes";
 
   //dashboard
   static String hello = "hello";

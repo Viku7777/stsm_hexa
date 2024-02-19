@@ -1,7 +1,9 @@
+import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Widget viewAllRow(
   String name,
@@ -24,7 +26,7 @@ Widget viewAllRow(
               TextButton(
                   onPressed: onPressed,
                   child: Text(
-                    "View All",
+                    LanguagesKey.viewall.tr,
                     style: GetTextTheme.fs16_medium
                         .copyWith(color: AppColors.greenColor),
                   )),
