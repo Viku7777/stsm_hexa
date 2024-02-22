@@ -28,24 +28,27 @@ AppBar customAppbar(title,
                     Get.to(() => const EmptyNotificationView());
                   },
                   icon: const Icon(Icons.notifications_none_rounded)),
-              badges.Badge(
-                badgeStyle:
-                    badges.BadgeStyle(badgeColor: AppColors.primaryColor),
-                onTap: () {
-                  Get.to(const CartView());
-                },
-                showBadge: (loggedInUser.isGuestUser) ? false : true,
-                badgeContent: GetBuilder<NewCartController>(
-                  builder: (controller) =>
-                      Text(controller.cartItems.length.toString()),
-                ),
-                position: badges.BadgePosition.bottomEnd(
-                  bottom: 5,
-                ),
-                child: Icon(
-                  Icons.shopping_cart_outlined,
-                  color: AppColors.blackColor,
-                  size: 20.sp,
+              Padding(
+                padding: const EdgeInsets.all(0).copyWith(right: 25.w),
+                child: badges.Badge(
+                  badgeStyle:
+                      badges.BadgeStyle(badgeColor: AppColors.primaryColor),
+                  onTap: () {
+                    Get.to(const CartView());
+                  },
+                  showBadge: (loggedInUser.isGuestUser) ? false : true,
+                  badgeContent: GetBuilder<NewCartController>(
+                    builder: (controller) =>
+                        Text(controller.cartItems.length.toString()),
+                  ),
+                  position: badges.BadgePosition.bottomEnd(
+                    bottom: 5,
+                  ),
+                  child: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: AppColors.blackColor,
+                    size: 20.sp,
+                  ),
                 ),
               ),
             ]

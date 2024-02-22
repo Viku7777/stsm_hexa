@@ -7,6 +7,7 @@ import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
 import 'package:cattel_feed/resource/component/custom_text.dart';
 import 'package:cattel_feed/resource/sf/offline_storage.dart';
+import 'package:cattel_feed/view/bottomNav/bottom_Nav.dart';
 import 'package:cattel_feed/view/homepage/home_view/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,8 +38,6 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
 
   @override
   Widget build(BuildContext context) {
-    print("language change");
-
     return Scaffold(
         appBar: customAppbar(LanguagesKey.language.tr),
         body: Padding(
@@ -82,7 +81,7 @@ class _ChangeLanguageViewState extends State<ChangeLanguageView> {
                   await sf.setString("deviceLanguageCode", "en");
                   await sf.setString("deviceLanguageCountry", "US");
                 }
-                setState(() {});
+                await Get.offAllNamed(BottomNavView.routes);
               })
             ],
           ),

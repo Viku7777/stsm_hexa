@@ -57,7 +57,6 @@ class _AppSettingViewState extends State<AppSettingView> {
 
   @override
   Widget build(BuildContext context) {
-    print("language change");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppbar(LanguagesKey.appSettings.tr),

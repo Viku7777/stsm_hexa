@@ -1,6 +1,7 @@
 import 'package:cattel_feed/language/language.dart';
 import 'package:cattel_feed/model/categories_Model/sub_category.dart';
 import 'package:cattel_feed/resource/component/appbar_component.dart';
+import 'package:cattel_feed/resource/const/colors.dart';
 import 'package:cattel_feed/resource/const/textstyle.dart';
 import 'package:cattel_feed/view/categories/ui/subcat_select_view.dart';
 import 'package:cattel_feed/view_model/controller/app_data_controller.dart';
@@ -93,7 +94,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                               height: 90.h,
                               width: 100.w,
                               decoration: BoxDecoration(
-                                  color: Colors.black,
+                                  color: AppColors.greenColor,
                                   borderRadius: BorderRadius.circular(20),
                                   image: DecorationImage(
                                       image: NetworkImage(
@@ -103,95 +104,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                             )),
                       ],
                     ),
-                  )
-                  // Container(
-                  //     height: 60.h,
-                  //     decoration: BoxDecoration(
-                  //         color: Colors.grey.shade200,
-                  //         borderRadius: BorderRadius.circular(10.r)),
-                  //     padding: EdgeInsets.all(10.sp),
-                  //     margin: EdgeInsets.all(6.sp),
-                  //     child: Stack(
-                  //       children: [
-                  //         // Row(
-                  //         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         //   children: [
-                  //         //     isEven
-                  //         //         ? SizedBox(
-                  //         //             width: 200.w,
-                  //         //             height: 50.h,
-                  //         //             child: Stack(
-                  //         //               children: [
-                  //         //                 Positioned(
-                  //         //                   // left: 10.w,
-                  //         //                   child: Text(
-                  //         //                     data.categories[i].title,
-                  //         //                     style: GetTextTheme.fs18_medium,
-                  //         //                     textAlign: TextAlign.center,
-                  //         //                   ),
-                  //         //                 ),
-                  //         //                 Positioned(
-                  //         //                     top: 5.h,
-                  //         //                     left: 10.w,
-                  //                       child:
-                  // Text(
-                  //                             data.categories[i].title,
-                  //                            style: GoogleFonts.yellowtail(
-                  //                                  fontSize: 20.sp,
-                  //                                 color: Colors.orange
-                  //                                       .withOpacity(.4)),
-                  //                          ))
-                  //         //               ],
-                  //         //             ),
-                  //         //           )
-                  //         //         : AspectRatio(
-                  //         //             aspectRatio: 1,
-                  //         //             child: CachedNetworkImage(
-                  //         //                 height: 100,
-                  //         //                 width: 100,
-                  //         //                 fit: BoxFit.cover,
-                  //         //                 imageUrl: data.categories[i].image)),
-                  //         //     isEven
-                  //         //         ?
-                  //         // AspectRatio(
-                  //         //             aspectRatio: 1,
-                  //         //             child: CachedNetworkImage(
-                  //         //                 height: 100,
-                  //         //                 width: 100,
-                  //         //                 fit: BoxFit.cover,
-                  //         //                 imageUrl: data.categories[i].image))
-                  //         //         : SizedBox(
-                  //         //             width: 100.w,
-                  //         //             child: Stack(
-                  //         //               children: [
-                  //         //                 Positioned(
-                  //         //                   left: 10.w,
-                  //         //                   child:
-                  // Text(
-                  //                         data.categories[i].title,
-                  //                        style: GetTextTheme.fs18_medium,
-                  //                          textAlign: TextAlign.center,
-                  //                          ),
-                  //         //                 ),
-                  //         //                 Positioned(
-                  //         //                     top: 5.h,
-                  //         //                     child:
-                  // Text(
-                  //         //                       data.categories[i].title,
-                  //         //                       style: GoogleFonts.yellowtail(
-                  //         //                           fontSize: 20.sp,
-                  //         //                           color: Colors.orange
-                  //         //                               .withOpacity(.4)),
-                  //         //                     ))
-                  //         //               ],
-                  //         //             ),
-                  //         //           )
-                  //         //   ],
-                  //         // ),
-                  //       ],
-                  //     )),
-
-                  );
+                  ));
             }));
   }
 }
