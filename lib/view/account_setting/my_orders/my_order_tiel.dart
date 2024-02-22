@@ -126,8 +126,13 @@ class MYOrderTile extends StatelessWidget {
       },
       child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
-          margin: const EdgeInsets.only(right: 10, top: 10),
+          padding: EdgeInsets.symmetric(
+            horizontal: 5.w,
+            vertical: 5.h,
+          ),
+          margin: EdgeInsets.only(
+            right: 3.w,
+          ),
           decoration: BoxDecoration(
               color: name.runtimeType == String
                   ? name.contains(selected)

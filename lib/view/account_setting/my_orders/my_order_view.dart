@@ -120,8 +120,8 @@ class _MyOrderViewState extends State<MyOrderView> {
                     ? Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w)
-                                .copyWith(top: 20.h),
+                            padding: EdgeInsets.symmetric(horizontal: .1.sw)
+                                .copyWith(top: .1.sh),
                             child: Image.asset(
                               "assets/icon/no_order.png",
                             ),

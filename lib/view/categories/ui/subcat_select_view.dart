@@ -36,8 +36,8 @@ class _SelectSubcatViewState extends State<SelectSubcatView> {
       body: Column(
         children: [
           Container(
-            height: 100,
-            decoration: BoxDecoration(color: Colors.grey.shade200),
+            height: 80.h,
+            // decoration: BoxDecoration(color: Colors.grey.shade200),
             padding: EdgeInsets.all(10.sp),
             margin: EdgeInsets.all(6.sp),
             child: Row(
@@ -87,18 +87,25 @@ class _SelectSubcatViewState extends State<SelectSubcatView> {
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 5.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  widget.subcat[index].title,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                const Icon(Icons.arrow_forward_ios)
-                              ],
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 5.w),
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade200),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    widget.subcat[index].title,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const Icon(Icons.arrow_forward_ios)
+                                ],
+                              ),
                             ),
                           ),
                         );
